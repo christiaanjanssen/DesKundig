@@ -4,9 +4,14 @@ import java.util.ArrayList;
 
 public class Keys {
 
-    private String pass;
-    private final int[] NSHIFTS = {1, 1, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 1};
-    static final int[][] PC1 = {
+    private int[] temp1 = new int[56];
+    private int[] temp2 = new int[48];
+    private String key;
+    private String keys[][] = new String[7][8];
+    private String C[][] = new String[4][7];
+    private String D[][] = new String[6][8];
+    private String uit[][] = new String[6][8];
+    private final int[][] PC1 = {
         {57, 49, 41, 33, 25, 17, 9},
         {1, 58, 50, 42, 34, 26, 18},
         {10, 2, 59, 51, 43, 35, 27},
@@ -16,7 +21,7 @@ public class Keys {
         {14, 6, 61, 53, 45, 37, 29},
         {21, 13, 5, 28, 20, 12, 4}
     };
-    static final int[][] PC2 = {
+    private final int[][] PC2 = {
         {14, 17, 11, 24, 1, 5},
         {3, 28, 15, 6, 21, 10},
         {23, 19, 12, 4, 26, 8},
@@ -27,67 +32,87 @@ public class Keys {
         {46, 42, 50, 36, 29, 32}
     };
 
-    public int[][] getKeys(String pass) {
-        byte[] bytes = pass.getBytes();
-        ArrayList<Integer> binners = new ArrayList<>();
-
-        for (byte b : bytes) {
-            int val = b;
-            for (int i = 0; i < 8; i++) {
-                binners.add((val & 128) == 0 ? 0 : 1);
-                val <<= 1;
-            }
-        }
-
-        int[][] toSplit = perm(binners, PC1);
-
-        int[][] C0 = new int[4][7];
-        int[][] D0 = new int[4][7];
-
-        for (int i = 0; i < 4; i++) {
+    /**
+     * Maakt van de PC1 permutatie matrix een single row matrix (voor gemak)
+     */
+    public void straightenPC1() {
+        int teller = 0;
+        for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 7; j++) {
-                C0[i][j] = toSplit[i][j];
+                temp1[teller] = PC1[i][j];
+                teller++;
             }
         }
+    }
 
-        for (int i = 0; i < 4; i++) {
+    /**
+     * Maakt van de PC2 permutatie matrix een single row matrix (voor gemak)
+     */
+    public void straightenPC2() {
+        int teller = 0;
+        for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 7; j++) {
-                D0[i][j] = toSplit[i + 4][j];
+                temp2[teller] = PC2[i][j];
+                teller++;
             }
         }
-        
-        //shiften is volgende
-
-        return null;
-    }
-    
-    private int[][] perm(ArrayList<Integer> in, int[][] PC){
-        int PCSize = PC.length + PC[0].length;
-        int[][] out = new int[PC.length][PC[0].length];
-        
-        for (int i = 0; i < PCSize; i++) {
-            for (int j = 0; j < PC.length; j++) {
-                for (int k = 0; k < PC[0].length; k++) {
-                    if (PC[j][k] == i) {
-                        out[j][k] = in.get(i);
-                    }
-                }
-            }
-        }
-        
-        return out;
     }
 
-    private ArrayList<Integer> straighten(int[][] in) {
-        ArrayList<Integer> temp = new ArrayList<>();
-
-        for (int i = 0; i < in.length; i++) {
-            for (int j = 0; j < in[0].length; j++) {
-                temp.add(in[i][j]);
+    /**
+     * Permuteerd een deel van de key met permutatie matrix C1
+     *
+     * @param in de in matrix: een deel van het password (64 bits)
+     * @param out de gepermuteerde matrix (58 bits)
+     */
+    public void permWC1(int[] in, int[] out) {
+        int temp = 0, i = 0, teller = 0, kijk = 0;
+        while (kijk != 56) {
+            temp = temp1[i];
+            if (temp == teller) {
+                out[kijk] = in[teller - 1];
+                teller = 0;
+                kijk++;
+                i++;
             }
+            teller++;
         }
 
-        return temp;
+        int index = 0;
+        for (int j = 0; j < 7; j++) {
+            for (int k = 0; k < 8; k++) {
+                uit[j][k] = Integer.toString(out[index]);
+            }
+        }
+        index = 0;
     }
-    
+
+    /**
+     * Permuteerd een deel van de key met permutatie matrix C2
+     *
+     * @param in de in matrix: C+D (linker en rechter helft) (58 bits)
+     * @param out de gepermuteerde matrix (48 bits) 
+     */
+    public void permWC2(int[] in, int[] out) {
+        int temp = 0, i = 0, teller = 0, kijk = 0;
+        while (kijk != 48) {
+            temp = temp2[i];
+            if (temp == teller) {
+                out[kijk] = in[teller - 1];
+                teller = 0;
+                kijk++;
+                i++;
+            }
+            teller++;
+        }
+
+        int index = 0;
+        for (int j = 0; j < 6; j++) {
+            for (int k = 0; k < 8; k++) {
+                keys[j][k] = Integer.toString(out[index]);
+            }
+        }
+    }
+
+    public Keys() {
+    }
 }
