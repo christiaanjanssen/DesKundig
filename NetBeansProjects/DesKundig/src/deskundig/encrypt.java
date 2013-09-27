@@ -21,8 +21,8 @@ public class encrypt {
         }
         else{ 
             return achttest;
-        }       
-        
+        }        
+       
         return achttest;        
     }   
     
@@ -31,32 +31,22 @@ public class encrypt {
         for(int i=0; i<8 && i<tekst.length(); i++) {
             blok[i]=getBinaryBits(tekst.charAt(i));
             //dit geeft een 2D-array terug van 8 op 8 
-        }      
+        }
         
         int index=0;
         for(int i=0; i<8; i++){
             for(int j=0; j<8;j++){
                 perm[index]=(int)blok[i][j];
-                blokString[i][j]=Integer.toString((int)blok[i][j]);
                 index++;                
             }
         }
-        //d.m.v. arrayprinter deze tekst in de DesPanel laten printen
-        arrayprinter.printarray(blokString,"Dit is de tekst in binair:");
-        DesPanel.StepsText.append("****************************************************************"+'\n');
-
     }    
     
     public void VercijferKey(){ 
         //hier gaan we, voor elk karakter, de binaire waarde ervan ophalen.
         for(int i=0; i<8 && i<sleutelwoord.length(); i++){
-            blok[i]=getBinaryBits(sleutelwoord.charAt(i));
-            
-            for(int j=0; j<8; j++) {                
-                blokString[i][j]=Integer.toString((int)blok[i][j]);
-                //dit wordt dan omgezet naar een int, dan naar een String, waarna het in de blockS array terechtkomt.
-            }
-        }      
+            blok[i]=getBinaryBits(sleutelwoord.charAt(i));        
+        }
         
         int index=0;
         for(int i=0; i<8; i++){
@@ -66,9 +56,6 @@ public class encrypt {
                 index++;               
             }
         }
-        //hierna wordt de blockS array (van Strings) geprint.
-        arrayprinter.printarray(blokString,"Dit is de vercijfertekst in binair:");
-        DesPanel.StepsText.append("****************************************************************"+'\n');
     }
     
     //deze functie dient om de binaire bits op te halen.
@@ -91,25 +78,14 @@ public class encrypt {
             rechts[index]=perm_out[i];            
             index++;
         }
-        index=0;
-        
-        for(int i=0; i<4; i++){
-            for(int j=0; j<8; j++){
-                linkseKant[i][j]=Integer.toString(links[index]);
-                rechtseKant[i][j]=Integer.toString(rechts[index]);
-                index++;
-                //ook maken we hier een String-versie van zodat we iets te printen hebben in de GUI.
-            }
-        }
-        arrayprinter.printarray(linkseKant,"Linkse helft");
-        arrayprinter.printarray(rechtseKant,"Rechtse helft");
-        DesPanel.StepsText.append("****************************************************************"+'\n');
+        index=0;       
     }
     
     public void XOR(int side1[], int [] side2,int [] result){
         //deze functie gaat de beide kanten met elkaar XORren en zo het resultaat aanpassen.
         int index=0;
         for(int i=0; i<side1.length; i++){
+            
             if(side1[i]==side2[i])
                 result[index]=0;
             else
@@ -119,7 +95,7 @@ public class encrypt {
     }
     
     public void FillC_D(){
-        //we werken met 56 bits
+        //we werken met 56 bits, de helft daarvan is 28
         int index=28;
         for(int i=0; i<28; i++)
             linksEnRechts[i]=linkseHelft[i];
