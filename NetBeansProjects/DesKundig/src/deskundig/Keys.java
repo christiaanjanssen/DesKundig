@@ -32,6 +32,9 @@ public class Keys {
         {46, 42, 50, 36, 29, 32}
     };
 
+    public Keys() {
+    }
+
     /**
      * Maakt van de PC1 permutatie matrix een single row matrix (voor gemak)
      */
@@ -90,7 +93,7 @@ public class Keys {
      * Permuteerd een deel van de key met permutatie matrix C2
      *
      * @param in de in matrix: C+D (linker en rechter helft) (58 bits)
-     * @param out de gepermuteerde matrix (48 bits) 
+     * @param out de gepermuteerde matrix (48 bits)
      */
     public void permWC2(int[] in, int[] out) {
         int temp = 0, i = 0, teller = 0, kijk = 0;
@@ -112,7 +115,28 @@ public class Keys {
             }
         }
     }
-
-    public Keys() {
+    
+    
+    /**
+     * splitsen van een deelsleutel naar 2 keys
+     * 
+     * @param out deelsleuten
+     * @param C 1e deel
+     * @param D 2de deel
+     */
+    public void split(int[] out, int[] C, int[] D){
+        for (int i = 0; i < 28; i++) {
+            C[i]=out[i];
+        }
+        
+        for (int i = 28; i < 56; i++) {
+            D[i-28]=out[i];
+        }
     }
+    
+    public void shiftOne(int[] C, int[] D){
+        
+    }
+    
+    
 }
