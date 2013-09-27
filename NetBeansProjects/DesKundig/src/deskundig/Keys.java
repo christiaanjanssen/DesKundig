@@ -135,7 +135,17 @@ public class Keys {
     }
     
     public void shiftOne(int[] C, int[] D){
+        int temp=C[0];
+        for (int i = 1; i < C.length; i++) {
+            C[i-1]=C[i];
+        }
+        C[C.length-1]=temp;
         
+        temp=D[0];
+        for (int i = 1; i < D.length; i++) {
+            D[i-1]=D[i];
+        }
+        D[D.length-1]=temp;        
     }
     
     
