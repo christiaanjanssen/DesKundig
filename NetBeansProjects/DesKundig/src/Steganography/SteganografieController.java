@@ -21,7 +21,7 @@ public class SteganografieController
 {
 	//Instanties van de klassen Steganography en Steganography_View
 	private SteganografieView	view;
-	private Staganografie		model;
+	private Steganografie		model;
 	
 	//JPanel
 	private JPanel		ontcijfer_paneel;                   //Panel waardat de decode elementen in komen
@@ -52,7 +52,7 @@ public class SteganografieController
 	 *@param aView  A GUI klasse, opgeslagen als een view
 	 *@param aModel A model klasse, opgeslagen als een model
 	 */
-	public SteganografieController(SteganografieView aView, Staganografie aModel)
+	public SteganografieController(SteganografieView aView, Steganografie aModel)
 	{
 		//Variabelen Programma
 		view  = aView;                                              //De view
@@ -276,7 +276,7 @@ public class SteganografieController
 	{
 		new SteganografieController(
 									new SteganografieView("Steganography"),
-									new Staganografie()
+									new Steganografie()
 									);
 	}
 }

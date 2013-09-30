@@ -3,70 +3,68 @@ package Steganography;
  *import list
  */
 import java.io.File;
-
 import java.awt.Point;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
 import java.awt.image.DataBufferByte;
-
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
 /*
- *Class Steganography
+ *Klasse: Steganografie
  */
-public class Staganografie
+public class Steganografie
 {
 	
 	/*
-	 *Steganography Empty Constructor
+	 *een standaar lege constructor
 	 */
-	public Staganografie()
+	public Steganografie()
 	{
 	}
 	
 	/*
 	 *Encrypt an image with text, the output file will be of type .png
-	 *@param path		 The path (folder) containing the image to modify
-	 *@param original	The name of the image to modify
-	 *@param ext1		  The extension type of the image to modify (jpg, png)
+	 *@param pad        The path (folder) containing the image to modify
+	 *@param org        The name of the image to modify
+	 *@param ext1        The extension type of the image to modify (jpg, png)
 	 *@param stegan	  The output name of the file
-	 *@param message  The text to hide in the image
+	 *@param bericht  The text to hide in the image
 	 *@param type	  integer representing either basic or advanced encoding
 	 */
-	public boolean vercijferen(String path, String original, String ext1, String stegan, String message)
+	public boolean vercijferen(String pad, String org, String ext1, String stegan, String bericht)
 	{
-		String			file_name 	= image_path(path,original,ext1);
-		BufferedImage 	image_orig	= getImage(file_name);
+		String	bestandsNaam                = AfbeeldingsPad(pad,org,ext1); 
+		BufferedImage AfbeeldingOrigineel   = getAfbeelding(bestandsNaam);
 		
 		//user space is not necessary for Encrypting
-		BufferedImage image = user_space(image_orig);
-		image = add_text(image,message);
+		BufferedImage Afb = user_space(AfbeeldingOrigineel);
+		Afb = VoegToeTekst(Afb,bericht);
 		
-		return(setImage(image,new File(image_path(path,stegan,"png")),"png"));
+		return(setAfbeelding(Afb,new File(AfbeeldingsPad(pad,stegan,"png")),"png"));
 	}
 	
 	/*
-	 *Decrypt assumes the image being used is of type .png, extracts the hidden text from an image
-	 *@param path   The path (folder) containing the image to extract the message from
-	 *@param name The name of the image to extract the message from
+         *Neemt aan dat de afbeelding van het juiste type is en haalt the verborgen tekst uit de afbeeling
+	 *@param pad   The path (folder) containing the image to extract the message from
+	 *@param naam The name of the image to extract the message from
 	 *@param type integer representing either basic or advanced encoding
 	 */
 	public String ontcijferen(String path, String name)
 	{
-		byte[] decode;
+		byte[] ontc;                                                    //array van bytes maken
 		try
 		{
 			//user space is necessary for decrypting
-			BufferedImage image  = user_space(getImage(image_path(path,name,"png")));
-			decode = decode_text(get_byte_data(image));
-			return(new String(decode));
+			BufferedImage image  = user_space(getAfbeelding(AfbeeldingsPad(path,name,"png")));
+			ontc = ontcijferTekst(rekenenBytes(image));
+			return(new String(ontc));
 		}
 		catch(Exception e)
 		{
 			JOptionPane.showMessageDialog(null, 
-				"There is no hidden message in this image!","Error",
+				"Er is geen verborgen tekst in deze afbeelding!","Fout!",
 				JOptionPane.ERROR_MESSAGE);
 			return "";
 		}
@@ -79,7 +77,7 @@ public class Staganografie
 	 *@param ext	  The extension of the file
 	 *@return A String representing the complete path of a file
 	 */
-	private String image_path(String path, String name, String ext)
+	private String AfbeeldingsPad(String path, String name, String ext)
 	{
 		return path + "/" + name + "." + ext;
 	}
@@ -90,7 +88,7 @@ public class Staganografie
 	 *@return A BufferedImage of the supplied file path
 	 *@see	Steganography.image_path
 	 */
-	private BufferedImage getImage(String f)
+	private BufferedImage getAfbeelding(String f)
 	{
 		BufferedImage 	image	= null;
 		File 		file 	= new File(f);
@@ -114,7 +112,7 @@ public class Staganografie
 	 *@param ext	  The extension and thus format of the file to be saved
 	 *@return Returns true if the save is succesful
 	 */
-	private boolean setImage(BufferedImage image, File file, String ext)
+	private boolean setAfbeelding(BufferedImage image, File file, String ext)
 	{
 		try
 		{
@@ -136,16 +134,16 @@ public class Staganografie
 	 *@param text	 The text to hide in the image
 	 *@return Returns the image with the text embedded in it
 	 */
-	private BufferedImage add_text(BufferedImage image, String text)
+	private BufferedImage VoegToeTekst(BufferedImage image, String text)
 	{
 		//convert all items to byte arrays: image, message, message length
-		byte img[]  = get_byte_data(image);
+		byte img[]  = rekenenBytes(image);
 		byte msg[] = text.getBytes();
-		byte len[]   = bit_conversion(msg.length);
+		byte len[]   = bitConversie(msg.length);
 		try
 		{
-			encode_text(img, len,  0); //0 first positiong
-			encode_text(img, msg, 32); //4 bytes of space for length: 4bytes*8bit = 32 bits
+			vercijferTekst(img, len,  0); //0 first positiong
+			vercijferTekst(img, msg, 32); //4 bytes of space for length: 4bytes*8bit = 32 bits
 		}
 		catch(Exception e)
 		{
@@ -178,7 +176,7 @@ public class Staganografie
 	 *@see WritableRaster
 	 *@see DataBufferByte
 	 */
-	private byte[] get_byte_data(BufferedImage image)
+	private byte[] rekenenBytes(BufferedImage image)
 	{
 		WritableRaster raster   = image.getRaster();
 		DataBufferByte buffer = (DataBufferByte)raster.getDataBuffer();
@@ -190,7 +188,7 @@ public class Staganografie
 	 *@param i The integer to convert
 	 *@return Returns a byte[4] array converting the supplied integer into bytes
 	 */
-	private byte[] bit_conversion(int i)
+	private byte[] bitConversie(int i)
 	{
 		//originally integers (ints) cast into bytes
 		//byte byte7 = (byte)((i & 0xFF00000000000000L) >>> 56);
@@ -214,59 +212,61 @@ public class Staganografie
 	 *@param offset	  The offset into the image array to add the addition data
 	 *@return Returns data Array of merged image and addition data
 	 */
-	private byte[] encode_text(byte[] image, byte[] addition, int offset)
+	private byte[] vercijferTekst(byte[] Afbeeld, byte[] toevoeg, int j)
 	{
-		//check that the data + offset will fit in the image
-		if(addition.length + offset > image.length)
+                //checken of j en de data wel in de afbeelding passen
+		if(toevoeg.length + j > Afbeeld.length)
 		{
-			throw new IllegalArgumentException("File not long enough!");
+			throw new IllegalArgumentException("Bestand is niet groot genoeg om deze tekst er in te vercijferen!");
 		}
-		//loop through each addition byte
-		for(int i=0; i<addition.length; ++i)
+		//doorheen elke toegvoegde byte lopen
+		for(int i=0; i<toevoeg.length; ++i)
 		{
-			//loop through the 8 bits of each byte
-			int add = addition[i];
-			for(int bit=7; bit>=0; --bit, ++offset) //ensure the new offset value carries on through both loops
+			//doorheen elke 8 bits van de byte lopen
+			int add = toevoeg[i];
+                        //zorgen dat de nieuwe j de waarde bevat doorheen de 2 lussen
+			for(int bit=7; bit>=0; --bit, ++j)
 			{
 				//assign an integer to b, shifted by bit spaces AND 1
 				//a single bit of the current byte
 				int b = (add >>> bit) & 1;
 				//assign the bit by taking: [(previous byte value) AND 0xfe] OR bit to add
 				//changes the last bit of the byte in the image to be the bit of addition
-				image[offset] = (byte)((image[offset] & 0xFE) | b );
+				Afbeeld[j] = (byte)((Afbeeld[j] & 0xFE) | b );
 			}
 		}
-		return image;
+		return Afbeeld;
 	}
 	
 	/*
-	 *Retrieves hidden text from an image
-	 *@param image Array of data, representing an image
-	 *@return Array of data which contains the hidden text
+         * verborgen tekst uit de afbeeling halen
+	 *@param afbeeld array van data die een afbeelding voorstelt
+	 *@return Array van data die de verborgen tekst bevat
 	 */
-	private byte[] decode_text(byte[] image)
+	private byte[] ontcijferTekst(byte[] afbeeld)
 	{
-		int length = 0;
-		int offset  = 32;
-		//loop through 32 bytes of data to determine text length
-		for(int i=0; i<32; ++i) //i=24 will also work, as only the 4th byte contains real data
-		{
-			length = (length << 1) | (image[i] & 1);
+		int lengte = 0;
+		int j  = 32;
+                //doorheen 32 bytes gaan om de lengte van de tekst te bepalen
+		for(int i=0; i<32; ++i) 
+                {
+			lengte = (lengte << 1) | (afbeeld[i] & 1);
 		}
+		//een nieuwe arra van het type byte maken van de lengte die in variabele lengte zit
+		byte[] resultaat = new byte[lengte];
 		
-		byte[] result = new byte[length];
-		
-		//loop through each byte of text
-		for(int b=0; b<result.length; ++b )
+                //doorheen elke byte van tekst gaan
+		for(int b=0; b<resultaat.length; ++b )
 		{
-			//loop through each bit within a byte of text
-			for(int i=0; i<8; ++i, ++offset)
+                        //doorheen elke bit gaat in een byte tekst
+			for(int i=0; i<8; ++i, ++j)
 			{
-				//assign bit: [(new byte value) << 1] OR [(text byte) AND 1]
-				result[b] = (byte)((result[b] << 1) | (image[offset] & 1));
+				//de bit eraan toevoegen: [(nieuwe byte waarde) << 1] OF [(tekst byte) en 1]
+				resultaat[b] = (byte)((resultaat[b] << 1) | (afbeeld[j] & 1));
 			}
 		}
-		return result;
+                //teruhkeerwaarde: resultaat
+		return resultaat;
 	}
 }
 

@@ -47,35 +47,35 @@ public class SteganografieView extends JFrame {
      *@param name Used to set the title on the JFrame
      */
     public SteganografieView(String name) {
-        //set the title of the JFrame
+        //een titel geven aan de view
         super(name);
 
         //Menubar
-        JMenuBar menu = new JMenuBar();
-
-        JMenu file = new JMenu("File");
-        file.setMnemonic('F');
-        vercijfer = new JMenuItem("Encode");
+        JMenuBar menu = new JMenuBar();                 //Nieuwe menubar
+            
+        JMenu bstand = new JMenu("Bestand");            //naam ven het JMenu wordt bestand
+        bstand.setMnemonic('F');                        
+        vercijfer = new JMenuItem("Vercijfer");         //een nieuw menuitem met als tekst vercijfer
         vercijfer.setMnemonic('E');
-        file.add(vercijfer);
-        ontcijfer = new JMenuItem("Decode");
+        bstand.add(vercijfer);                          //menuitem toevoegen aan JMenu
+        ontcijfer = new JMenuItem("Ontcijfer");         //een nieuw menuitem met als tekst ontcijfer
         ontcijfer.setMnemonic('D');
-        file.add(ontcijfer);
-        file.addSeparator();
-        exit = new JMenuItem("Exit");
+        bstand.add(ontcijfer);                          //menuItem toevoegen aan JMenu
+        bstand.addSeparator();                          //een seperator toevoegen tussen vercijfer en ontcijfer
+        exit = new JMenuItem("Exit");                   //een nieuwe menuitem met als tekst exit
         exit.setMnemonic('x');
-        file.add(exit);
+        bstand.add(exit);                               //een menuitem toevoegen aan JMenu
 
-        menu.add(file);
-        setJMenuBar(menu);
+        menu.add(bstand);                               //Het JMenu aan de JMenuBar toevoegen
+        setJMenuBar(menu);                              //als menuBar het JMenu zetten
 
         // display rules
-        setResizable(true);                                                     //allow window to be resized: true?false
-        setBackground(Color.lightGray);                                         //background color of window: Color(int,int,int) or Color.name
-        setLocation(100, 100);                                                  //location on the screen to display window
-        setDefaultCloseOperation(EXIT_ON_CLOSE);                                //what to do on close operation: exit, do_nothing, etc
-        setSize(breedte, hoogte);                                               //set the size of the window
-        setVisible(true);                                                       //show the window: true?false
+        setResizable(true);                                                     //laat toe dat het scherm van hoogte en breedte aangepast kan worden door middel van de muis
+        setBackground(Color.lightGray);                                         //een achtergrondkleur: lichtgrijs
+        setLocation(100, 100);                                                  //locatie van het opstartende scherm instellen
+        setDefaultCloseOperation(EXIT_ON_CLOSE);                                //als het venster gesloten wordt, wordt het geexit
+        setSize(breedte, hoogte);                                               //de dimensies van het scherm met de eerder aangemaakte breedte en hoogte
+        setVisible(true);                                                       //laat het scherm zien door het zichtbaar te maken
     }
 
     //getters
@@ -125,7 +125,7 @@ public class SteganografieView extends JFrame {
      *@Terugkeerwaarde: JPaneel waardat de ontcijferview op komt te staan
      */
     public JPanel getAfbeeldingPaneel() {
-        return new Image_Panel();
+        return new afbeeldingsPaneel();
     }
     
     /*
@@ -152,87 +152,87 @@ public class SteganografieView extends JFrame {
 
         public tekstPaneel() {
             //setup GridBagLayout
-            GridBagLayout layout = new GridBagLayout();
-            GridBagConstraints layoutConstraints = new GridBagConstraints();
-            setLayout(layout);
+            GridBagLayout layout = new GridBagLayout();                         //een gridbaglayout initialiseren
+            GridBagConstraints layoutInstellingen = new GridBagConstraints();   //de instellingeninstantie aanmake waardoor we deze layout gedetaileerd kunnen aanpassen
+            setLayout(layout);                                                  //de layout ven het tekstpaneel zetten op de variabele layour waar dat een gridbaglayout in zit
 
-            invoer = new JTextArea();
-            layoutConstraints.gridx = 0;
-            layoutConstraints.gridy = 0;
-            layoutConstraints.gridwidth = 1;
-            layoutConstraints.gridheight = 1;
-            layoutConstraints.fill = GridBagConstraints.BOTH;
-            layoutConstraints.insets = new Insets(0, 0, 0, 0);
-            layoutConstraints.anchor = GridBagConstraints.CENTER;
-            layoutConstraints.weightx = 1.0;
-            layoutConstraints.weighty = 50.0;
-            JScrollPane scroll = new JScrollPane(invoer, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+            invoer = new JTextArea();                                           //de variabele invoer vullen met een tekstveld
+            layoutInstellingen.gridx = 0;                                       //dimensies van de gridbaglayout bepalen
+            layoutInstellingen.gridy = 0;                                       //dimensies van de gridbaglayout bepalen
+            layoutInstellingen.gridwidth = 1;                                   //dimensies van de gridbaglayout bepalen
+            layoutInstellingen.gridheight = 1;                                  //dimensies van de gridbaglayout bepalen
+            layoutInstellingen.fill = GridBagConstraints.BOTH;                  
+            layoutInstellingen.insets = new Insets(0, 0, 0, 0);
+            layoutInstellingen.anchor = GridBagConstraints.CENTER;
+            layoutInstellingen.weightx = 1.0;
+            layoutInstellingen.weighty = 50.0;
+            JScrollPane scroll = new JScrollPane(invoer, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,          //scrollpane toegvoegen, maar alleen als het noodzakelijk is, deze is dus niet altijd zichtbaar
                     JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-            layout.setConstraints(scroll, layoutConstraints);
+            layout.setConstraints(scroll, layoutInstellingen);                                              //scrollitem effectief toevoegen
             scroll.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
             add(scroll);
 
-            vercijferKnop = new JButton("Encode Now");
-            layoutConstraints.gridx = 0;
-            layoutConstraints.gridy = 1;
-            layoutConstraints.gridwidth = 1;
-            layoutConstraints.gridheight = 1;
-            layoutConstraints.fill = GridBagConstraints.BOTH;
-            layoutConstraints.insets = new Insets(0, -5, -5, -5);
-            layoutConstraints.anchor = GridBagConstraints.CENTER;
-            layoutConstraints.weightx = 1.0;
-            layoutConstraints.weighty = 1.0;
-            layout.setConstraints(vercijferKnop, layoutConstraints);
+            vercijferKnop = new JButton("Vercijferen!");                        //een knop aanmaken met als tekst "vercijferen!"
+            layoutInstellingen.gridx = 0;                                       //dimensies van de gridbaglayout bepalen
+            layoutInstellingen.gridy = 1;                                       //dimensies van de gridbaglayout bepalen
+            layoutInstellingen.gridwidth = 1;                                   //dimensies van de gridbaglayout bepalen
+            layoutInstellingen.gridheight = 1;                                  //dimensies van de gridbaglayout bepalen
+            layoutInstellingen.fill = GridBagConstraints.BOTH;                  //dimensies van de gridbaglayout bepalen
+            layoutInstellingen.insets = new Insets(0, -5, -5, -5);              //dimensies van de gridbaglayout bepalen
+            layoutInstellingen.anchor = GridBagConstraints.CENTER;              //dimensies van de gridbaglayout bepalen
+            layoutInstellingen.weightx = 1.0;                                   //dimensies van de gridbaglayout bepalen
+            layoutInstellingen.weighty = 1.0;                                   //dimensies van de gridbaglayout bepalen
+            layout.setConstraints(vercijferKnop, layoutInstellingen);           
             add(vercijferKnop);
 
-            //set basic display
-            setBackground(Color.lightGray);
-            setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+            //basisinstellingen
+            setBackground(Color.lightGray);                                     //lichtgrijze achtergrond
+            setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));          //zwarte border
         }
     }
 
     /*
-     *Class Image_Panel
+     *Klasse: AfbeeldingsPaneel
      */
-    private class Image_Panel extends JPanel {
+    private class afbeeldingsPaneel extends JPanel {
+        
         /*
-         *Constructor for displaying an image to be decoded
+         *constructor om een afbeelding te tonen die ontcijferd moet worden
          */
-
-        public Image_Panel() {
+        public afbeeldingsPaneel() {
             //setup GridBagLayout
-            GridBagLayout layout = new GridBagLayout();
-            GridBagConstraints layoutConstraints = new GridBagConstraints();
-            setLayout(layout);
+            GridBagLayout layout2 = new GridBagLayout();                        //een gridbaglayout initialiseren                          
+            GridBagConstraints layoutInstellingen2 = new GridBagConstraints();
+            setLayout(layout2);
 
-            afbeeldingInvoer = new JLabel();
-            layoutConstraints.gridx = 0;
-            layoutConstraints.gridy = 0;
-            layoutConstraints.gridwidth = 1;
-            layoutConstraints.gridheight = 1;
-            layoutConstraints.fill = GridBagConstraints.BOTH;
-            layoutConstraints.insets = new Insets(0, 0, 0, 0);
-            layoutConstraints.anchor = GridBagConstraints.CENTER;
-            layoutConstraints.weightx = 1.0;
-            layoutConstraints.weighty = 50.0;
-            JScrollPane scroll2 = new JScrollPane(afbeeldingInvoer, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+            afbeeldingInvoer = new JLabel();                                    //een nieuw JLabel voor de invoer van de afbeelding die ontcijferd moet worden
+            layoutInstellingen2.gridx = 0;                                      //dimensies van de gridbaglayout bepalen
+            layoutInstellingen2.gridy = 0;                                      //dimensies van de gridbaglayout bepalen
+            layoutInstellingen2.gridwidth = 1;                                  //dimensies van de gridbaglayout bepalen
+            layoutInstellingen2.gridheight = 1;                                 //dimensies van de gridbaglayout bepalen
+            layoutInstellingen2.fill = GridBagConstraints.BOTH;                 //dimensies van de gridbaglayout bepalen
+            layoutInstellingen2.insets = new Insets(0, 0, 0, 0);                //dimensies van de gridbaglayout bepalen
+            layoutInstellingen2.anchor = GridBagConstraints.CENTER;             //dimensies van de gridbaglayout bepalen
+            layoutInstellingen2.weightx = 1.0;                                  //dimensies van de gridbaglayout bepalen
+            layoutInstellingen2.weighty = 50.0;                                 //dimensies van de gridbaglayout bepalen
+            JScrollPane scroll2 = new JScrollPane(afbeeldingInvoer, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,           //scroll toevoegen van zodra het nodig is
                     JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-            layout.setConstraints(scroll2, layoutConstraints);
+            layout2.setConstraints(scroll2, layoutInstellingen2);
             scroll2.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
             afbeeldingInvoer.setHorizontalAlignment(JLabel.CENTER);
             add(scroll2);
 
-            ontcijferKnop = new JButton("Ontcijfer");
-            layoutConstraints.gridx = 0;
-            layoutConstraints.gridy = 1;
-            layoutConstraints.gridwidth = 1;
-            layoutConstraints.gridheight = 1;
-            layoutConstraints.fill = GridBagConstraints.BOTH;
-            layoutConstraints.insets = new Insets(0, -5, -5, -5);
-            layoutConstraints.anchor = GridBagConstraints.CENTER;
-            layoutConstraints.weightx = 1.0;
-            layoutConstraints.weighty = 1.0;
-            layout.setConstraints(ontcijferKnop, layoutConstraints);
+            ontcijferKnop = new JButton("Ontcijfer");                           //nieuwe ontcijfer knop
+            layoutInstellingen2.gridx = 0;                                      //dimensies van de gridbaglayout bepalen
+            layoutInstellingen2.gridy = 1;                                      //dimensies van de gridbaglayout bepalen
+            layoutInstellingen2.gridwidth = 1;                                  //dimensies van de gridbaglayout bepalen
+            layoutInstellingen2.gridheight = 1;                                 //dimensies van de gridbaglayout bepalen
+            layoutInstellingen2.fill = GridBagConstraints.BOTH;                 //dimensies van de gridbaglayout bepalen
+            layoutInstellingen2.insets = new Insets(0, -5, -5, -5);             //dimensies van de gridbaglayout bepalen
+            layoutInstellingen2.anchor = GridBagConstraints.CENTER;             //dimensies van de gridbaglayout bepalen
+            layoutInstellingen2.weightx = 1.0;                                  //dimensies van de gridbaglayout bepalen
+            layoutInstellingen2.weighty = 1.0;                                  //dimensies van de gridbaglayout bepalen
+            layout2.setConstraints(ontcijferKnop, layoutInstellingen2);
             add(ontcijferKnop);
 
             //set basisscherm
