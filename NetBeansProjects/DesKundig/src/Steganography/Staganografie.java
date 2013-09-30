@@ -16,13 +16,13 @@ import javax.swing.JOptionPane;
 /*
  *Class Steganography
  */
-public class Steganography
+public class Staganografie
 {
 	
 	/*
 	 *Steganography Empty Constructor
 	 */
-	public Steganography()
+	public Staganografie()
 	{
 	}
 	
@@ -35,7 +35,7 @@ public class Steganography
 	 *@param message  The text to hide in the image
 	 *@param type	  integer representing either basic or advanced encoding
 	 */
-	public boolean encode(String path, String original, String ext1, String stegan, String message)
+	public boolean vercijferen(String path, String original, String ext1, String stegan, String message)
 	{
 		String			file_name 	= image_path(path,original,ext1);
 		BufferedImage 	image_orig	= getImage(file_name);
@@ -53,7 +53,7 @@ public class Steganography
 	 *@param name The name of the image to extract the message from
 	 *@param type integer representing either basic or advanced encoding
 	 */
-	public String decode(String path, String name)
+	public String ontcijferen(String path, String name)
 	{
 		byte[] decode;
 		try
