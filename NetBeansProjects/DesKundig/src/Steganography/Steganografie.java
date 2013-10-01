@@ -25,132 +25,132 @@ public class Steganografie
 	}
 	
 	/*
-	 *Encrypt an image with text, the output file will be of type .png
-	 *@param pad        The path (folder) containing the image to modify
-	 *@param org        The name of the image to modify
-	 *@param ext1        The extension type of the image to modify (jpg, png)
-	 *@param stegan	  The output name of the file
-	 *@param bericht  The text to hide in the image
-	 *@param type	  integer representing either basic or advanced encoding
+         *Een afbeelding vercijferen aan de hand van tekst, het uitvoerbestand zal van het type .png zijn
+	 *@param pad      Het pad (map) waar die de afbeelding bevat waarin de tekst vercijferd moet worden.
+	 *@param org      De naam van de afbeelding die aangepast wordt
+	 *@param ext1     De extensie van de afbeelding (jpg of png)
+	 *@param stegan	  De naal van het uitvoerbestand
+	 *@param bericht  De teskt die verscholen zit in de afbeelding
+         *@param type	  representeert de basis vercijfering of de ingewikkelde vercijfering
 	 */
 	public boolean vercijferen(String pad, String org, String ext1, String stegan, String bericht)
 	{
-		String	bestandsNaam                = AfbeeldingsPad(pad,org,ext1); 
-		BufferedImage AfbeeldingOrigineel   = getAfbeelding(bestandsNaam);
+		String	bestandsNaam                = AfbeeldingsPad(pad,org,ext1);                     //naam van de afbeelding opvragen en ind e variabele bestandsNaam steken
+		BufferedImage AfbeeldingOrigineel   = getAfbeelding(bestandsNaam);                      //De originele afbeelding wordt opgehaald uit de map en in de variabele afbeeldingOrigineel gestoken
 		
-		//user space is not necessary for Encrypting
-		BufferedImage Afb = user_space(AfbeeldingOrigineel);
-		Afb = VoegToeTekst(Afb,bericht);
+		//gebruikerGrootte
+		BufferedImage Afb = gebruikersGrootte(AfbeeldingOrigineel);
+		Afb = VoegToeTekst(Afb,bericht);                                                        //Tekst wordt in de afbeelding gestoken via de zelf gedefinieerde functie voegToeTekst()
 		
-		return(setAfbeelding(Afb,new File(AfbeeldingsPad(pad,stegan,"png")),"png"));
+		return(setAfbeelding(Afb,new File(AfbeeldingsPad(pad,stegan,"png")),"png"));            //terugkeerwaarde: ???
 	}
 	
 	/*
          *Neemt aan dat de afbeelding van het juiste type is en haalt the verborgen tekst uit de afbeeling
-	 *@param pad   The path (folder) containing the image to extract the message from
-	 *@param naam The name of the image to extract the message from
-	 *@param type integer representing either basic or advanced encoding
+	 *@param pad  Het pad waarin de afbeelding staat die ontcijferd moet worden
+	 *@param naam De naam ven de afbeelding die ontcijferd moet worden
+	 *@param type nummer die aangeeft of er een standaard ontcijfering moet gebeuren of een ingewikkeld ontcijfering
 	 */
-	public String ontcijferen(String path, String name)
+	public String ontcijferen(String pad, String naam)
 	{
 		byte[] ontc;                                                    //array van bytes maken
 		try
 		{
-			//user space is necessary for decrypting
-			BufferedImage image  = user_space(getAfbeelding(AfbeeldingsPad(path,name,"png")));
-			ontc = ontcijferTekst(rekenenBytes(image));
-			return(new String(ontc));
+			//GebruikersGrootte moet bepaald worden, hier wel nodig
+			BufferedImage afbeelding  = gebruikersGrootte(getAfbeelding(AfbeeldingsPad(pad,naam,"png")));
+			ontc = ontcijferTekst(rekenenBytes(afbeelding));        //de tekst uit de afbeelding ontcijferen en in de variabele ont steken om deze later te gebruiken
+			return(new String(ontc));                               //terugkeerwaarde: de ontcijferde tekst
 		}
 		catch(Exception e)
 		{
-			JOptionPane.showMessageDialog(null, 
+			JOptionPane.showMessageDialog(null,                     //er wordt een popu getoond als de afbeelding niet ontcijferd kan worden doordat er geen vercijferde tekst in zit
 				"Er is geen verborgen tekst in deze afbeelding!","Fout!",
-				JOptionPane.ERROR_MESSAGE);
-			return "";
+				JOptionPane.ERROR_MESSAGE); 
+			return "";                                              //een lege string teruggeven, want er kan niets ontcijferd worden
 		}
 	}
 	
 	/*
-	 *Returns the complete path of a file, in the form: path\name.ext
-	 *@param path   The path (folder) of the file
-	 *@param name The name of the file
-	 *@param ext	  The extension of the file
-	 *@return A String representing the complete path of a file
+	 *Terugkeerwaarde: het volledige pad van de afbeelding
+	 *@param pad   het pad naar het bestand
+	 *@param naam  de naam van het bestand
+	 *@param ext   de extensie van het bestand
+	 *@terugkeerwaarde: een string die het volledige pas bevat naar het bestand
 	 */
-	private String AfbeeldingsPad(String path, String name, String ext)
+	private String AfbeeldingsPad(String pad, String naam, String ext)
 	{
-		return path + "/" + name + "." + ext;
+		return pad + "/" + naam + "." + ext;
 	}
 	
 	/*
-	 *Get method to return an image file
-	 *@param f The complete path name of the image.
-	 *@return A BufferedImage of the supplied file path
-	 *@see	Steganography.image_path
+	 *Get methode om de afbeelding op te halen
+	 *@param p Het complete padnaam van de afbeelding.
+	 *@terugkeerwaarde: een afbeelding van het type .jpg of van het type .png
 	 */
-	private BufferedImage getAfbeelding(String f)
+	private BufferedImage getAfbeelding(String p)
 	{
-		BufferedImage 	image	= null;
-		File 		file 	= new File(f);
+		BufferedImage 	afbeelding	= null;                                 //een nieuwe instantie van een BufferedImage aanmaken en deze voolopig leeg laten.
+		File 		bestand = new File(p);                          //een nieuwe instantie van een bestand (file) aanmaken door middel van het pad op te geven
 		
 		try
 		{
-			image = ImageIO.read(file);
+			afbeelding = ImageIO.read(bestand);                          //het bestand lezen dat in het opegegeven pad wordt teruggevonden
 		}
 		catch(Exception ex)
 		{
 			JOptionPane.showMessageDialog(null, 
-				"Image could not be read!","Error",JOptionPane.ERROR_MESSAGE);
+				"Afbeelding kon niet gelezen wordn!","Fout!",JOptionPane.ERROR_MESSAGE);
 		}
-		return image;
+		return afbeelding;
 	}
 	
 	/*
-	 *Set method to save an image file
-	 *@param image The image file to save
-	 *@param file	  File  to save the image to
-	 *@param ext	  The extension and thus format of the file to be saved
-	 *@return Returns true if the save is succesful
+	 *Set methode om een afbeelding op te slaan
+	 *@param afbeelding is de afbeelding die opgeslagen moet worden
+	 *@param bestand    het bestand waarin de afbeelding opgeslagen moet wordeno
+	 *@param ext        de extensie van het bestand dat opgeslagen moet worden
+	 *@terugkeerwaarde: true als de afbeelding succesvol opgelsgane is, false als de afbeelding niet opgeslagen kon worden
 	 */
-	private boolean setAfbeelding(BufferedImage image, File file, String ext)
+	private boolean setAfbeelding(BufferedImage afbeelding, File bestand, String ext)
 	{
 		try
 		{
-			file.delete(); //delete resources used by the File
-			ImageIO.write(image,ext,file);
-			return true;
+			bestand.delete();                                       //delete resources die het bestand gebruikt
+			ImageIO.write(afbeelding,ext,bestand);                  //schrijf de afbeelding naar een bestand
+                                                                                //met als naam(bestand), de afbeelding afbeelding, met als extensie(extensie)
+			return true;                                            //als het succesvol verloopt, dan terugkeerwaarde: true
 		}
 		catch(Exception e)
 		{
 			JOptionPane.showMessageDialog(null, 
-				"File could not be saved!","Error",JOptionPane.ERROR_MESSAGE);
+				"Bestand kon niet worden opgeslagen!","Fout!",JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
 	}
 	
 	/*
-	 *Handles the addition of text into an image
-	 *@param image The image to add hidden text to
-	 *@param text	 The text to hide in the image
-	 *@return Returns the image with the text embedded in it
+	 *Behandelt de manier waarop de tekst in de afbeelding vercijferd moet worden
+	 *@param    afbeelding  De afbeelding waarin de tekst vercijferd moet worden
+	 *@param    tekst	De tekst die in de afbeelding vercijferd moet worden
+	 *@terugkeerwaarde:     De afbeelding met een tekst erin vercijferdit
 	 */
-	private BufferedImage VoegToeTekst(BufferedImage image, String text)
+	private BufferedImage VoegToeTekst(BufferedImage afbeelding, String tekst)
 	{
-		//convert all items to byte arrays: image, message, message length
-		byte img[]  = rekenenBytes(image);
-		byte msg[] = text.getBytes();
-		byte len[]   = bitConversie(msg.length);
+		//Conversie van alle items naar een array van bytes
+		byte afb[]  = rekenenBytes(afbeelding);                         //Conversie van de afbeelding naar een array van bytes
+		byte msg[]  = tekst.getBytes();                                 //Conversie van de tekst naar een array van bytes
+		byte len[]  = bitConversie(msg.length);                         //Conversie van de lengte naar een array van bytes
 		try
 		{
-			vercijferTekst(img, len,  0); //0 first positiong
-			vercijferTekst(img, msg, 32); //4 bytes of space for length: 4bytes*8bit = 32 bits
+			vercijferTekst(afb, len,  0);                           //0 als eerste positie
+			vercijferTekst(afb, msg, 32);                           //4 bytes als grootte nemen van de lengte, want 4 bytes * 8 bits = 32 bits 
 		}
 		catch(Exception e)
 		{
 			JOptionPane.showMessageDialog(null, 
-"Target File cannot hold message!", "Error",JOptionPane.ERROR_MESSAGE);
+"Target Dit bestand kan geen vercijferde tekst bevatten!", "Fout!",JOptionPane.ERROR_MESSAGE);
 		}
-		return image;
+		return afbeelding;                                              //terugkeerwaarde: de afbeelding
 	}
 	
 	/*
@@ -158,7 +158,7 @@ public class Steganografie
 	 *@param image The image to put into user space, removes compression interferences
 	 *@return The user space version of the supplied image
 	 */
-	private BufferedImage user_space(BufferedImage image)
+	private BufferedImage gebruikersGrootte(BufferedImage image)
 	{
 		//create new_img with the attributes of image
 		BufferedImage new_img  = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_3BYTE_BGR);
