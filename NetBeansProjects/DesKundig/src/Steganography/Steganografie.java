@@ -3,7 +3,6 @@ package Steganography;
  *import list
  */
 import java.io.File;
-import java.awt.Point;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
@@ -154,59 +153,59 @@ public class Steganografie
 	}
 	
 	/*
-	 *Creates a user space version of a Buffered Image, for editing and saving bytes
-	 *@param image The image to put into user space, removes compression interferences
-	 *@return The user space version of the supplied image
+	 *een gebruiksvriendelijk versie van de afbeelding maken die aangepast kan worden en waardat bytes van verkregen kan worden
+	 *@param afbeelding de afbeelding die geheugen moet krijgen en compressie moeilijkheden verwijderen
+	 *@return de gebruikersruimteversie van de afbeelding, dus geheugen
 	 */
-	private BufferedImage gebruikersGrootte(BufferedImage image)
+	private BufferedImage gebruikersGrootte(BufferedImage afbeelding)
 	{
-		//create new_img with the attributes of image
-		BufferedImage new_img  = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_3BYTE_BGR);
-		Graphics2D	graphics = new_img.createGraphics();
-		graphics.drawRenderedImage(image, null);
-		graphics.dispose(); //release all allocated memory for this image
-		return new_img;
+		//een nieuwe afbeeldingNieuw aanmaken met de attributen van een afbeelding
+		BufferedImage afbeeldingNieuw  = new BufferedImage(afbeelding.getWidth(), afbeelding.getHeight(), BufferedImage.TYPE_3BYTE_BGR);
+		Graphics2D	grafisch = afbeeldingNieuw.createGraphics();
+		grafisch.drawRenderedImage(afbeelding, null);//??
+		grafisch.dispose(); //laat het geheugen dat gebruikt werd voor deze afbeelding vrij
+		return afbeeldingNieuw;//terugkeerwaarde: de nieuwe afbeelding
 	}
 	
 	/*
-	 *Gets the byte array of an image
-	 *@param image The image to get byte data from
-	 *@return Returns the byte array of the image supplied
-	 *@see Raster
+	 *De array van bytes verkrijgen van een afbeelding, dus een afbeelding omzetten naar een array van bytes
+	 *@param afbeelding de afbeelding waar we de bytes van moete hebben
+	 *@terugkeerwaarde: de array van bytes van de opgegeven afbeelding
+         *@see Raster
 	 *@see WritableRaster
 	 *@see DataBufferByte
 	 */
-	private byte[] rekenenBytes(BufferedImage image)
+	private byte[] rekenenBytes(BufferedImage afbeelding)
 	{
-		WritableRaster raster   = image.getRaster();
+		WritableRaster raster   = afbeelding.getRaster();
 		DataBufferByte buffer = (DataBufferByte)raster.getDataBuffer();
 		return buffer.getData();
 	}
 	
 	/*
-	 *Gernerates proper byte format of an integer
-	 *@param i The integer to convert
-	 *@return Returns a byte[4] array converting the supplied integer into bytes
+	 *een gebruikelijk byteformaat maken van een integer
+	 *@param i de int die geconverteerd moet worden
+	 *@terugkeerwaarde: een array van 4 bytes die een int converteren de voorziene int naar bytes
 	 */
 	private byte[] bitConversie(int i)
 	{
-		//originally integers (ints) cast into bytes
+		//originele ints worden omgezet naar bytes
 		//byte byte7 = (byte)((i & 0xFF00000000000000L) >>> 56);
 		//byte byte6 = (byte)((i & 0x00FF000000000000L) >>> 48);
 		//byte byte5 = (byte)((i & 0x0000FF0000000000L) >>> 40);
 		//byte byte4 = (byte)((i & 0x000000FF00000000L) >>> 32);
 		
-		//only using 4 bytes
+		//we gebruiken maar 4 bytes
 		byte byte3 = (byte)((i & 0xFF000000) >>> 24); //0
 		byte byte2 = (byte)((i & 0x00FF0000) >>> 16); //0
 		byte byte1 = (byte)((i & 0x0000FF00) >>> 8 ); //0
 		byte byte0 = (byte)((i & 0x000000FF)	   );
-		//{0,0,0,byte0} is equivalent, since all shifts >=8 will be 0
+		//{0,0,0,byte0} is hetzelfde, omdat alle shifts grotes zijn dan 8 dus gelijk aan 0
 		return(new byte[]{byte3,byte2,byte1,byte0});
 	}
 	
 	/*
-	 *Encode an array of bytes into another array of bytes at a supplied offset
+	 *Vercijfert een array van bytes in een andere array van bytes Encode an array of bytes into another array of bytes at a supplied offset
 	 *@param image	 Array of data representing an image
 	 *@param addition Array of data to add to the supplied image data array
 	 *@param offset	  The offset into the image array to add the addition data
