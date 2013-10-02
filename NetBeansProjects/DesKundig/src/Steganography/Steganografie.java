@@ -183,7 +183,7 @@ public class Steganografie
 	}
 	
 	/*
-	 *een gebruikelijk byteformaat maken van een integer
+	 *een int omzetten naar een array van 4 bytes
 	 *@param i de int die geconverteerd moet worden
 	 *@terugkeerwaarde: een array van 4 bytes die een int converteren de voorziene int naar bytes
 	 */
@@ -196,25 +196,25 @@ public class Steganografie
 		//byte byte4 = (byte)((i & 0x000000FF00000000L) >>> 32);
 		
 		//we gebruiken maar 4 bytes
-		byte byte3 = (byte)((i & 0xFF000000) >>> 24); //0
-		byte byte2 = (byte)((i & 0x00FF0000) >>> 16); //0
-		byte byte1 = (byte)((i & 0x0000FF00) >>> 8 ); //0
-		byte byte0 = (byte)((i & 0x000000FF)	   );
+		byte byte3 = (byte)((i & 0xFF000000) >>> 24); //van 32 tot en met 24
+		byte byte2 = (byte)((i & 0x00FF0000) >>> 16); //van 16 tot en met 23
+		byte byte1 = (byte)((i & 0x0000FF00) >>> 8 ); //van 8 tot en met 15
+		byte byte0 = (byte)((i & 0x000000FF)	   );//van 7 tot en met 0
 		//{0,0,0,byte0} is hetzelfde, omdat alle shifts grotes zijn dan 8 dus gelijk aan 0
-		return(new byte[]{byte3,byte2,byte1,byte0});
+		return(new byte[]{byte3,byte2,byte1,byte0});//de int is in 4 delen gedeeld in een array ervan en deze wordt teruggegeven
 	}
 	
 	/*
-	 *Vercijfert een array van bytes in een andere array van bytes Encode an array of bytes into another array of bytes at a supplied offset
-	 *@param image	 Array of data representing an image
-	 *@param addition Array of data to add to the supplied image data array
-	 *@param offset	  The offset into the image array to add the addition data
-	 *@return Returns data Array of merged image and addition data
-	 */
-	private byte[] vercijferTekst(byte[] Afbeeld, byte[] toevoeg, int j)
+	 *Vercijfert een array van bytes in een andere array van bytes van in de vorm van een supplied offset
+	 *@param afbeeld de data die de afbee
+	 *@param toevoeg array van data die in de afbeelig moet vercijferd worden
+	 *@param j	 de plaats vanaf waar de bytes worden opgeteld
+         *@terugkeerwaarde: geeft een array van van de samengevoegde bytes terug waarin de tekst vercijferd in zit
+         */
+	private byte[] vercijferTekst(byte[] afbeeld, byte[] toevoeg, int j)
 	{
                 //checken of j en de data wel in de afbeelding passen
-		if(toevoeg.length + j > Afbeeld.length)
+		if(toevoeg.length + j > afbeeld.length)
 		{
 			throw new IllegalArgumentException("Bestand is niet groot genoeg om deze tekst er in te vercijferen!");
 		}
@@ -231,10 +231,10 @@ public class Steganografie
 				int b = (add >>> bit) & 1;
 				//assign the bit by taking: [(previous byte value) AND 0xfe] OR bit to add
 				//changes the last bit of the byte in the image to be the bit of addition
-				Afbeeld[j] = (byte)((Afbeeld[j] & 0xFE) | b );
+				afbeeld[j] = (byte)((afbeeld[j] & 0xFE) | b );//!!!
 			}
 		}
-		return Afbeeld;
+		return afbeeld;
 	}
 	
 	/*
@@ -249,22 +249,24 @@ public class Steganografie
                 //doorheen 32 bytes gaan om de lengte van de tekst te bepalen
 		for(int i=0; i<32; ++i) 
                 {
+                        //bit shift opperator
 			lengte = (lengte << 1) | (afbeeld[i] & 1);
 		}
-		//een nieuwe arra van het type byte maken van de lengte die in variabele lengte zit
+		//een nieuwe array van het type byte maken van de lengte die in variabele lengte zit
 		byte[] resultaat = new byte[lengte];
 		
                 //doorheen elke byte van tekst gaan
 		for(int b=0; b<resultaat.length; ++b )
 		{
-                        //doorheen elke bit gaat in een byte tekst
+                        //elke bit in een byte doorlopen
 			for(int i=0; i<8; ++i, ++j)
 			{
-				//de bit eraan toevoegen: [(nieuwe byte waarde) << 1] OF [(tekst byte) en 1]
+				//de bit eraan toevoegen: [(nieuwe byte waarde) << 1] OF [(tekst byte) en 1] als dan
+                                //bit shift opperator
 				resultaat[b] = (byte)((resultaat[b] << 1) | (afbeeld[j] & 1));
 			}
 		}
-                //teruhkeerwaarde: resultaat
+                //terugkeerwaarde: resultaat
 		return resultaat;
 	}
 }
