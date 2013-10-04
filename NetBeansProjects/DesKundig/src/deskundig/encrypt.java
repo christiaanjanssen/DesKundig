@@ -137,8 +137,8 @@ public class encrypt {
                 ind++;
             }
         }
-        ArrayPrinter.printArray(linkseKant,"Left Part");
-        ArrayPrinter.printArray(rechtseKant,"Right Part");
+        //ArrayPrinter.printArray(linkseKant,"Left Part");
+        //ArrayPrinter.printArray(rechtseKant,"Right Part");
         DesPanel.StepsText.append("****************************************************************"+'\n');
 
         ind=0;
@@ -217,7 +217,7 @@ public class encrypt {
             }
             
             //NOG OPZOEKEN!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            ArrayPrinter.printArray(nieuwBlok64String, "Cipher Block");
+            //ArrayPrinter.printArray(nieuwBlok64String, "Cipher Block");
             p = new Permutatie();
             p.FillPermutation();//van 2D naar 1D gaan
             p.DoIP(nieuwBlok64Array_,perm_out);
@@ -246,7 +246,7 @@ public class encrypt {
                     }
                 }
                 
-                ArrayPrinter.printArray(XORS,"XOR Result");
+                //ArrayPrinter.printArray(XORS,"XOR Result");
                 ind=0;
                 SBox sbox= new SBox();                
                 sbox.runSBox(XorOutput,naSBOX);//step2 32bits - include permitation
@@ -261,7 +261,7 @@ public class encrypt {
                 }
                 
                 ind=0;
-                ArrayPrinter.printArray(naXorString,"XOR Resultaat");//na het xorren de array opnieuw printen
+                //ArrayPrinter.printArray(naXorString,"XOR Resultaat");//na het xorren de array opnieuw printen
                 adder=adder+48;
                 Round++;
                 DesPanel.StepsText.append("*********Links/Rechts wisselen*********"+'\n');
@@ -279,8 +279,8 @@ public class encrypt {
                     ind++;
                 }
             }
-            ArrayPrinter.printArray(linkseKant,"Linkse helft");
-            ArrayPrinter.printArray(rechtseKant,"Rechtse helft");
+            //ArrayPrinter.printArray(linkseKant,"Linkse helft");
+            //ArrayPrinter.printArray(rechtseKant,"Rechtse helft");
             //beide helften printen na de wissel
             DesPanel.StepsText.append("********Na wisselen********* " +'\n');
             omdraaien();
@@ -405,7 +405,7 @@ public class encrypt {
                 }
                 ind=0;
                 
-                ArrayPrinter.printArray(XORS,"XOR Result");
+                //ArrayPrinter.printArray(XORS,"XOR Result");
                 System.out.print("\nXOR :");
                 for(int j=0;j<48;j++) {
                     System.out.print(XorOutput[j]);
@@ -431,7 +431,7 @@ public class encrypt {
                     }
                 }
                 ind=0;
-                ArrayPrinter.printArray(naXorString,"XOR Result");
+                //ArrayPrinter.printArray(naXorString,"XOR Result");
                 
                 for(int j=0;j<32;j++) {
                     System.out.print(naXor[j]);
@@ -457,8 +457,8 @@ public class encrypt {
                         
                     }
                 }
-                ArrayPrinter.printArray(linkseKant,"Left Part");
-                ArrayPrinter.printArray(rechtseKant,"Right Part");
+                //ArrayPrinter.printArray(linkseKant,"Left Part");
+                //ArrayPrinter.printArray(rechtseKant,"Right Part");
                 
                 
             }
