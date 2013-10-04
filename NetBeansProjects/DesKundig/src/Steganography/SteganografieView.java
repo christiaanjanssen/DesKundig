@@ -5,7 +5,6 @@ package Steganography;
  */
 import java.awt.Color;
 import java.awt.Insets;
-import java.awt.Container;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 
