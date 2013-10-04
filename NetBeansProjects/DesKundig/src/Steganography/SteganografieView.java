@@ -5,7 +5,6 @@ package Steganography;
  */
 import java.awt.Color;
 import java.awt.Insets;
-import java.awt.Container;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 
@@ -206,15 +205,8 @@ public class SteganografieView extends JFrame {
             setLayout(layout2);
 
             afbeeldingInvoer = new JLabel();                                    //een nieuw JLabel voor de invoer van de afbeelding die ontcijferd moet worden
-            layoutInstellingen2.gridx = 0;                                      //dimensies van de gridbaglayout bepalen
-            layoutInstellingen2.gridy = 0;                                      //dimensies van de gridbaglayout bepalen
-            layoutInstellingen2.gridwidth = 1;                                  //dimensies van de gridbaglayout bepalen
-            layoutInstellingen2.gridheight = 1;                                 //dimensies van de gridbaglayout bepalen
             layoutInstellingen2.fill = GridBagConstraints.BOTH;                 //dimensies van de gridbaglayout bepalen
-            layoutInstellingen2.insets = new Insets(0, 0, 0, 0);                //dimensies van de gridbaglayout bepalen
             layoutInstellingen2.anchor = GridBagConstraints.CENTER;             //dimensies van de gridbaglayout bepalen
-            layoutInstellingen2.weightx = 1.0;                                  //dimensies van de gridbaglayout bepalen
-            layoutInstellingen2.weighty = 50.0;                                 //dimensies van de gridbaglayout bepalen
             JScrollPane scroll2 = new JScrollPane(afbeeldingInvoer, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,           //scroll toevoegen van zodra het nodig is
                     JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
             layout2.setConstraints(scroll2, layoutInstellingen2);
@@ -223,15 +215,8 @@ public class SteganografieView extends JFrame {
             add(scroll2);
 
             ontcijferKnop = new JButton("Ontcijfer");                           //nieuwe ontcijfer knop
-            layoutInstellingen2.gridx = 0;                                      //dimensies van de gridbaglayout bepalen
-            layoutInstellingen2.gridy = 1;                                      //dimensies van de gridbaglayout bepalen
-            layoutInstellingen2.gridwidth = 1;                                  //dimensies van de gridbaglayout bepalen
-            layoutInstellingen2.gridheight = 1;                                 //dimensies van de gridbaglayout bepalen
             layoutInstellingen2.fill = GridBagConstraints.BOTH;                 //dimensies van de gridbaglayout bepalen
-            layoutInstellingen2.insets = new Insets(0, -5, -5, -5);             //dimensies van de gridbaglayout bepalen
-            layoutInstellingen2.anchor = GridBagConstraints.CENTER;             //dimensies van de gridbaglayout bepalen
-            layoutInstellingen2.weightx = 1.0;                                  //dimensies van de gridbaglayout bepalen
-            layoutInstellingen2.weighty = 1.0;                                  //dimensies van de gridbaglayout bepalen
+            layoutInstellingen2.anchor = GridBagConstraints.CENTER;             //dimensies van de gridbaglayout bepalenn
             layout2.setConstraints(ontcijferKnop, layoutInstellingen2);
             add(ontcijferKnop);
 
