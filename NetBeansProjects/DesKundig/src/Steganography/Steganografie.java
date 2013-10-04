@@ -15,7 +15,6 @@ import javax.swing.JOptionPane;
  */
 public class Steganografie
 {
-	
 	/*
 	 *een standaar lege constructor
 	 */
