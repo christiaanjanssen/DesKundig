@@ -195,8 +195,8 @@ public class Steganografie {
                 //a single bit of the current byte
                 int b = (add >>> bit) & 1;
                 //assign the bit by taking: [(previous byte value) AND 0xfe] OR bit to add
-                //changes the last bit of the byte in the image to be the bit of addition
-                afbeeld[j] = (byte) ((afbeeld[j] & 0xFE) | b);//!!!
+                //De laatste bit veranderen in de tekstbit
+                afbeeld[j] = (byte) ((afbeeld[j] & 0xFE) | b);
             }
         }
         return afbeeld;
