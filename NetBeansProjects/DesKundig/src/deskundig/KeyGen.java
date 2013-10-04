@@ -61,7 +61,7 @@ public class KeyGen {
             }
         }
         
-        arrayprinter.printarray(keyS,"After PC-1");
+        ArrayPrinter.printArray(keyS,"After PC-1");
     }
     
     
@@ -89,7 +89,7 @@ public class KeyGen {
             }
         }
         
-        arrayprinter.printarray(finalS,"After PC-2");
+        ArrayPrinter.printArray(finalS,"After PC-2");
         index=0;
     }
     
@@ -125,8 +125,8 @@ public class KeyGen {
         }
         index=0;
         
-        arrayprinter.printarray(cS,"Segment Key to C part");
-        arrayprinter.printarray(dS,"Segment Key to D part");
+        ArrayPrinter.printArray(cS,"Segment Key to C part");
+        ArrayPrinter.printArray(dS,"Segment Key to D part");
     }
     public void Do_OneLeftShift(int[] side1, int []side2){
         

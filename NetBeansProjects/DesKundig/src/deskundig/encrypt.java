@@ -137,8 +137,8 @@ public class encrypt {
                 ind++;
             }
         }
-        arrayprinter.printarray(linkseKant,"Left Part");
-        arrayprinter.printarray(rechtseKant,"Right Part");
+        ArrayPrinter.printArray(linkseKant,"Left Part");
+        ArrayPrinter.printArray(rechtseKant,"Right Part");
         DesPanel.StepsText.append("****************************************************************"+'\n');
 
         ind=0;
@@ -217,7 +217,7 @@ public class encrypt {
             }
             
             //NOG OPZOEKEN!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            arrayprinter.printarray(nieuwBlok64String, "Cipher Block");
+            ArrayPrinter.printArray(nieuwBlok64String, "Cipher Block");
             p = new Permutation();
             p.FillPermutation();//van 2D naar 1D gaan
             p.DoIP(nieuwBlok64Array_,perm_out);
@@ -233,9 +233,9 @@ public class encrypt {
                 }
                 
                 System.out.println();//lege lijn
-                ESTable Etable = new ESTable();
-                Etable.FillETable();//Array van 2D naar 1D omzetten
-                Etable.DoETable(rechts,Right_out);
+                ExpansieTabel e = new ExpansieTabel();
+                e.VulExpansieTabel();
+                e.runExpansieTabel(rechts, Right_out);
                 DesPanel.StepsText.append("*********Rechtse XOR********* "+Round+'\n');
                 XOR(Right_out,omgekeerdeSleutel,XorOutput);
                 ind=0;
@@ -246,10 +246,10 @@ public class encrypt {
                     }
                 }
                 
-                arrayprinter.printarray(XORS,"XOR Result");
+                ArrayPrinter.printArray(XORS,"XOR Result");
                 ind=0;
                 SBox sbox= new SBox();                
-                sbox.DoSBox(XorOutput,naSBOX);//step2 32bits - include permitation
+                sbox.runSBox(XorOutput,naSBOX);//step2 32bits - include permitation
                 DesPanel.StepsText.append("*********Linkse XOR********* "+Round+'\n');
                 XOR(links,naSBOX,naXor);//XOR
                 
@@ -261,7 +261,7 @@ public class encrypt {
                 }
                 
                 ind=0;
-                arrayprinter.printarray(naXorString,"XOR Resultaat");//na het xorren de array opnieuw printen
+                ArrayPrinter.printArray(naXorString,"XOR Resultaat");//na het xorren de array opnieuw printen
                 adder=adder+48;
                 Round++;
                 DesPanel.StepsText.append("*********Links/Rechts wisselen*********"+'\n');
@@ -279,8 +279,8 @@ public class encrypt {
                     ind++;
                 }
             }
-            arrayprinter.printarray(linkseKant,"Linkse helft");
-            arrayprinter.printarray(rechtseKant,"Rechtse helft");
+            ArrayPrinter.printArray(linkseKant,"Linkse helft");
+            ArrayPrinter.printArray(rechtseKant,"Rechtse helft");
             //beide helften printen na de wissel
             DesPanel.StepsText.append("********Na wisselen********* " +'\n');
             omdraaien();
@@ -370,9 +370,9 @@ public class encrypt {
                 DesPanel.StepsText.append("*********Round Number********* "+Round+'\n');
                 
                 int chooser=num_Left[index_kiezer];
-                ESTable Etable = new ESTable();
-                Etable.FillETable();//step3 array from 2D to 1D
-                Etable.DoETable(rechts,Right_out);//step3
+                ExpansieTabel e = new ExpansieTabel();
+                e.VulExpansieTabel();
+                e.runExpansieTabel(rechts,Right_out);//step3
                 
                 ////////////////////////////////////////////////////////////////////////
                 System.out.println();
@@ -405,14 +405,14 @@ public class encrypt {
                 }
                 ind=0;
                 
-                arrayprinter.printarray(XORS,"XOR Result");
+                ArrayPrinter.printArray(XORS,"XOR Result");
                 System.out.print("\nXOR :");
                 for(int j=0;j<48;j++) {
                     System.out.print(XorOutput[j]);
                 }
                 SBox sbox= new SBox();
                 
-                sbox.DoSBox(XorOutput,naSBOX);//step2 32bits - include permitation
+                sbox.runSBox(XorOutput,naSBOX);//step2 32bits - include permitation
                 System.out.print("\nS-BOX :");
                 for(int j=0;j<32;j++) {
                     System.out.print(naSBOX[j]);
@@ -431,7 +431,7 @@ public class encrypt {
                     }
                 }
                 ind=0;
-                arrayprinter.printarray(naXorString,"XOR Result");
+                ArrayPrinter.printArray(naXorString,"XOR Result");
                 
                 for(int j=0;j<32;j++) {
                     System.out.print(naXor[j]);
@@ -457,8 +457,8 @@ public class encrypt {
                         
                     }
                 }
-                arrayprinter.printarray(linkseKant,"Left Part");
-                arrayprinter.printarray(rechtseKant,"Right Part");
+                ArrayPrinter.printArray(linkseKant,"Left Part");
+                ArrayPrinter.printArray(rechtseKant,"Right Part");
                 
                 
             }
