@@ -1,17 +1,20 @@
 package deskundig;
 
-import java.util.ArrayList;
-
 public class Keys {
 
+    private String pass;
     private int[] temp1 = new int[56];
     private int[] temp2 = new int[48];
     private String key;
-    private String keys[][] = new String[7][8];
+    //private String keys[][] = new String[7][8];
+    private byte[][] blok = new byte[8][8];
+    private static int[] bitKey=new int[64];
     private String C[][] = new String[4][7];
     private String D[][] = new String[6][8];
     private String uit[][] = new String[6][8];
-    private final int[][] PC1 = {
+    private int[][] keys = new int[16][48];
+    
+    private static int[][] PC1 = {
         {57, 49, 41, 33, 25, 17, 9},
         {1, 58, 50, 42, 34, 26, 18},
         {10, 2, 59, 51, 43, 35, 27},
@@ -21,7 +24,7 @@ public class Keys {
         {14, 6, 61, 53, 45, 37, 29},
         {21, 13, 5, 28, 20, 12, 4}
     };
-    private final int[][] PC2 = {
+    private static int[][] PC2 = {
         {14, 17, 11, 24, 1, 5},
         {3, 28, 15, 6, 21, 10},
         {23, 19, 12, 4, 26, 8},
@@ -31,8 +34,48 @@ public class Keys {
         {44, 49, 39, 56, 34, 53},
         {46, 42, 50, 36, 29, 32}
     };
+    
+    private static int[] shift = {1,1,2,2,2,2,2,2,1,2,2,2,2,2,2,1};
 
-    public Keys() {
+    public Keys(String p) {
+        pass = p;
+    }
+
+    public int[][] getKey() {
+        straightenPC1();
+        straightenPC2();
+        
+        VercijferTekst(pass);
+//        for (int i = 0; i < bitKey.length; i++) {
+//            System.out.print(bitKey[i]);
+//        }
+        
+        int[] CD1 = new int[56];
+        permWC1(bitKey, CD1);
+        
+        int[] Cn = new int[28];
+        int[] Dn = new int[28];
+        split(CD1, Cn, Dn);
+
+        
+        
+        
+        
+        for(int i=0;i<16;i++){
+            if(shift[i] == 1){
+                shiftOne(Cn, Dn);
+            }else{
+                shiftOne(Cn, Dn);
+                shiftOne(Cn, Dn);
+            }
+            int[] cdStraight = new int[56];
+            int[] Kn = new int[48];
+            combine(Cn, Dn, cdStraight);
+            permWC2(cdStraight, Kn);
+            keys[i] = Kn;
+        }
+        
+        return keys;
     }
 
     /**
@@ -54,7 +97,7 @@ public class Keys {
     public void straightenPC2() {
         int teller = 0;
         for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 7; j++) {
+            for (int j = 0; j < 6; j++) {
                 temp2[teller] = PC2[i][j];
                 teller++;
             }
@@ -80,13 +123,13 @@ public class Keys {
             teller++;
         }
 
-        int index = 0;
-        for (int j = 0; j < 7; j++) {
-            for (int k = 0; k < 8; k++) {
-                uit[j][k] = Integer.toString(out[index]);
-            }
-        }
-        index = 0;
+//        int index = 0;
+//        for (int j = 0; j < 7; j++) {
+//            for (int k = 0; k < 8; k++) {
+//                uit[j][k] = Integer.toString(out[index]);
+//            }
+//        }
+//        index = 0;
     }
 
     /**
@@ -108,45 +151,80 @@ public class Keys {
             teller++;
         }
 
-        int index = 0;
-        for (int j = 0; j < 6; j++) {
-            for (int k = 0; k < 8; k++) {
-                keys[j][k] = Integer.toString(out[index]);
-            }
-        }
+//        int index = 0;
+//        for (int j = 0; j < 6; j++) {
+//            for (int k = 0; k < 8; k++) {
+//                keys[j][k] = Integer.toString(out[index]);
+//            }
+//        }
     }
-    
-    
+
     /**
      * splitsen van een deelsleutel naar 2 keys
-     * 
+     *
      * @param out deelsleuten
      * @param C 1e deel
      * @param D 2de deel
      */
-    public void split(int[] out, int[] C, int[] D){
+    public void split(int[] in, int[] C, int[] D) {
         for (int i = 0; i < 28; i++) {
-            C[i]=out[i];
+            C[i] = in[i];
         }
-        
+
         for (int i = 28; i < 56; i++) {
-            D[i-28]=out[i];
+            D[i - 28] = in[i];
         }
     }
     
-    public void shiftOne(int[] C, int[] D){
-        int temp=C[0];
-        for (int i = 1; i < C.length; i++) {
-            C[i-1]=C[i];
+    public void combine(int[] C, int[] D, int[] CD){
+        for (int i = 0; i < 28; i++) {
+            CD[i] = C[i];
         }
-        C[C.length-1]=temp;
         
-        temp=D[0];
-        for (int i = 1; i < D.length; i++) {
-            D[i-1]=D[i];
+        int index = 28;
+        for (int i = 0; i < 28; i++) {
+            CD[index] = D[i];
+            index++;
         }
-        D[D.length-1]=temp;        
     }
-    
-    
+
+    public void shiftOne(int[] C, int[] D) {
+        int temp = C[0];
+        for (int i = 1; i < C.length; i++) {
+            C[i - 1] = C[i];
+        }
+        C[C.length - 1] = temp;
+
+        temp = D[0];
+        for (int i = 1; i < D.length; i++) {
+            D[i - 1] = D[i];
+        }
+        D[D.length - 1] = temp;
+    }
+
+    public void VercijferTekst(String tekst) {
+        //zorgen dat dit per 8 bits gebeurt, en we niet VERDER gaan dan de tekst zelf
+        for (int i = 0; i < 8 && i < tekst.length(); i++) {
+            blok[i] = getBinaryBits(tekst.charAt(i));
+            //dit geeft een 2D-array terug van 8 op 8 
+        }
+
+        int index = 0;
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                bitKey[index] = (int) blok[i][j];
+                index++;
+            }
+        }
+
+    }
+
+    public byte[] getBinaryBits(int ch) {
+        byte[] bin = new byte[8];
+        int tag = 1;
+        for (int i = 0; i < 8; i++) {
+            bin[7 - i] = (byte) ((ch & ((tag << i))) >> i);
+        }
+        return bin;
+    }
 }
