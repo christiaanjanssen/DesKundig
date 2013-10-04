@@ -34,14 +34,14 @@ public class Steganografie
 	 */
 	public boolean vercijferen(String pad, String org, String ext1, String stegan, String bericht)
 	{
-		String	bestandsNaam                = AfbeeldingsPad(pad,org,ext1);                     //naam van de afbeelding opvragen en ind e variabele bestandsNaam steken
+		String	bestandsNaam                = pad + "/" + org + "." + ext1;                     //naam van de afbeelding opvragen en ind e variabele bestandsNaam steken
 		BufferedImage AfbeeldingOrigineel   = getAfbeelding(bestandsNaam);                      //De originele afbeelding wordt opgehaald uit de map en in de variabele afbeeldingOrigineel gestoken
 		
 		//gebruikerGrootte
 		BufferedImage Afb = gebruikersGrootte(AfbeeldingOrigineel);
 		Afb = VoegToeTekst(Afb,bericht);                                                        //Tekst wordt in de afbeelding gestoken via de zelf gedefinieerde functie voegToeTekst()
 		
-		return(setAfbeelding(Afb,new File(AfbeeldingsPad(pad,stegan,"png")),"png"));            //terugkeerwaarde: ???
+		return(setAfbeelding(Afb,new File(pad + "/" + stegan + "." + "png"),"png"));            //terugkeerwaarde: ???
 	}
 	
 	/*
@@ -56,7 +56,7 @@ public class Steganografie
 		try
 		{
 			//GebruikersGrootte moet bepaald worden, hier wel nodig
-			BufferedImage afbeelding  = gebruikersGrootte(getAfbeelding(AfbeeldingsPad(pad,naam,"png")));
+			BufferedImage afbeelding  = gebruikersGrootte(getAfbeelding(pad + "/" + naam + "." + "png"));
 			ontc = ontcijferTekst(rekenenBytes(afbeelding));        //de tekst uit de afbeelding ontcijferen en in de variabele ont steken om deze later te gebruiken
 			return(new String(ontc));                               //terugkeerwaarde: de ontcijferde tekst
 		}
@@ -67,18 +67,6 @@ public class Steganografie
 				JOptionPane.ERROR_MESSAGE); 
 			return "";                                              //een lege string teruggeven, want er kan niets ontcijferd worden
 		}
-	}
-	
-	/*
-	 *Terugkeerwaarde: het volledige pad van de afbeelding
-	 *@param pad   het pad naar het bestand
-	 *@param naam  de naam van het bestand
-	 *@param ext   de extensie van het bestand
-	 *@terugkeerwaarde: een string die het volledige pas bevat naar het bestand
-	 */
-	private String AfbeeldingsPad(String pad, String naam, String ext)
-	{
-		return pad + "/" + naam + "." + ext;
 	}
 	
 	/*
