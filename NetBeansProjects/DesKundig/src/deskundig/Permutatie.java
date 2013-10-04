@@ -1,9 +1,17 @@
 package deskundig;
-class Permutation {
-    public Permutation() {}
+
+class Permutatie {
+    
+    private int[] store_num= new int[64]; 
+    private String nieuw64bBlock [][]= new String[4][8];
     
     /**
-     * De functie zet de permutatiematrix om in een rij
+     * Default constructor van de Permutatie-klasse
+     */
+    public Permutatie() {}
+    
+    /**
+     * De functie zet de permutatiematrix om in een rij.
      */
     public void FillPermutation()   {
         int index=0;
@@ -13,11 +21,10 @@ class Permutation {
               index++;
             }
         }
-       
     }
     
     /**
-     * De functie zet de inverse permutatiematrix om in een rij
+     * De functie zet de inverse permutatiematrix om in een rij.
      */
     public void FillInversePermutation()   {
         int index=0;
@@ -29,12 +36,17 @@ class Permutation {
         }       
     }
     
+    /**
+     * Deze functie inverteerd de permutatie-array.
+     * 
+     * @param perm_in
+     * @param perm_out 
+     */
     public void DoIP(int[]perm_in, int[]perm_out) {
-        //deze functie gaat de normale permutatie-array, omgekeerd terug erin zetten (dus inverteren)
-        int temp=0;
-        int i=0;
-        int loop=0;
-        int check=0;
+        int temp = 0;
+        int i = 0;
+        int loop = 0;
+        int check = 0;
         
         while(perm_in.length!=check){
             temp=store_num[i];                          //voorbeeld: temp = 5
@@ -67,11 +79,9 @@ class Permutation {
        int index=0;
             for(int d=0; d<4;d++){
             for(int j=0; j<8; j++){
-                newBlock64[d][j]=Integer.toString(perm_out[index]);
+                nieuw64bBlock[d][j]=Integer.toString(perm_out[index]);
                 index++;
             }
         }       
     }
-    private int[] store_num= new int[64]; 
-    private String newBlock64 [][]= new String[4][8];
 }

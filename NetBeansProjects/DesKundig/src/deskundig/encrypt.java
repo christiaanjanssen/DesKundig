@@ -27,13 +27,13 @@ public class encrypt {
     }   
     
     public void VercijferTekst(String tekst) {
-        //zorgen dat dit per 8 bits gebeurt, en we niet VERDER gaan dan de tekst zelf
+        // Zorgen dat dit per 8 bits gebeurt, en we niet VERDER gaan dan de tekst zelf
         for(int i=0; i<8 && i<tekst.length(); i++) {
             blok[i]=getBinaryBits(tekst.charAt(i));
             //dit geeft een 2D-array terug van 8 op 8 
         }
         
-        int index=0;
+        int index = 0;
         for(int i=0; i<8; i++){
             for(int j=0; j<8;j++){
                 perm[index]=(int)blok[i][j];
@@ -218,7 +218,7 @@ public class encrypt {
             
             //NOG OPZOEKEN!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             ArrayPrinter.printArray(nieuwBlok64String, "Cipher Block");
-            p = new Permutation();
+            p = new Permutatie();
             p.FillPermutation();//van 2D naar 1D gaan
             p.DoIP(nieuwBlok64Array_,perm_out);
             DoSegmentation(perm_out);
@@ -351,7 +351,7 @@ public class encrypt {
             int Round=1;
             DesPanel.StepsText.append("*********Block Number *********"+(f+1)+'\n');
             System.out.println(" ");
-            Permutation p= new Permutation();
+            Permutatie p= new Permutatie();
             p.FillPermutation();//step1 from 2D to 1D
             p.DoIP(perm,perm_out);//step1 -array
             DoSegmentation(perm_out);//step2 to Left and Right
@@ -511,7 +511,7 @@ public class encrypt {
     private String binDec;
     private String binCi;
     
-    private  static Permutation p;
+    private  static Permutatie p;
     private String sleutelwoord;
     private int index_kiezer=0;
     private String losseTekst;
