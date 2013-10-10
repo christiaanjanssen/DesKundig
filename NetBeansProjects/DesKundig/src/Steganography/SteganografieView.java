@@ -8,17 +8,16 @@ import java.awt.Insets;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 
-import javax.swing.JMenu;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JButton;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.JTextArea;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.BorderFactory;
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
+
 
 /*
  *Klasse: steganografieView
@@ -26,21 +25,15 @@ import javax.swing.BorderFactory;
 public class SteganografieView extends JFrame {
     
     //Variabelen voor instellingen van het scherm
-    private static int breedte = 500;                                           //een breedte van 500 pixels
-    private static int hoogte = 400;                                            //een hoogte van 400 pixels
+    private static int breedte = 1200;                                           //een breedte van 500 pixels
+    private static int hoogte = 800;                                            //een hoogte van 400 pixels
     
     //JPanel elementen
     private JTextArea invoer;                                                   //een tekstveld voor de invoertekst die vercijferd moet worden in de afbeelding
-    private JScrollBar scroll, scroll2;                                         //2 scrollelementen aanmaken
     private JButton vercijferKnop, ontcijferKnop;                               //een vercijfer en ontcijferknop aanmaken
     private JLabel afbeeldingInvoer;                                            //een label
     
-    //Menu elementen
-    private JMenu bestand;                                                      //een bestand
-    private JMenuItem vercijfer;                                                //vercijfer menu item
-    private JMenuItem ontcijfer;                                                //ontcijfer menu item
-    private JMenuItem exit;                                                     //exit menu item
-
+    
     /*
      *Constructor for Steganography_View class
      *@param name Used to set the title on the JFrame
@@ -49,25 +42,18 @@ public class SteganografieView extends JFrame {
         //een titel geven aan de view
         super(name);
 
-        //Menubar
-        JMenuBar menu = new JMenuBar();                 //Nieuwe menubar
-            
-        JMenu bstand = new JMenu("Bestand");            //naam ven het JMenu wordt bestand
-        bstand.setMnemonic('F');                        
-        vercijfer = new JMenuItem("Vercijfer");         //een nieuw menuitem met als tekst vercijfer
-        vercijfer.setMnemonic('E');
-        bstand.add(vercijfer);                          //menuitem toevoegen aan JMenu
-        ontcijfer = new JMenuItem("Ontcijfer");         //een nieuw menuitem met als tekst ontcijfer
-        ontcijfer.setMnemonic('D');
-        bstand.add(ontcijfer);                          //menuItem toevoegen aan JMenu
-        bstand.addSeparator();                          //een seperator toevoegen tussen vercijfer en ontcijfer
-        exit = new JMenuItem("Exit");                   //een nieuwe menuitem met als tekst exit
-        exit.setMnemonic('x');
-        bstand.add(exit);                               //een menuitem toevoegen aan JMenu
-
-        menu.add(bstand);                               //Het JMenu aan de JMenuBar toevoegen
-        setJMenuBar(menu);                              //als menuBar het JMenu zetten
-
+        //Set look and feel to Nimbus
+        //http://docs.oracle.com/javase/tutorial/uiswing/lookandfeel/nimbus.html
+        try {
+            for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            // If Nimbus is not available, you can set the GUI to another look and feel.
+        }
         // display rules
         setResizable(true);                                                     //laat toe dat het scherm van hoogte en breedte aangepast kan worden door middel van de muis
         setBackground(Color.lightGray);                                         //een achtergrondkleur: lichtgrijs
@@ -78,30 +64,8 @@ public class SteganografieView extends JFrame {
     }
 
     //getters
-    /*
-     *@Terugkeerwaarde: menuitem vercijfer
-     */
-    public JMenuItem getVercijfer() {
-        return vercijfer;
-    }
     
-    /*
-     *@Terugkeerwaarde: menuitem ontcijfer
-     */
-    public JMenuItem getOntcijfer() {
-        return ontcijfer;
-    }
     
-    /*
-     *@Terugkeerwaarde: menuitem exit
-     */
-    public JMenuItem getExit() {
-        return exit;
-    }
-    
-    /*
-     *@Terugkeerwaarde: tekstveld die de tekst bevat die vercijferd moet worden
-     */
     public JTextArea getTekst() {
         return invoer;
     }
@@ -170,7 +134,8 @@ public class SteganografieView extends JFrame {
             layout.setConstraints(scroll, layoutInstellingen);                                              //scrollitem effectief toevoegen
             scroll.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
             add(scroll);
-
+            ontcijferKnop = new JButton("Ontcijfer");                           //nieuwe ontcijfer knop
+           
             vercijferKnop = new JButton("Vercijferen!");                        //een knop aanmaken met als tekst "vercijferen!"
             layoutInstellingen.gridx = 0;                                       //dimensies van de gridbaglayout bepalen
             layoutInstellingen.gridy = 1;                                       //dimensies van de gridbaglayout bepalen
@@ -183,6 +148,7 @@ public class SteganografieView extends JFrame {
             layoutInstellingen.weighty = 1.0;                                   //dimensies van de gridbaglayout bepalen
             layout.setConstraints(vercijferKnop, layoutInstellingen);           
             add(vercijferKnop);
+            add(ontcijferKnop);
 
             //basisinstellingen
             setBackground(Color.lightGray);                                     //lichtgrijze achtergrond
@@ -214,11 +180,7 @@ public class SteganografieView extends JFrame {
             afbeeldingInvoer.setHorizontalAlignment(JLabel.CENTER);
             add(scroll2);
 
-            ontcijferKnop = new JButton("Ontcijfer");                           //nieuwe ontcijfer knop
-            layoutInstellingen2.fill = GridBagConstraints.BOTH;                 //dimensies van de gridbaglayout bepalen
-            layoutInstellingen2.anchor = GridBagConstraints.CENTER;             //dimensies van de gridbaglayout bepalenn
-            layout2.setConstraints(ontcijferKnop, layoutInstellingen2);
-            add(ontcijferKnop);
+            
 
             //set basisscherm
             setBackground(Color.lightGray);                                     //achtergrondkleur: lichtgrijs
