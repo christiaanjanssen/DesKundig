@@ -160,20 +160,6 @@ public class Steganografie {
     }
 
     /*
-     *De array van bytes verkrijgen van een afbeelding, dus een afbeelding omzetten naar een array van bytes
-     *@param afbeelding de afbeelding waar we de bytes van moete hebben
-     *@terugkeerwaarde: de array van bytes van de opgegeven afbeelding
-     *@see Raster
-     *@see WritableRaster
-     *@see DataBufferByte
-     */
-    private byte[] rekenenBytes(BufferedImage afbeelding) {
-        WritableRaster raster = afbeelding.getRaster();
-        DataBufferByte buffer = (DataBufferByte) raster.getDataBuffer();
-        return buffer.getData();
-    }
-
-    /*
      *Vercijfert een array van bytes in een andere array van bytes van in de vorm van een supplied offset
      *@param afbeeld de data die de afbee
      *@param toevoeg array van data die in de afbeelig moet vercijferd worden

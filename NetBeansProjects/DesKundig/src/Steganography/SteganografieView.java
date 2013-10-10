@@ -135,7 +135,6 @@ public class SteganografieView extends JFrame {
             scroll.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
             add(scroll);
             ontcijferKnop = new JButton("Ontcijfer");                           //nieuwe ontcijfer knop
-           
             vercijferKnop = new JButton("Vercijferen!");                        //een knop aanmaken met als tekst "vercijferen!"
             layoutInstellingen.gridx = 0;                                       //dimensies van de gridbaglayout bepalen
             layoutInstellingen.gridy = 1;                                       //dimensies van de gridbaglayout bepalen
