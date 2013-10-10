@@ -59,7 +59,7 @@ class DesPanel extends JFrame{
         
         GenerateGUI();
     }
-    encrypt en;
+    Encryptie en;
     public static   JTextArea StepsText = new JTextArea(10,40);
     
     
@@ -154,18 +154,18 @@ class DesPanel extends JFrame{
                 String keyworD=KeyWord.getText();
                 StepsText.append("keyword : "+keyworD+'\n');
                 StepsText.append("PlainText : "+plaintext+'\n');
-                en= new encrypt(plaintext,keyworD);
-                en.DoEncryption();
+                en= new Encryptie(plaintext,keyworD);
+                en.Encrypteer();
                 //OriginalText.append("\n "+ en.getBinCi());
                 
-                CipherText.append(en.getEncryption());
+                //CipherText.append(en.getEncryption());
                 
             }
             if(e.getSource()==btnDeCihper){
-                en.Ontcijfer();
-                DeCipherText.append("\n "+en.getBinDec());
-                DeCipherText.setCaretPosition(DeCipherText. getDocument().getLength());
-                DeCipherText.append("\n"+en.getDecryption());
+//                en.Ontcijfer();
+//                DeCipherText.append("\n "+en.getBinDec());
+//                DeCipherText.setCaretPosition(DeCipherText. getDocument().getLength());
+//                DeCipherText.append("\n"+en.getDecryption());
             }
         }
         

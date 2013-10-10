@@ -132,6 +132,6 @@ public class Matrices {
     
     // Matrix met schiftvolgordes 
     public static int[] shift = {
-        1, 1, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2
+        1, 1, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 1
     };
 }

@@ -2,8 +2,8 @@ package deskundig;
 
 class Permutatie {
     
-    private int[] store_num= new int[64]; 
-    private String nieuw64bBlock [][]= new String[4][8];
+    private int[] permutatieRij = new int[64]; 
+    private String[][] nieuw64bBlock = new String[4][8];
     
     /**
      * Default constructor van de Permutatie-klasse
@@ -11,75 +11,85 @@ class Permutatie {
     public Permutatie() {}
     
     /**
-     * De functie zet de permutatiematrix om in een rij.
+     * De functie zet de waarden van permutatiematrix IP in een rij. Dit wordt
+     * opgeslagen in de permutatieRij-variabele.
      */
-    public void FillPermutation()   {
+    public void VulPermutatie()   {
         int index=0;
-        for(int rij=0; rij<8; rij++){
-            for(int kol=0; kol<8; kol++){
-              store_num[index] = Matrices.IP[rij][kol];
+        for(int rij = 0; rij < 8; rij++){
+            for(int kol = 0; kol < 8; kol++){
+              permutatieRij[index] = Matrices.IP[rij][kol];
               index++;
             }
         }
     }
     
     /**
-     * De functie zet de inverse permutatiematrix om in een rij.
+     * De functie zet de waarden van de inverse permutatiematrix IP-1 in een rij.
+     * Dit wordt opgeslagen in de permutatieRij-variabele.
      */
-    public void FillInversePermutation()   {
+    public void VulInversePermutatie()   {
         int index=0;
         for(int rij = 0; rij < 8; rij++){
             for(int kol = 0; kol < 8; kol++){
-              store_num[index] = Matrices.invIP[rij][kol];
+              permutatieRij[index] = Matrices.invIP[rij][kol];
               index++;
             }
         }       
     }
     
     /**
-     * Deze functie inverteerd de permutatie-array.
+     * Deze functie permuteerd het 64 but input blok met de permutatiematrix IP.
+     * 
+     * De IP matrix is vantevoren omgezet naar een rij (permutatieRij).
      * 
      * @param perm_in
      * @param perm_out 
      */
-    public void DoIP(int[]perm_in, int[]perm_out) {
-        int temp = 0;
-        int i = 0;
+    public void Permuteer(int[]perm_in, int[]perm_uit) {
+        int tmp;
+        int index = 0;
         int loop = 0;
-        int check = 0;
         
-        while(perm_in.length!=check){
-            temp=store_num[i];                          //voorbeeld: temp = 5
-            if(temp==loop){                             //5 is niet gelijk aan 0, dus deze if wordt overgeslagen tot loop wel 5 is (zie teller)
-                perm_out[check]=perm_in[loop-1];        //perm_out op de 0de plaats wordt dan hetzelfde als dat perm_in op de vijfde plaats is.
-                loop=0;                                 //de loop wordt terug op 0 gezet
-                check++;                                //de check wordt opgehoogd, samen met de teller
-                i++;
+        while(perm_in.length != index) {
+            tmp = permutatieRij[index];                          
+            if(tmp == loop){                             
+                perm_uit[index] = perm_in[loop - 1];        
+                loop = 0;
+                index++;
             }
             loop++;
         }
     }
     
-    public void DoInverseIP(int [] perm_in, int [] perm_out) {
-        int temp=0;
-        int i=0;
-        int loop=0;
-        int check=0;
+    /**
+     * Deze functie permuteerd het 64 but input blok met de inverse 
+     * permutatiematrix IP-1.
+     * 
+     * De IP-1 matrix is vantevoren omgezet naar een rij (permutatieRij).
+     * 
+     * @param perm_in
+     * @param perm_out 
+     */
+    public void PermuteerInvers(int [] perm_in, int [] perm_out) {
+        int temp;
+        int index = 0;
+        int loop = 0;
         
-        while(perm_in.length!=check){//hier wordt weer precies hetzelfde gedaan als in de vorige while
-            temp=store_num[i];
-            if(temp==loop){
-                perm_out[check]=perm_in[loop-1];
-                loop=0;
-                check++;
-                i++;
+        while(perm_in.length != index) {
+            temp = permutatieRij[index];
+            if(temp == loop){
+                perm_out[index] = perm_in[loop - 1];
+                loop = 0;
+                index++;
             }
             loop++;
         }
-       int index=0;
-            for(int d=0; d<4;d++){
-            for(int j=0; j<8; j++){
-                nieuw64bBlock[d][j]=Integer.toString(perm_out[index]);
+        
+        index = 0;
+        for(int i = 0; i < 4; i++){
+            for(int j = 0; j < 8; j++){
+                nieuw64bBlock[i][j]=Integer.toString(perm_out[index]);
                 index++;
             }
         }       
