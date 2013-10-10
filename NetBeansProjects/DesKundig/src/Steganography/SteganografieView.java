@@ -32,6 +32,7 @@ public class SteganografieView extends JFrame {
     private JTextArea invoer;                                                   //een tekstveld voor de invoertekst die vercijferd moet worden in de afbeelding
     private JButton vercijferKnop, ontcijferKnop;                               //een vercijfer en ontcijferknop aanmaken
     private JLabel afbeeldingInvoer;                                            //een label
+    private JPanel  buttons;
     
     
     /*
@@ -75,6 +76,13 @@ public class SteganografieView extends JFrame {
      */
     public JLabel getAfbeeldingInvoer() {
         return afbeeldingInvoer;
+    }
+    
+    /*
+     *@Terugkeerwaarde: vercijferKnop
+     */
+    public JPanel getbuttons() {
+        return buttons;
     }
     
     /*
@@ -122,8 +130,6 @@ public class SteganografieView extends JFrame {
             invoer = new JTextArea();                                           //de variabele invoer vullen met een tekstveld
             layoutInstellingen.gridx = 0;                                       //dimensies van de gridbaglayout bepalen
             layoutInstellingen.gridy = 0;                                       //dimensies van de gridbaglayout bepalen
-            layoutInstellingen.gridwidth = 1;                                   //dimensies van de gridbaglayout bepalen
-            layoutInstellingen.gridheight = 1;                                  //dimensies van de gridbaglayout bepalen
             layoutInstellingen.fill = GridBagConstraints.BOTH;                  
             layoutInstellingen.insets = new Insets(0, 0, 0, 0);
             layoutInstellingen.anchor = GridBagConstraints.CENTER;
@@ -138,8 +144,6 @@ public class SteganografieView extends JFrame {
             vercijferKnop = new JButton("Vercijferen!");                        //een knop aanmaken met als tekst "vercijferen!"
             layoutInstellingen.gridx = 0;                                       //dimensies van de gridbaglayout bepalen
             layoutInstellingen.gridy = 1;                                       //dimensies van de gridbaglayout bepalen
-            layoutInstellingen.gridwidth = 1;                                   //dimensies van de gridbaglayout bepalen
-            layoutInstellingen.gridheight = 1;                                  //dimensies van de gridbaglayout bepalen
             layoutInstellingen.fill = GridBagConstraints.BOTH;                  //dimensies van de gridbaglayout bepalen
             layoutInstellingen.insets = new Insets(0, -5, -5, -5);              //dimensies van de gridbaglayout bepalen
             layoutInstellingen.anchor = GridBagConstraints.CENTER;              //dimensies van de gridbaglayout bepalen
