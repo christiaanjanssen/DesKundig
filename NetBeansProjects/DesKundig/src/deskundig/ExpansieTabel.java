@@ -2,7 +2,7 @@ package deskundig;
 
 public class ExpansieTabel {
     
-    private int[] opslag = new int[48];
+    private int[] expansieRij = new int[48];
     private String shiftR[][] = new String[6][8];
     
     /**
@@ -12,14 +12,14 @@ public class ExpansieTabel {
     }
     
     /**
-     * Deze functie vult de expansie tabel
+     * Deze functie zet de expansiematrix om in een rij.
      */
-    public void VulExpansieTabel()   {
+    public void ZetOmNaarRij()   {
         int index = 0;
         
         for(int i = 0; i < 8; i++){
             for(int j = 0; j < 6; j++){
-                opslag[index] = Matrices.E[i][j];
+                expansieRij[index] = Matrices.E[i][j];
                 index++;
             }
         } 
@@ -27,32 +27,28 @@ public class ExpansieTabel {
     
     /**
      * De runExpasieTabel methode breidt een 32-bit matrix uit naar een
-     * 48-bit matrix a.d.h.v. expansietabel E (zie Matrices.java)
+     * 48-bit matrix. Dit gebeurt a.d.h.v. de expansietabel E (zie Matrices.java)
      * 
      * @param invoerR
      * @param uitvoerR 
      */
-    public void runExpansieTabel(int [] invoerR, int [] uitvoerR){
-        int temp = 0;
+    public void Exponeren(int[] invoerR, int[] uitvoerR){
+        int tmp;
         int i = 0;
         int loop = 0;
-        int controle = 0;
         
-        while(controle < 48){
-            temp = opslag[i];
-            if(temp == loop){
-                uitvoerR[controle] = invoerR[loop - 1];
+        while(i < 48){
+            tmp = expansieRij[i];
+            if(tmp == loop){
+                uitvoerR[i] = invoerR[loop - 1];
                 loop = 0;
-                controle++;
                 i++;
             }
             loop++;
         }
         
+        int index = 0;
         for(int j = 0;j < 48; j++) {
-            System.out.print(uitvoerR[j]);
-            
-            int index = 0;
             for(int k = 0; k < 6; k++){
                 for(int l = 0; l < 8; l++){
                     shiftR[k][l] = Integer.toString(uitvoerR[index]);
