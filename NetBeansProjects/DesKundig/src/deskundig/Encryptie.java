@@ -4,8 +4,7 @@ import java.util.Arrays;
 
 public class Encryptie {
 
-    private String invoerString;
-    private Keys sleutel;
+    private Keys[] Sleutels;
     private byte[][] blok = new byte[8][8]; // 64-bit array
     private static int[] invoerRij = new int[64];
     private static int[] gepermuteerdeRij = new int[64];
@@ -17,6 +16,7 @@ public class Encryptie {
     private static int[] resultaatXOR = new int[48];
     private static int[] resultaatSBox = new int[32];
     private static int[] naXOR = new int[32];
+    private int stap = 0;
 
     /**
      * Default constructor van de encryptie klasse.
@@ -25,16 +25,18 @@ public class Encryptie {
     public Encryptie() {
     }
 
-    public Encryptie(String invoer, String sleutel) {
-        invoerString = invoer;
-        this.sleutel = new Keys(sleutel); // Sleutel aanmaken
+    public Encryptie(String[] slke) {
+        Sleutels = new Keys[3];
+        Sleutels[0] = new Keys(slke[0]);
+        Sleutels[1] = new Keys(slke[1]);
+        Sleutels[2] = new Keys(slke[2]);
     }
 
     /**
      * Deze functie controleert of de string een 64 bit array past.
      *
-     * Indien dit niet het geval is, worden sterretjes (*) toegevoegd om aan
-     * deze voorwaarde te voldoen.
+     * Indien dit niet het geval is, worden spaties toegevoegd om aan deze
+     * voorwaarde te voldoen.
      *
      * @return
      */
@@ -45,7 +47,7 @@ public class Encryptie {
 
             // Sterretjes toevoegen
             for (int i = 0; i < lengte; i++) {
-                invoer = invoer.concat("*");
+                invoer = invoer.concat(" ");
             }
         } else {
             return invoer;
@@ -161,9 +163,93 @@ public class Encryptie {
         }
     }
 
-    public String Encrypteer(boolean dec) {
+    public static int[] BitToByte(int bits64[]) {
+        int ch[] = new int[8];
+        int index = 0;
+        for (int i = 0; i < 8; i++) {
+            for (int j = 1; j <= 8; j++) {
+                ch[i] += (int) Math.pow(2, (8 - j)) * bits64[index];
+                index++;
+            }
+        }
+
+        return ch;
+    }
+
+    public String Decrypteer(String invoerString) {
         String done = null;
-        int[][] keys = sleutel.getKey();
+        int[][] keys = Sleutels[stap].getKey();
+        int start = 0;
+        int einde = 64;
+        int counter = 0;
+        int newBlock64_[] = new int[64];
+
+        VercijferTekst(invoerString);
+
+        for (int i = 0; i < invoerString.length() / 64; i++) {
+            for (int h = start; h < einde; h++) {
+                newBlock64_[counter] = Integer.parseInt(invoerString.substring(h, h + 1));
+                counter++;
+            }
+
+            Permutatie p = new Permutatie();
+            p.VulPermutatie();
+            p.Permuteer(newBlock64_, gepermuteerdeRij);
+
+            DeelOp(gepermuteerdeRij);
+
+            for (int j = 15; j >= 0; j--) {
+                ExpansieTabel e = new ExpansieTabel();
+                e.ZetOmNaarRij();
+                e.Exponeren(rechterDeel, rechterDeelNaExpansie);
+
+                XOR(rechterDeelNaExpansie, keys[j], resultaatXOR);
+
+                SBox sBox = new SBox();
+                sBox.runSBox(resultaatXOR, resultaatSBox);
+
+                // XOR-operatie uitvoeren op het linkerdeel
+                XOR(linkerDeel, resultaatSBox, naXOR);
+
+                // Resultaat van de XOR-bewerking toekennen
+                for (int g = 0; g < 32; g++) {
+                    linkerDeel[g] = rechterDeel[g];
+                    rechterDeel[g] = naXOR[g];
+                }
+
+            }
+
+            WisselOm();
+            VoegSamen();
+
+            // Inverse permutatiematrix in een rij omzetten
+            p.VulInversePermutatie();
+
+            // Inversie permutatie uitvoeren op het samengevoegd resultaat
+            p.PermuteerInvers(blok64Array, nieuwBlok64Array);
+
+            int[] ch = BitToByte(nieuwBlok64Array);
+            for (int k = 0; k < 8; k++) {
+                if (done == null) {
+                    done = Character.toString((char) ch[k]);
+                } else {
+                    done += Character.toString((char) ch[k]);
+                }
+            }
+
+            start = einde;
+            einde += 64;
+            counter = 0;
+
+        }
+
+        return done;
+
+    }
+
+    public String Encrypteer(String invoerString) {
+        String done = null;
+        int[][] keys = Sleutels[stap].getKey();
         int start = 0;
         int einde = 8;
 
@@ -199,8 +285,6 @@ public class Encryptie {
                     linkerDeel[g] = rechterDeel[g];
                     rechterDeel[g] = naXOR[g];
                 }
-                
-                String test = "";
 
             }
 
@@ -221,7 +305,16 @@ public class Encryptie {
                 }
 
             }
-            
+
+//            int[] ch = BitToByte(nieuwBlok64Array);
+//            for(int k=0; k<8; k++){
+//                System.out.print((char)ch[k]);
+//                if(done==null)
+//                    done=Character.toString((char)ch[k]);
+//                else
+//                    done+=Character.toString((char)ch[k]);
+//            }
+
             start = einde;
             einde += 8;
 
