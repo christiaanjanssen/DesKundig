@@ -21,7 +21,7 @@ public class Steganografie {
 
     public Steganografie() {
     }
-
+    
     /*
      *Een afbeelding vercijferen aan de hand van tekst, het uitvoerbestand zal van het type .png zijn
      *@param pad      Het pad (map) waar die de afbeelding bevat waarin de tekst vercijferd moet worden.
@@ -112,9 +112,10 @@ public class Steganografie {
      */
     private boolean setAfbeelding(BufferedImage afbeelding, File bestand, String ext) {
         try {
+            
             bestand.delete();                                       //delete resources die het bestand gebruikt
-            ImageIO.write(afbeelding, ext, bestand);                  //schrijf de afbeelding naar een bestand
-            //met als naam(bestand), de afbeelding afbeelding, met als extensie(extensie)
+            ImageIO.write(afbeelding, ext, bestand);                //schrijf de afbeelding naar een bestand
+                                              //met als naam(bestand), de afbeelding afbeelding, met als extensie(extensie)
             return true;                                            //als het succesvol verloopt, dan terugkeerwaarde: true
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null,
@@ -135,9 +136,9 @@ public class Steganografie {
 
         //Conversie van alle items naar een array van bytes
         byte bits[] = null;
-        byte afb[] = buffer.getData();                         //Conversie van de afbeelding naar een array van bytes
-        byte msg[] = tekst.getBytes();                                 //Conversie van de tekst naar een array van bytes
-        int lengte = msg.length;                                        //Conversie van de lengte naar een array van bytes
+        byte afb[] = buffer.getData();                                          //Conversie van de afbeelding naar een array van bytes
+        byte msg[] = tekst.getBytes();                                          //Conversie van de tekst naar een array van bytes
+        int lengte = msg.length;                                                //Conversie van de lengte naar een array van bytes
         //originele ints worden omgezet naar bytes
         //byte byte7 = (byte)((i & 0xFF00000000000000L) >>> 56);
         //byte byte6 = (byte)((i & 0x00FF000000000000L) >>> 48);
@@ -186,14 +187,12 @@ public class Steganografie {
      *@terugkeerwaarde: geeft een array van van de samengevoegde bytes terug waarin de tekst vercijferd in zit
      */
     private byte[] vercijferTekst(byte[] afbeeld, byte[] toevoeg, int j) {
-        //checken of j en de data wel in de afbeelding passen
-        if (toevoeg.length + j > afbeeld.length) {
+        if (toevoeg.length + j > afbeeld.length) {                              //checken of j en de data wel in de afbeelding passen
             throw new IllegalArgumentException("Bestand is niet groot genoeg om deze tekst er in te vercijferen!");
         }
-        //doorheen elke toegvoegde byte lopen
-        for (int i = 0; i < toevoeg.length; ++i) {
-            //doorheen elke 8 bits van de byte lopen
-            int add = toevoeg[i];
+        for (int i = 0; i < toevoeg.length; ++i) {                              //doorheen elke toegvoegde byte lopen
+            int add = toevoeg[i];                                                           //doorheen elke 8 bits van de byte lopen
+
             //zorgen dat de nieuwe j de waarde bevat doorheen de 2 lussen
             for (int bit = 7; bit >= 0; --bit, ++j) {
                 //assign an integer to b, shifted by bit spaces AND 1

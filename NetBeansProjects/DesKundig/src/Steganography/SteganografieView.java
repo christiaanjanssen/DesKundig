@@ -4,7 +4,6 @@ package Steganography;
  *Import Lijst
  */
 import java.awt.Color;
-import java.awt.Insets;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 
@@ -17,6 +16,7 @@ import javax.swing.JScrollPane;
 import javax.swing.BorderFactory;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
+import javax.swing.UnsupportedLookAndFeelException;
 
 
 /*
@@ -50,7 +50,7 @@ public class SteganografieView extends JFrame {
                     break;
                 }
             }
-        } catch (Exception e) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
             // If Nimbus is not available, you can set the GUI to another look and feel.
         }
         
@@ -157,6 +157,7 @@ public class SteganografieView extends JFrame {
             afbeeldingInvoer.setHorizontalAlignment(JLabel.CENTER);
             add(scroll2);
         }
+        
     }
 
     /*
