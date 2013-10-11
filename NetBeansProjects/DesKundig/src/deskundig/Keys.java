@@ -5,13 +5,9 @@ public class Keys {
     private String pass;
     private int[] temp1 = new int[56];
     private int[] temp2 = new int[48];
-    private String key;
     //private String keys[][] = new String[7][8];
     private byte[][] blok = new byte[8][8];
     private static int[] bitKey=new int[64];
-    private String C[][] = new String[4][7];
-    private String D[][] = new String[6][8];
-    private String uit[][] = new String[6][8];
     private int[][] keys = new int[16][48];
     
     private static int[][] PC1 = {
@@ -57,10 +53,6 @@ public class Keys {
         int[] Dn = new int[28];
         split(CD1, Cn, Dn);
 
-        
-        
-        
-        
         for(int i=0;i<16;i++){
             if(shift[i] == 1){
                 shiftOne(Cn, Dn);
@@ -81,7 +73,7 @@ public class Keys {
     /**
      * Maakt van de PC1 permutatie matrix een single row matrix (voor gemak)
      */
-    public void straightenPC1() {
+    private void straightenPC1() {
         int teller = 0;
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 7; j++) {
@@ -94,7 +86,7 @@ public class Keys {
     /**
      * Maakt van de PC2 permutatie matrix een single row matrix (voor gemak)
      */
-    public void straightenPC2() {
+    private void straightenPC2() {
         int teller = 0;
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 6; j++) {
@@ -110,7 +102,7 @@ public class Keys {
      * @param in de in matrix: een deel van het password (64 bits)
      * @param out de gepermuteerde matrix (58 bits)
      */
-    public void permWC1(int[] in, int[] out) {
+    private void permWC1(int[] in, int[] out) {
         int temp = 0, i = 0, teller = 0, kijk = 0;
         while (kijk != 56) {
             temp = temp1[i];
@@ -138,7 +130,7 @@ public class Keys {
      * @param in de in matrix: C+D (linker en rechter helft) (58 bits)
      * @param out de gepermuteerde matrix (48 bits)
      */
-    public void permWC2(int[] in, int[] out) {
+    private void permWC2(int[] in, int[] out) {
         int temp = 0, i = 0, teller = 0, kijk = 0;
         while (kijk != 48) {
             temp = temp2[i];
@@ -166,7 +158,7 @@ public class Keys {
      * @param C 1e deel
      * @param D 2de deel
      */
-    public void split(int[] in, int[] C, int[] D) {
+    private void split(int[] in, int[] C, int[] D) {
         for (int i = 0; i < 28; i++) {
             C[i] = in[i];
         }
@@ -176,7 +168,7 @@ public class Keys {
         }
     }
     
-    public void combine(int[] C, int[] D, int[] CD){
+    private void combine(int[] C, int[] D, int[] CD){
         for (int i = 0; i < 28; i++) {
             CD[i] = C[i];
         }
@@ -188,7 +180,7 @@ public class Keys {
         }
     }
 
-    public void shiftOne(int[] C, int[] D) {
+    private void shiftOne(int[] C, int[] D) {
         int temp = C[0];
         for (int i = 1; i < C.length; i++) {
             C[i - 1] = C[i];
@@ -202,7 +194,7 @@ public class Keys {
         D[D.length - 1] = temp;
     }
 
-    public void VercijferTekst(String tekst) {
+    private void VercijferTekst(String tekst) {
         //zorgen dat dit per 8 bits gebeurt, en we niet VERDER gaan dan de tekst zelf
         for (int i = 0; i < 8 && i < tekst.length(); i++) {
             blok[i] = getBinaryBits(tekst.charAt(i));
@@ -219,7 +211,7 @@ public class Keys {
 
     }
 
-    public byte[] getBinaryBits(int ch) {
+    private byte[] getBinaryBits(int ch) {
         byte[] bin = new byte[8];
         int tag = 1;
         for (int i = 0; i < 8; i++) {

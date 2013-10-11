@@ -12,15 +12,15 @@ public class arrayprinter {
     public arrayprinter() {
     }
     public static void printarray(String[][] arr,String label) {
-       DesPanel.StepsText.append("-- "+label+" -- "+'\n');
+       System.out.println("-- "+label+" -- "+'\n');
         //System.out.println("-- "+label+" -- ");
         for(int i=0;i<arr.length ;i++) {
-             DesPanel.StepsText.append("| ");
+              System.out.println("| ");
             for(int j=0;j<arr[0].length;j++) {
                 
-                 DesPanel.StepsText.append(arr[i][j]+" ");
+                 System.out.println(arr[i][j]+" ");
             }
-             DesPanel.StepsText.append("| "+'\n');
+              System.out.println("| "+'\n');
         }
     }
 }

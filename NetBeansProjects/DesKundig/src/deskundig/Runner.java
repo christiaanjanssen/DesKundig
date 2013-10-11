@@ -6,9 +6,7 @@ public class Runner{
         String sleutel = "eensleutel";
         
         Encryptie en = new Encryptie(tekst, sleutel);
-        int[] uit = en.Encrypteer();
-        for (int i = 0; i < uit.length; i++) {
-            System.out.print(uit[i]);
-        }
+        String done = en.Encrypteer(false);  
+        System.out.println(done);
     }
 }
