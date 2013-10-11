@@ -2,15 +2,11 @@ package Steganography;
 
 //Imports
 import java.io.File;
-import java.awt.Container;
 import java.awt.event.ActionEvent;
-import java.awt.image.BufferedImage;
 import java.awt.event.ActionListener;
 import javax.swing.JPanel;
-import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
-import javax.swing.JMenuItem;
 import javax.swing.JTextArea;
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
@@ -27,7 +23,6 @@ public class SteganografieController {
     //Variabelen op de panels
     private JTextArea invoer;                              //TextArea om tekst in te plakken die in de image geplaatst moet worden
     private JButton vercijferKnop, ontcijferKnop;        //Buttons om te encoden en te decoden
-    private JLabel afbeelding_invoer;                        //Label waardat de locatie van de image is
     //Action event classes
     private OntcijferKnop ontKnop;                             //action event class om te ontcijferen
     private VercijferKnop verKnop;                            //action event class op de knop om te vercijferen
@@ -46,7 +41,6 @@ public class SteganografieController {
         model = aModel;                                         //het model
         vercijfer_paneel    = view.getTekstPaneel();            //view om text van te verkrijgen en deze gebruiken om te vercijferen
         invoer              = view.getTekst();                  //data via text
-        afbeelding_invoer   = view.getAfbeeldingInvoer();       //data via een image
         vercijferKnop       = view.getVercijferKnop();          //knop om te vercijferen
         ontcijferKnop       = view.getOntcijferKnop();          //knop om te ontcijferen
         ontKnop             = new OntcijferKnop();
@@ -60,7 +54,9 @@ public class SteganografieController {
      *Men gaat hier de vercijferview updaten, het vercijfer_paneel aan deze view koppelen en deze zichtbaar zetten om deze te tonen.
      */
     private void vercijfer_view() {
-        update();
+        invoer.setText("");			//textveld leegmaken
+        stat_pad = "";				//pad leegmaken
+        stat_naam = "";				//naam leegmaken
         view.setContentPane(vercijfer_paneel);                  //vercijfer_paneel eerst en vooral toevoegen aan de view
         view.setVisible(true);                                  //dit vercijferpaneel zichtbaar maken
     }
@@ -157,15 +153,6 @@ public class SteganografieController {
                 }
             }
         }
-    }
-
-    /*
-     *De variabelen terug leegmaken en updaten
-     */
-    public void update() {
-        invoer.setText("");			//textveld leegmaken
-        stat_pad = "";				//pad leegmaken
-        stat_naam = "";				//naam leegmaken
     }
 
     /*

@@ -31,9 +31,7 @@ public class SteganografieView extends JFrame {
     //JPanel elementen
     private JTextArea invoer;                                                   //een tekstveld voor de invoertekst die vercijferd moet worden in de afbeelding
     private JButton vercijferKnop, ontcijferKnop;                               //een vercijfer en ontcijferknop aanmaken
-    private JLabel afbeeldingInvoer;                                            //een label
-    private JPanel  buttons;
-    
+    private JLabel afbeeldingInvoer;                                            //een label    
     
     /*
      *Constructor for Steganography_View class
@@ -79,25 +77,11 @@ public class SteganografieView extends JFrame {
     }
     
     /*
-     *@Terugkeerwaarde: vercijferKnop
-     */
-    public JPanel getbuttons() {
-        return buttons;
-    }
-    
-    /*
      *@Terugkeerwaarde: JPaneel waardat de vercijferview op komt te staan
      */
     public JPanel getTekstPaneel() {
         return new tekstPaneel();
     }
-    
-    /*
-     *@Terugkeerwaarde: JPaneel waardat de ontcijferview op komt te staan
-     */
-    /*public JPanel getAfbeeldingPaneel() {
-        return new afbeeldingsPaneel();
-    }*/
     
     /*
      *@Terugkeerwaarde: vercijferKnop
@@ -162,39 +146,18 @@ public class SteganografieView extends JFrame {
 
             //basisinstellingen van het scherm
             setBackground(Color.lightGray);                                     //lichtgrijze achtergrond
-        }
-    }
-
-     /*
-     *Klasse: AfbeeldingsPaneel
-     */
-    //private class afbeeldingsPaneel extends JPanel {
         
-        /*
-         *constructor om een afbeelding te tonen die ontcijferd moet worden
-         */
-        /*public afbeeldingsPaneel() {
-            //setup GridBagLayout
-            GridBagLayout layout2 = new GridBagLayout();                        //een gridbaglayout initialiseren                          
-            GridBagConstraints layoutInstellingen2 = new GridBagConstraints();
-            setLayout(layout2);
-
             afbeeldingInvoer = new JLabel();                                    //een nieuw JLabel voor de invoer van de afbeelding die ontcijferd moet worden
-            layoutInstellingen2.fill = GridBagConstraints.BOTH;                 //dimensies van de gridbaglayout bepalen
-            layoutInstellingen2.anchor = GridBagConstraints.CENTER;             //dimensies van de gridbaglayout bepalen
+            layoutInstellingen.gridx = 1;                                       //de vercijferknop op in de eerste kolom zetten, ook de enige gebruikte kolom
+            layoutInstellingen.gridy = 1;
+            layoutInstellingen.anchor   = GridBagConstraints.CENTER;             //dimensies van de gridbaglayout bepalen
             JScrollPane scroll2 = new JScrollPane(afbeeldingInvoer, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-            layout2.setConstraints(scroll2, layoutInstellingen2);
+            layout.setConstraints(scroll2, layoutInstellingen);
             scroll2.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
             afbeeldingInvoer.setHorizontalAlignment(JLabel.CENTER);
             add(scroll2);
-
-            
-
-            //set basisscherm
-            setBackground(Color.lightGray);                                     //achtergrondkleur: lichtgrijs
-            setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));          //lijn zwarte lijn errond
         }
-    }*/
+    }
 
     /*
      *Main Methode om te testen

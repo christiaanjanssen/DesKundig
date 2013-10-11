@@ -55,11 +55,30 @@ public class Steganografie {
             BufferedImage afbeelding = gebruikersGrootte(getAfbeelding(pad + "/" + naam + "." + "png"));
             WritableRaster raster = afbeelding.getRaster();
             DataBufferByte buffer = (DataBufferByte) raster.getDataBuffer();
-            ontc = ontcijferTekst(buffer.getData());                                                    //de tekst uit de afbeelding ontcijferen en in de variabele ont steken om deze later te gebruiken
-            return (new String(ontc));                                                                  //terugkeerwaarde: de ontcijferde tekst
-        
+            ontc = buffer.getData();//de tekst uit de afbeelding ontcijferen en in de variabele ont steken om deze later te gebruiken
+            int lengte = 0;
+            int j = 32;
+            //doorheen 32 bytes gaan om de lengte van de tekst te bepalen
+            for (int i = 0; i < 32; ++i) {
+                //bit shift opperator
+                lengte = (lengte << 1) | (ontc[i] & 1);
+            }
+            //een nieuwe array van het type byte maken van de lengte die in variabele lengte zit
+            byte[] resultaat = new byte[lengte];
+
+            //doorheen elke byte van tekst gaan
+            for (int b = 0; b < resultaat.length; ++b) {
+                //elke bit in een byte doorlopen
+                for (int i = 0; i < 8; ++i, ++j) {
+                    //de bit eraan toevoegen: [(nieuwe byte waarde) << 1] OF [(tekst byte) en 1] als dan
+                    //bit shift opperator
+                    resultaat[b] = (byte) ((resultaat[b] << 1) | (ontc[j] & 1));
+                }
+            }
+            return (new String(resultaat));                                                                  //terugkeerwaarde: de ontcijferde tekst
+
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null,                                                         //er wordt een popu getoond als de afbeelding niet ontcijferd kan worden doordat er geen vercijferde tekst in zit
+            JOptionPane.showMessageDialog(null, //er wordt een popu getoond als de afbeelding niet ontcijferd kan worden doordat er geen vercijferde tekst in zit
                     "Er is geen verborgen tekst in deze afbeelding!", "Fout!",
                     JOptionPane.ERROR_MESSAGE);
             return "";                                              //een lege string teruggeven, want er kan niets ontcijferd worden
@@ -113,7 +132,7 @@ public class Steganografie {
     private BufferedImage VoegToeTekst(BufferedImage afbeelding, String tekst) {
         WritableRaster raster = afbeelding.getRaster();
         DataBufferByte buffer = (DataBufferByte) raster.getDataBuffer();
-        
+
         //Conversie van alle items naar een array van bytes
         byte bits[] = null;
         byte afb[] = buffer.getData();                         //Conversie van de afbeelding naar een array van bytes
@@ -186,34 +205,5 @@ public class Steganografie {
             }
         }
         return afbeeld;
-    }
-
-    /*
-     * verborgen tekst uit de afbeeling halen
-     *@param afbeeld array van data die een afbeelding voorstelt
-     *@return Array van data die de verborgen tekst bevat
-     */
-    private byte[] ontcijferTekst(byte[] afbeeld) {
-        int lengte = 0;
-        int j = 32;
-        //doorheen 32 bytes gaan om de lengte van de tekst te bepalen
-        for (int i = 0; i < 32; ++i) {
-            //bit shift opperator
-            lengte = (lengte << 1) | (afbeeld[i] & 1);
-        }
-        //een nieuwe array van het type byte maken van de lengte die in variabele lengte zit
-        byte[] resultaat = new byte[lengte];
-
-        //doorheen elke byte van tekst gaan
-        for (int b = 0; b < resultaat.length; ++b) {
-            //elke bit in een byte doorlopen
-            for (int i = 0; i < 8; ++i, ++j) {
-                //de bit eraan toevoegen: [(nieuwe byte waarde) << 1] OF [(tekst byte) en 1] als dan
-                //bit shift opperator
-                resultaat[b] = (byte) ((resultaat[b] << 1) | (afbeeld[j] & 1));
-            }
-        }
-        //terugkeerwaarde: resultaat
-        return resultaat;
     }
 }
