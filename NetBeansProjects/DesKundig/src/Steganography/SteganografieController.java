@@ -75,7 +75,7 @@ public class SteganografieController {
 
             JFileChooser Kiezer = new JFileChooser("./");                       //zet standaard pad voor het bestand te kiezen dat ontcijfert moet worden
             Kiezer.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);    //men gaat hier de manier van kiezen koppelen aan de kiezer, dus zowel bestanden als mappen
-            Kiezer.setFileFilter(new AfbeelingenFilter());                           //Er wordt een filter op het soort bestanden gezet zodat alleen images gekozen kunnen worden
+            Kiezer.setFileFilter(new AfbeelingenFilter());                         //Er wordt een filter op het soort bestanden gezet zodat alleen images gekozen kunnen worden
             int Terugkeerwaarde = Kiezer.showOpenDialog(view);
             if (Terugkeerwaarde == JFileChooser.APPROVE_OPTION) {                //als de terugkeerwaarde goedgekeurd is
                 File directory = Kiezer.getSelectedFile();                  //dan gaat men het bestand ophalen
