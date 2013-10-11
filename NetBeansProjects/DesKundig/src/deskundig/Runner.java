@@ -7,10 +7,8 @@ public class Runner{
         
         Encryptie en = new Encryptie(sleutels);
         String done = en.Encrypteer(tekst);  
-        System.out.println(done);
         
-        Encryptie den = new Encryptie(sleutels);
-        String decDone = den.Decrypteer(done);
+        String decDone = en.Decrypteer(done);
         System.out.println(decDone);
         
     }
