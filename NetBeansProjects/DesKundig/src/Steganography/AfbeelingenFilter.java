@@ -14,7 +14,6 @@ public class AfbeelingenFilter extends javax.swing.filechooser.FileFilter {
      *@param ext extensie van een bestand
      *@return terugkeerwaarde: true als de extensies van het type .jpg of .png zijn en false als de extensie van een ander type blijkt te zijn
      */
-
     protected boolean AfbeeldingToegelaten(String ext) {
         return (ext.equals("jpg") || ext.equals("png"));              //geeft true terug als de extensie eindigt op jpg of als de extensie eindigt op png, anders false      
     }
@@ -24,6 +23,7 @@ public class AfbeelingenFilter extends javax.swing.filechooser.FileFilter {
      *@param f Geeft een bestand mee dat gecontroleerd moet worden
      *@return terugkeerwaarde: geeft true terug als het bestand voldoet aan de eisen
      */
+    @Override
     public boolean accept(File f) //overrided methode
     {
         if (f.isDirectory()) //als het bestand een directory is
@@ -43,6 +43,7 @@ public class AfbeelingenFilter extends javax.swing.filechooser.FileFilter {
      *Supplies bestandstype omschrijving
      *@return terugkeerwaarde: string die een omschrijving bevat van het bestand
      */
+    @Override
     public String getDescription() //overrided methode
     {
         return "Afbeeldingen die toegelaten zijn om te gebruiken";

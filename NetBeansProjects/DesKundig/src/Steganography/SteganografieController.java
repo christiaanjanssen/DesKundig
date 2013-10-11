@@ -42,27 +42,17 @@ public class SteganografieController {
      */
     public SteganografieController(SteganografieView aView, Steganografie aModel) {
         //Variabelen Programma
-        view = aView;                                              //De view
-        model = aModel;                                             //het model
-
-        //Variabelen view
-        //2 views
-        vercijfer_paneel = view.getTekstPaneel();              //view om text van te verkrijgen en deze gebruiken om te vercijferen
-
-        //2 data opties, text en een image
-        invoer = view.getTekst();                   //data via text
-        afbeelding_invoer = view.getAfbeeldingInvoer();             //data via een image
-
-        //2 knoppen
-        vercijferKnop = view.getVercijferKnop();                //knop om te vercijferen
-        ontcijferKnop = view.getOntcijferKnop();                //knop om te ontcijferen
-
-        //action events koppelen aan de items
-        ontKnop = new OntcijferKnop();
-        verKnop = new VercijferKnop();
-        //Een nieuwe instantie van de klasse Ontcijfer maken
-        vercijferKnop.addActionListener(verKnop);                   //deze instantie koppelen aan de vercijferknop van de view
-        ontcijferKnop.addActionListener(ontKnop);                   //deze instantie koppelen aan de ontcijferknop van de view
+        view = aView;                                           //De view
+        model = aModel;                                         //het model
+        vercijfer_paneel    = view.getTekstPaneel();            //view om text van te verkrijgen en deze gebruiken om te vercijferen
+        invoer              = view.getTekst();                  //data via text
+        afbeelding_invoer   = view.getAfbeeldingInvoer();       //data via een image
+        vercijferKnop       = view.getVercijferKnop();          //knop om te vercijferen
+        ontcijferKnop       = view.getOntcijferKnop();          //knop om te ontcijferen
+        ontKnop             = new OntcijferKnop();
+        verKnop             = new VercijferKnop();
+        vercijferKnop.addActionListener(verKnop);               //deze instantie koppelen aan de vercijferknop van de view
+        ontcijferKnop.addActionListener(ontKnop);               //deze instantie koppelen aan de ontcijferknop van de view
         vercijfer_view();
     }
 
@@ -71,8 +61,8 @@ public class SteganografieController {
      */
     private void vercijfer_view() {
         update();
-        view.setContentPane(vercijfer_paneel);                      //vercijfer_paneel eerst en vooral toevoegen aan de view
-        view.setVisible(true);                                      //dit vercijferpaneel zichtbaar maken
+        view.setContentPane(vercijfer_paneel);                  //vercijfer_paneel eerst en vooral toevoegen aan de view
+        view.setVisible(true);                                  //dit vercijferpaneel zichtbaar maken
     }
 
     /*
