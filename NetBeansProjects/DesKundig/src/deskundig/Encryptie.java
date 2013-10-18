@@ -253,28 +253,8 @@ public class Encryptie {
 
     }
 
-    public String Encrypteer(String invoerString) {
-        String done = null;
+    public int[] Encrypteer(int[] invoerRij) {
         int[][] keys = Sleutels[stap].getKey();
-        int start = 0;
-        int einde = 64;
-        int counter = 0;
-        int lengteStap = 8;
-
-
-//        if (stap == 0) {
-//            invoerString = ControleerLengteInvoer(invoerString);
-//        }
-
-//        String tmp;
-//        for (int i = 0; i < invoerString.length() / (8 * lengteStap); i++) {
-//        tmp = invoerString.substring(start, einde);
-
-
-        for (int h = start; h < einde; h++) {
-            invoerRij[h] = Integer.parseInt(invoerString.substring(h, h + 1));
-        }
-
 
         Permutatie p = new Permutatie();
         p.VulPermutatie();
@@ -312,21 +292,13 @@ public class Encryptie {
         // Inversie permutatie uitvoeren op het samengevoegd resultaat
         p.PermuteerInvers(blok64Array, nieuwBlok64Array);
 
-        for (int l = 0; l < nieuwBlok64Array.length; l++) {
-            if (done == null) {
-                done = Integer.toString(nieuwBlok64Array[l]);
-            } else {
-                done += Integer.toString(nieuwBlok64Array[l]);
-            }
-
-        }
 
         if (stap == 2) {
             stap = 0;
-            return done;
+            return nieuwBlok64Array;
         } else {
             stap++;
-            return Encrypteer(done);
+            return Encrypteer(nieuwBlok64Array);
         }
 
 

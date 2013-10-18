@@ -34,6 +34,7 @@ public class TriDes {
             int chunkLen = 0;
             while ((chunkLen = is.read(chunk)) != -1) {
                 temp = "";
+                int[] outArr = new int[64];
                 for (int i = 0; i < chunk.length; i++) {
                     String bits = Integer.toBinaryString(chunk[i]);
                     for (int j = 8; j > bits.length(); j--) {
@@ -41,9 +42,12 @@ public class TriDes {
                     }
                     temp += Integer.toBinaryString(chunk[i]);
                 }
-                temp = en.Encrypteer(temp);
                 for (int i = 0; i < temp.length(); i++) {
-                    if (temp.substring(i, i + 1).equals("1")) {
+                    outArr[i] = Integer.parseInt(temp.substring(i,i+1));
+                }
+                outArr = en.Encrypteer(outArr);
+                for (int i = 0; i < 64; i++) {
+                    if (outArr[i] == 1) {
                         bOut.write(true);
                     } else {
                         bOut.write(false);
