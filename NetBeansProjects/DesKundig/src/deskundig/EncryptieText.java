@@ -2,7 +2,7 @@ package deskundig;
 
 import java.util.Arrays;
 
-public class Encryptie {
+public class EncryptieText {
 
     private Keys[] Sleutels;
     private byte[][] blok = new byte[8][8]; // 64-bit array
@@ -22,10 +22,10 @@ public class Encryptie {
      * Default constructor van de encryptie klasse.
      *
      */
-    public Encryptie() {
+    public EncryptieText() {
     }
 
-    public Encryptie(String[] slke) {
+    public EncryptieText(String[] slke) {
         Sleutels = new Keys[3];
         Sleutels[0] = new Keys(slke[0]);
         Sleutels[1] = new Keys(slke[1]);
@@ -182,69 +182,80 @@ public class Encryptie {
         int[][] keys = Sleutels[invStap].getKey();
         int start = 0;
         int einde = 64;
-
+        int counter = 0;
         int newBlock64_[] = new int[64];
 
         VercijferTekst(invoerString);
 
-//        for (int i = 0; i < invoerString.length() / 64; i++) {
-        for (int h = 0; h < invoerString.length(); h++) {
-            newBlock64_[h] = Integer.parseInt(invoerString.substring(h, h + 1));
-        }
-
-        Permutatie p = new Permutatie();
-        p.VulPermutatie();
-        p.Permuteer(newBlock64_, gepermuteerdeRij);
-
-        DeelOp(gepermuteerdeRij);
-
-        for (int j = 15; j >= 0; j--) {
-            ExpansieTabel e = new ExpansieTabel();
-            e.ZetOmNaarRij();
-            e.Exponeren(rechterDeel, rechterDeelNaExpansie);
-
-            XOR(rechterDeelNaExpansie, keys[j], resultaatXOR);
-
-            SBox sBox = new SBox();
-            sBox.runSBox(resultaatXOR, resultaatSBox);
-
-            // XOR-operatie uitvoeren op het linkerdeel
-            XOR(linkerDeel, resultaatSBox, naXOR);
-
-            // Resultaat van de XOR-bewerking toekennen
-            for (int g = 0; g < 32; g++) {
-                linkerDeel[g] = rechterDeel[g];
-                rechterDeel[g] = naXOR[g];
+        for (int i = 0; i < invoerString.length() / 64; i++) {
+            for (int h = start; h < einde; h++) {
+                newBlock64_[counter] = Integer.parseInt(invoerString.substring(h, h + 1));
+                counter++;
             }
 
-        }
+            Permutatie p = new Permutatie();
+            p.VulPermutatie();
+            p.Permuteer(newBlock64_, gepermuteerdeRij);
 
-        WisselOm();
-        VoegSamen();
+            DeelOp(gepermuteerdeRij);
 
-        // Inverse permutatiematrix in een rij omzetten
-        p.VulInversePermutatie();
+            for (int j = 15; j >= 0; j--) {
+                ExpansieTabel e = new ExpansieTabel();
+                e.ZetOmNaarRij();
+                e.Exponeren(rechterDeel, rechterDeelNaExpansie);
 
-        // Inversie permutatie uitvoeren op het samengevoegd resultaat
-        p.PermuteerInvers(blok64Array, nieuwBlok64Array);
+                XOR(rechterDeelNaExpansie, keys[j], resultaatXOR);
 
-        int[] ch = BitToByte(nieuwBlok64Array);
+                SBox sBox = new SBox();
+                sBox.runSBox(resultaatXOR, resultaatSBox);
 
-        for (int j = 0; j < nieuwBlok64Array.length; j++) {
-            if (done == null) {
-                done = Integer.toString(nieuwBlok64Array[j]);
+                // XOR-operatie uitvoeren op het linkerdeel
+                XOR(linkerDeel, resultaatSBox, naXOR);
+
+                // Resultaat van de XOR-bewerking toekennen
+                for (int g = 0; g < 32; g++) {
+                    linkerDeel[g] = rechterDeel[g];
+                    rechterDeel[g] = naXOR[g];
+                }
+
+            }
+
+            WisselOm();
+            VoegSamen();
+
+            // Inverse permutatiematrix in een rij omzetten
+            p.VulInversePermutatie();
+
+            // Inversie permutatie uitvoeren op het samengevoegd resultaat
+            p.PermuteerInvers(blok64Array, nieuwBlok64Array);
+
+            int[] ch = BitToByte(nieuwBlok64Array);
+            if (stap == 2) {
+                for (int k = 0; k < 8; k++) {
+                    if (done == null) {
+                        done = Character.toString((char) ch[k]);
+                    } else {
+                        done += Character.toString((char) ch[k]);
+                    }
+                }
             } else {
-                done += nieuwBlok64Array[j];
+                for (int j = 0; j < nieuwBlok64Array.length; j++) {
+                    if (done == null) {
+                        done = Integer.toString(nieuwBlok64Array[j]);
+                    } else {
+                        done += nieuwBlok64Array[j];
+                    }
+                }
             }
+            
+            start = einde;
+            einde += 64;
+            counter = 0;
         }
-
-        start = einde;
-        einde += 64;
-//        }
 
         if (stap == 2) {
             stap = 0;
-            return done;
+            return done.trim();
         } else {
             stap++;
             return Decrypteer(done);
@@ -257,68 +268,83 @@ public class Encryptie {
         String done = null;
         int[][] keys = Sleutels[stap].getKey();
         int start = 0;
-        int einde = 64;
+        int einde = 8;
         int counter = 0;
-        int lengteStap = 8;
-
-
-//        if (stap == 0) {
-//            invoerString = ControleerLengteInvoer(invoerString);
-//        }
-
-//        String tmp;
-//        for (int i = 0; i < invoerString.length() / (8 * lengteStap); i++) {
-//        tmp = invoerString.substring(start, einde);
-
-
-        for (int h = start; h < einde; h++) {
-            invoerRij[h] = Integer.parseInt(invoerString.substring(h, h + 1));
+        int lengteStap = 1;
+        if (stap != 0) {
+            lengteStap = 8;
+            einde = 64;
         }
 
-
-        Permutatie p = new Permutatie();
-        p.VulPermutatie();
-        p.Permuteer(invoerRij, gepermuteerdeRij);
-
-        DeelOp(gepermuteerdeRij);
-
-        for (int j = 0; j < 16; j++) {
-            ExpansieTabel e = new ExpansieTabel();
-            e.ZetOmNaarRij();
-            e.Exponeren(rechterDeel, rechterDeelNaExpansie);
-
-            XOR(rechterDeelNaExpansie, keys[j], resultaatXOR);
-
-            SBox sBox = new SBox();
-            sBox.runSBox(resultaatXOR, resultaatSBox);
-
-            // XOR-operatie uitvoeren op het linkerdeel
-            XOR(linkerDeel, resultaatSBox, naXOR);
-
-            // Resultaat van de XOR-bewerking toekennen
-            for (int g = 0; g < 32; g++) {
-                linkerDeel[g] = rechterDeel[g];
-                rechterDeel[g] = naXOR[g];
-            }
-
+        if (stap == 0) {
+            invoerString = ControleerLengteInvoer(invoerString);
         }
 
-        WisselOm();
-        VoegSamen();
+        String tmp;
+        for (int i = 0; i < invoerString.length() / (8 * lengteStap); i++) {
+            tmp = invoerString.substring(start, einde);
 
-        // Inverse permutatiematrix in een rij omzetten
-        p.VulInversePermutatie();
-
-        // Inversie permutatie uitvoeren op het samengevoegd resultaat
-        p.PermuteerInvers(blok64Array, nieuwBlok64Array);
-
-        for (int l = 0; l < nieuwBlok64Array.length; l++) {
-            if (done == null) {
-                done = Integer.toString(nieuwBlok64Array[l]);
+            if (stap == 0) {
+                VercijferTekst(tmp);
             } else {
-                done += Integer.toString(nieuwBlok64Array[l]);
+                for (int h = start; h < einde; h++) {
+                    invoerRij[counter] = Integer.parseInt(invoerString.substring(h, h + 1));
+                    counter++;
+                }
             }
 
+            Permutatie p = new Permutatie();
+            p.VulPermutatie();
+            p.Permuteer(invoerRij, gepermuteerdeRij);
+
+            DeelOp(gepermuteerdeRij);
+
+            for (int j = 0; j < 16; j++) {
+                ExpansieTabel e = new ExpansieTabel();
+                e.ZetOmNaarRij();
+                e.Exponeren(rechterDeel, rechterDeelNaExpansie);
+
+                XOR(rechterDeelNaExpansie, keys[j], resultaatXOR);
+
+                SBox sBox = new SBox();
+                sBox.runSBox(resultaatXOR, resultaatSBox);
+
+                // XOR-operatie uitvoeren op het linkerdeel
+                XOR(linkerDeel, resultaatSBox, naXOR);
+
+                // Resultaat van de XOR-bewerking toekennen
+                for (int g = 0; g < 32; g++) {
+                    linkerDeel[g] = rechterDeel[g];
+                    rechterDeel[g] = naXOR[g];
+                }
+
+            }
+
+            WisselOm();
+            VoegSamen();
+
+            // Inverse permutatiematrix in een rij omzetten
+            p.VulInversePermutatie();
+
+            // Inversie permutatie uitvoeren op het samengevoegd resultaat
+            p.PermuteerInvers(blok64Array, nieuwBlok64Array);
+
+            for (int l = 0; l < nieuwBlok64Array.length; l++) {
+                if (done == null) {
+                    done = Integer.toString(nieuwBlok64Array[l]);
+                } else {
+                    done += Integer.toString(nieuwBlok64Array[l]);
+                }
+
+            }
+
+            start = einde;
+            if (stap == 0) {
+                einde +=8;
+            } else {
+                einde += 64;
+            }
+            counter = 0;
         }
 
         if (stap == 2) {
