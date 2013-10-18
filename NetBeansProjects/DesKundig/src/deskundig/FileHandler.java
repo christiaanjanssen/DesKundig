@@ -55,24 +55,22 @@ public class FileHandler {
         // Rest ophalen
         int rest = bitString.length() % 64;
         
+        // Aantal toegevoegde bits
+        int aantalToegevoegd = 64 - rest;
+        
         // Blok opvullen
-        for (int i = 0; i < rest; i++) {
+        for (int i = 0; i < aantalToegevoegd; i++) {
             bitString += "0";
         }
         
-        // Extra blok aanmaken
-        for (int i = 0; i < 58; i++) {
+        // Nieuw blok aanmaken en aantal toegevoegde opvul bits wegschrijven
+        String tmp = Integer.toBinaryString(aantalToegevoegd);
+        
+        // Lengte voor tmp reserveren
+        for (int i = 0; i < 64 - tmp.length(); i++) {
             bitString += "0";
         }
         
-        String tmp =  Integer.toBinaryString(rest);
-        
-        int aantalNullenToevoegen = 6 - tmp.length();
-        
-        // Extra blok vervolledige en aantal toegevoegde bits wegschrijven
-        for (int i = 0; i < aantalNullenToevoegen; i++) {
-            bitString += "0";
-        }
         bitString += tmp;
      }
 }
