@@ -55,14 +55,17 @@ public class Steganografie {
             BufferedImage afbeelding = gebruikersGrootte(getAfbeelding(pad + "/" + naam + "." + "png"));
             WritableRaster raster = afbeelding.getRaster();
             DataBufferByte buffer = (DataBufferByte) raster.getDataBuffer();
-            ontc = buffer.getData();//de tekst uit de afbeelding ontcijferen en in de variabele ont steken om deze later te gebruiken
+            ontc = buffer.getData();//de tekst uit de afbeelding ontcijferen en in de variabele ontc steken om deze later te gebruiken
             int lengte = 0;
-            int j = 32;
-            //doorheen 32 bytes gaan om de lengte van de tekst te bepalen
+            int j = 32; //de lengte van het bericht wordt in 32 bits opgeslagen.
+            
             for (int i = 0; i < 32; ++i) {
-                //bit shift opperator
+                //bit shift operator: 32 keer shiften we de bits van lengte naar links, dit wordt geOR'd met de 'least significant bit' van de image byte.
+                //als we &1 doen, zullen alle bits gecleared 0 gezet worden, behalve de laatste bit zelf.
+                //dus als de bits worden toegevoegd, worden ze automatisch in de 'least significant bit' plaats van de lengte geplaatst.
                 lengte = (lengte << 1) | (ontc[i] & 1);
             }
+            
             //een nieuwe array van het type byte maken van de lengte die in variabele lengte zit
             byte[] resultaat = new byte[lengte];
 
@@ -70,15 +73,15 @@ public class Steganografie {
             for (int b = 0; b < resultaat.length; ++b) {
                 //elke bit in een byte doorlopen
                 for (int i = 0; i < 8; ++i, ++j) {
-                    //de bit eraan toevoegen: [(nieuwe byte waarde) << 1] OF [(tekst byte) en 1] als dan
-                    //bit shift opperator
+                    //het resultaat-array bestaat uit de least significant bit van elke byte.
+                    //dit wordt op dezelfde manier opgehaald als de lengte.
                     resultaat[b] = (byte) ((resultaat[b] << 1) | (ontc[j] & 1));
                 }
             }
             return (new String(resultaat));                                                                  //terugkeerwaarde: de ontcijferde tekst
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, //er wordt een popu getoond als de afbeelding niet ontcijferd kan worden doordat er geen vercijferde tekst in zit
+            JOptionPane.showMessageDialog(null, //er wordt een popup getoond als de afbeelding niet ontcijferd kan worden doordat er geen vercijferde tekst in zit
                     "Er is geen verborgen tekst in deze afbeelding!", "Fout!",
                     JOptionPane.ERROR_MESSAGE);
             return "";                                              //een lege string teruggeven, want er kan niets ontcijferd worden
@@ -140,12 +143,7 @@ public class Steganografie {
         byte msg[] = tekst.getBytes();                                          //Conversie van de tekst naar een array van bytes
         int lengte = msg.length;                                                //Conversie van de lengte naar een array van bytes
         //originele ints worden omgezet naar bytes
-        //byte byte7 = (byte)((i & 0xFF00000000000000L) >>> 56);
-        //byte byte6 = (byte)((i & 0x00FF000000000000L) >>> 48);
-        //byte byte5 = (byte)((i & 0x0000FF0000000000L) >>> 40);
-        //byte byte4 = (byte)((i & 0x000000FF00000000L) >>> 32);
-
-        //we gebruiken maar 4 bytes
+        //we gebruiken maar 4 bytes, dus de lengte wordt hieronder verdeeld
         byte byte3 = (byte) ((lengte & 0xFF000000) >>> 24); //van 32 tot en met 24
         byte byte2 = (byte) ((lengte & 0x00FF0000) >>> 16); //van 16 tot en met 23
         byte byte1 = (byte) ((lengte & 0x0000FF00) >>> 8); //van 8 tot en met 15
@@ -190,17 +188,25 @@ public class Steganografie {
         if (toevoeg.length + j > afbeeld.length) {                              //checken of j en de data wel in de afbeelding passen
             throw new IllegalArgumentException("Bestand is niet groot genoeg om deze tekst er in te vercijferen!");
         }
-        for (int i = 0; i < toevoeg.length; ++i) {                              //doorheen elke toegvoegde byte lopen
-            int add = toevoeg[i];                                                           //doorheen elke 8 bits van de byte lopen
-
-            //zorgen dat de nieuwe j de waarde bevat doorheen de 2 lussen
+        for (int i = 0; i < toevoeg.length; ++i) { 
+            //doorheen elke toegevoegde byte lopen
+            int add = toevoeg[i];           
+            //gaat de HUIDIGE byte aan add toevoegen   
+            
             for (int bit = 7; bit >= 0; --bit, ++j) {
-                //assign an integer to b, shifted by bit spaces AND 1
-                //a single bit of the current byte
+                //gaat in de add byte alle 8 bits af
                 int b = (add >>> bit) & 1;
-                //assign the bit by taking: [(previous byte value) AND 0xfe] OR bit to add
-                //De laatste bit veranderen in de tekstbit
-                afbeeld[j] = (byte) ((afbeeld[j] & 0xFE) | b);
+                //add wordt naar rechts geshift met het aantal bits
+                //Dus eerst geshift met 7, dan 6, dan 5, ..., de uitkomst hiervan wordt geAND met 1
+                //zodat we de laatste bit telkens terug krijgen als deze 1 is
+                
+                afbeeld[j] = (byte) ((afbeeld[j] & 0xFE) | b); 
+                //0xFE is hexadecimaal, in binair is het 11111110
+                //de 7 eerste bits zullen dus hetzelfde zijn, maar de laatste bit zal sowieso gecleared worden (het is een and met 0)
+                //de laatste bit (de least significant bit dus) zal hierna gezet worden op de waarde van b (d.m.v. de OR).
+                
+                //PS: de reden dat we de LENGTE in 4 aparte bytes hebben gezet, is dat we zo weten hoe veel bytes we moeten lezen achter de lengte om de boodschap te krijgen.
+
             }
         }
         return afbeeld;

@@ -178,7 +178,8 @@ public class Encryptie {
 
     public String Decrypteer(String invoerString) {
         String done = null;
-        int[][] keys = Sleutels[stap].getKey();
+        int invStap = 2 - stap;
+        int[][] keys = Sleutels[invStap].getKey();
         int start = 0;
         int einde = 64;
         int counter = 0;
@@ -229,21 +230,37 @@ public class Encryptie {
             p.PermuteerInvers(blok64Array, nieuwBlok64Array);
 
             int[] ch = BitToByte(nieuwBlok64Array);
-            for (int k = 0; k < 8; k++) {
-                if (done == null) {
-                    done = Character.toString((char) ch[k]);
-                } else {
-                    done += Character.toString((char) ch[k]);
+            if (stap == 2) {
+                for (int k = 0; k < 8; k++) {
+                    if (done == null) {
+                        done = Character.toString((char) ch[k]);
+                    } else {
+                        done += Character.toString((char) ch[k]);
+                    }
+                }
+            } else {
+                for (int j = 0; j < nieuwBlok64Array.length; j++) {
+                    if (done == null) {
+                        done = Integer.toString(nieuwBlok64Array[j]);
+                    } else {
+                        done += nieuwBlok64Array[j];
+                    }
                 }
             }
-
+            
             start = einde;
             einde += 64;
             counter = 0;
-
         }
 
-        return done;
+        if (stap == 2) {
+            stap = 0;
+            return done.trim();
+        } else {
+            stap++;
+            return Decrypteer(done);
+        }
+
 
     }
 
@@ -252,14 +269,29 @@ public class Encryptie {
         int[][] keys = Sleutels[stap].getKey();
         int start = 0;
         int einde = 8;
+        int counter = 0;
+        int lengteStap = 1;
+        if (stap != 0) {
+            lengteStap = 8;
+            einde = 64;
+        }
 
-        invoerString = ControleerLengteInvoer(invoerString);
+        if (stap == 0) {
+            invoerString = ControleerLengteInvoer(invoerString);
+        }
 
         String tmp;
-        for (int i = 0; i < invoerString.length() / 8; i++) {
+        for (int i = 0; i < invoerString.length() / (8 * lengteStap); i++) {
             tmp = invoerString.substring(start, einde);
 
-            VercijferTekst(tmp);
+            if (stap == 0) {
+                VercijferTekst(tmp);
+            } else {
+                for (int h = start; h < einde; h++) {
+                    invoerRij[counter] = Integer.parseInt(invoerString.substring(h, h + 1));
+                    counter++;
+                }
+            }
 
             Permutatie p = new Permutatie();
             p.VulPermutatie();
@@ -306,20 +338,23 @@ public class Encryptie {
 
             }
 
-//            int[] ch = BitToByte(nieuwBlok64Array);
-//            for(int k=0; k<8; k++){
-//                System.out.print((char)ch[k]);
-//                if(done==null)
-//                    done=Character.toString((char)ch[k]);
-//                else
-//                    done+=Character.toString((char)ch[k]);
-//            }
-
             start = einde;
-            einde += 8;
-
+            if (stap == 0) {
+                einde +=8;
+            } else {
+                einde += 64;
+            }
+            counter = 0;
         }
 
-        return done;
+        if (stap == 2) {
+            stap = 0;
+            return done;
+        } else {
+            stap++;
+            return Encrypteer(done);
+        }
+
+
     }
 }
