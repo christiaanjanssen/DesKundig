@@ -8,7 +8,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 
 /**
  *
@@ -128,7 +127,6 @@ public class TriDes {
                         temp += 0;
                     }
                     added = Integer.parseInt(temp, 2);
-                    System.out.println(temp);
                     System.out.println("added: " + added);
                     first = false;
                     stap ++;
