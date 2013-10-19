@@ -32,66 +32,6 @@ public class Encryptie {
         Sleutels[2] = new Keys(slke[2]);
     }
 
-    /**
-     * Deze functie controleert of de string een 64 bit array past.
-     *
-     * Indien dit niet het geval is, worden spaties toegevoegd om aan deze
-     * voorwaarde te voldoen.
-     *
-     * @return
-     */
-    public String ControleerLengteInvoer(String invoer) {
-        // Constroleer of de totale lengte deelbaar is door acht
-        if (invoer.length() % 8 != 0) {
-            int lengte = 8 - invoer.length() % 8;
-
-            // Sterretjes toevoegen
-            for (int i = 0; i < lengte; i++) {
-                invoer = invoer.concat(" ");
-            }
-        } else {
-            return invoer;
-        }
-
-        return invoer;
-    }
-
-    /**
-     * Deze functie zet een stuck tekst om in een 64 bit arrays.
-     *
-     * @param invoer
-     */
-    public void VercijferTekst(String invoer) {
-        // Een 64 bit matrix heeft 8 rijen en 8 kolommen
-        for (int i = 0; i < 8 && i < invoer.length(); i++) {
-            blok[i] = getBinaireBits(invoer.charAt(i));
-        }
-
-        int index = 0;
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
-                invoerRij[index] = (int) blok[i][j];
-                index++;
-            }
-        }
-    }
-
-    /**
-     * Deze functie zet een karakter om naar bits.
-     *
-     * @param karakter
-     * @return
-     */
-    public byte[] getBinaireBits(int karakter) {
-        byte[] bin = new byte[8];
-        int tag = 1;
-        for (int i = 0; i < 8; i++) {
-            // Deze regel controleer of de positie van karakter en de positie van tag gelijk 
-            // zijn. Indien dit het geval is wordt deze met i posities naar rechts geschift.
-            bin[7 - i] = (byte) ((karakter & ((tag << i))) >> i);
-        }
-        return bin;
-    }
 
     /**
      * Deze functie splits de gepermuteerde rij op in een linker en een rechter
@@ -177,20 +117,8 @@ public class Encryptie {
     }
 
     public int[] Decrypteer(int[] newBlock64_) {
-        String done = null;
         int invStap = 2 - stap;
         int[][] keys = Sleutels[invStap].getKey();
-        int start = 0;
-        int einde = 64;
-
-//        int newBlock64_[] = new int[64];
-//
-//        VercijferTekst(invoerString);
-//
-////        for (int i = 0; i < invoerString.length() / 64; i++) {
-//        for (int h = 0; h < invoerString.length(); h++) {
-//            newBlock64_[h] = Integer.parseInt(invoerString.substring(h, h + 1));
-//        }
 
         Permutatie p = new Permutatie();
         p.VulPermutatie();
@@ -229,18 +157,6 @@ public class Encryptie {
         p.PermuteerInvers(blok64Array, nieuwBlok64Array);
 
         int[] ch = BitToByte(nieuwBlok64Array);
-
-//        for (int j = 0; j < nieuwBlok64Array.length; j++) {
-//            if (done == null) {
-//                done = Integer.toString(nieuwBlok64Array[j]);
-//            } else {
-//                done += nieuwBlok64Array[j];
-//            }
-//        }
-
-        start = einde;
-        einde += 64;
-//        }
 
         if (stap == 2) {
             stap = 0;
