@@ -4,6 +4,9 @@
  */
 package Screens;
 
+import Steganography.Steganografie;
+import Steganography.SteganografieController;
+import Steganography.SteganografieView;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
@@ -88,6 +91,9 @@ public class Start extends javax.swing.JFrame {
     }//GEN-LAST:event_btn3DESActionPerformed
 
     private void btnStegAnd3DESActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStegAnd3DESActionPerformed
+        new SteganografieController(
+                new SteganografieView("Steganography"),
+                new Steganografie());
     }//GEN-LAST:event_btnStegAnd3DESActionPerformed
 
     /**
