@@ -176,21 +176,21 @@ public class Encryptie {
         return ch;
     }
 
-    public String Decrypteer(String invoerString) {
+    public int[] Decrypteer(int[] newBlock64_) {
         String done = null;
         int invStap = 2 - stap;
         int[][] keys = Sleutels[invStap].getKey();
         int start = 0;
         int einde = 64;
 
-        int newBlock64_[] = new int[64];
-
-        VercijferTekst(invoerString);
-
-//        for (int i = 0; i < invoerString.length() / 64; i++) {
-        for (int h = 0; h < invoerString.length(); h++) {
-            newBlock64_[h] = Integer.parseInt(invoerString.substring(h, h + 1));
-        }
+//        int newBlock64_[] = new int[64];
+//
+//        VercijferTekst(invoerString);
+//
+////        for (int i = 0; i < invoerString.length() / 64; i++) {
+//        for (int h = 0; h < invoerString.length(); h++) {
+//            newBlock64_[h] = Integer.parseInt(invoerString.substring(h, h + 1));
+//        }
 
         Permutatie p = new Permutatie();
         p.VulPermutatie();
@@ -230,13 +230,13 @@ public class Encryptie {
 
         int[] ch = BitToByte(nieuwBlok64Array);
 
-        for (int j = 0; j < nieuwBlok64Array.length; j++) {
-            if (done == null) {
-                done = Integer.toString(nieuwBlok64Array[j]);
-            } else {
-                done += nieuwBlok64Array[j];
-            }
-        }
+//        for (int j = 0; j < nieuwBlok64Array.length; j++) {
+//            if (done == null) {
+//                done = Integer.toString(nieuwBlok64Array[j]);
+//            } else {
+//                done += nieuwBlok64Array[j];
+//            }
+//        }
 
         start = einde;
         einde += 64;
@@ -244,10 +244,10 @@ public class Encryptie {
 
         if (stap == 2) {
             stap = 0;
-            return done;
+            return nieuwBlok64Array;
         } else {
             stap++;
-            return Decrypteer(done);
+            return Decrypteer(nieuwBlok64Array);
         }
 
 

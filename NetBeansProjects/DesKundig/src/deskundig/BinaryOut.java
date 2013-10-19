@@ -1,18 +1,21 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-package deskundig;
-
-/**
+/*************************************************************************
+ *  Compilation:  javac BinaryOut.java
+ *  Execution:    java BinaryOut
  *
- * @author jeffr_000
- */
-import java.io.BufferedOutputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.net.Socket;
+ *  Write binary data to an output stream, either one 1-bit boolean,
+ *  one 8-bit char, one 32-bit int, one 64-bit double, one 32-bit float,
+ *  or one 64-bit long at a time. The output stream can be standard
+ *  output, a file, an OutputStream or a Socket.
+ *
+ *  The bytes written are not aligned.
+ *
+ *  [wayne 7.17.2013] fixed bugs in write(char x, int r) and 
+ *  write(int x, int r) to add return statement for (r == 8)
+ *  and (r == 32) cases, respectively.
+ * 
+ * http://introcs.cs.princeton.edu/java/stdlib/BinaryOut.java.html
+ *
+ *************************************************************************/
 
 /**
  *  <i>Binary output</i>. This class provides methods for converting
@@ -30,6 +33,16 @@ import java.net.Socket;
  *  @author Robert Sedgewick
  *  @author Kevin Wayne
  */
+
+package deskundig;
+
+
+import java.io.BufferedOutputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.net.Socket;
+
 public final class BinaryOut {
 
     private BufferedOutputStream out;  // the output stream
