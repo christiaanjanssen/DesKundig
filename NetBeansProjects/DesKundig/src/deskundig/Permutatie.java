@@ -8,13 +8,15 @@ class Permutatie {
     /**
      * Default constructor van de Permutatie-klasse
      */
-    public Permutatie() {}
+    public Permutatie() {
+        VulPermutatie();
+    }
     
     /**
      * De functie zet de waarden van permutatiematrix IP in een rij. Dit wordt
      * opgeslagen in de permutatieRij-variabele.
      */
-    public void VulPermutatie()   {
+    private void VulPermutatie()   {
         int index=0;
         for(int rij = 0; rij < 8; rij++){
             for(int kol = 0; kol < 8; kol++){
@@ -86,12 +88,12 @@ class Permutatie {
             loop++;
         }
         
-        index = 0;
-        for(int i = 0; i < 4; i++){
-            for(int j = 0; j < 8; j++){
-                nieuw64bBlock[i][j]=Integer.toString(perm_out[index]);
-                index++;
-            }
-        }       
+//        index = 0;
+//        for(int i = 0; i < 4; i++){
+//            for(int j = 0; j < 8; j++){
+//                nieuw64bBlock[i][j]=Integer.toString(perm_out[index]);
+//                index++;
+//            }
+//        }       
     }
 }

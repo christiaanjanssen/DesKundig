@@ -9,12 +9,13 @@ public class ExpansieTabel {
      * Default construct van de ExpansieTabel Klasse
      */
     public ExpansieTabel() {
+        ZetOmNaarRij();
     }
     
     /**
      * Deze functie zet de expansiematrix om in een rij.
      */
-    public void ZetOmNaarRij()   {
+    private void ZetOmNaarRij()   {
         int index = 0;
         
         for(int i = 0; i < 8; i++){
@@ -47,15 +48,15 @@ public class ExpansieTabel {
             loop++;
         }
         
-        int index = 0;
-        for(int j = 0;j < 48; j++) {
-            for(int k = 0; k < 6; k++){
-                for(int l = 0; l < 8; l++){
-                    shiftR[k][l] = Integer.toString(uitvoerR[index]);
-                    index++;
-                }
-            }
-            index = 0;
-        }
+//        int index = 0;
+//        for(int j = 0;j < 48; j++) {
+//            for(int k = 0; k < 6; k++){
+//                for(int l = 0; l < 8; l++){
+//                    shiftR[k][l] = Integer.toString(uitvoerR[index]);
+//                    index++;
+//                }
+//            }
+//            index = 0;
+//        }
     }
 }

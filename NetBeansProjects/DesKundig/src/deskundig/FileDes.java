@@ -8,20 +8,28 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author jeffr_000
  */
-public class TriDes {
+public class FileDes {
 
-    Encryptie en;
-    BinaryOut bOut;
-    BinaryIn bIn;
-    String sleutel;
+    private Encryptie en;
+    private BinaryOut bOut;
+    private BinaryIn bIn;
+    private String sleutel;
+    private ThreadResult enResult;
+    private Keys[] Sleutels;
 
-    public TriDes(String[] sleutels) {
-        en = new Encryptie(sleutels);
+    public FileDes(String[] slke) {
+        Sleutels = new Keys[3];
+        Sleutels[0] = new Keys(slke[0]);
+        Sleutels[1] = new Keys(slke[1]);
+        Sleutels[2] = new Keys(slke[2]);
+        enResult = new ThreadResult(Sleutels);
     }
 
     public void encrypt(String in, String out) {
@@ -37,8 +45,9 @@ public class TriDes {
             long rest = Flength % 64;
             long addedLong = 64 - rest;
             int added = (int) addedLong;
-            if(added==64)
-                added= 0;
+            if (added == 64) {
+                added = 0;
+            }
             String toAdd = Integer.toBinaryString(added);
             temp = "";
 
@@ -69,7 +78,16 @@ public class TriDes {
                 for (int i = 0; i < temp.length(); i++) {
                     outArr[i] = Integer.parseInt(temp.substring(i, i + 1));
                 }
-                outArr = en.Encrypteer(outArr);
+                enResult.setResult(outArr);
+                enResult.setStap(0);
+                Thread newT = new Thread(new Encryptie(enResult, true), "TridesEncryptie");
+                newT.start();
+                try {
+                    newT.join();
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(FileDes.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                outArr = enResult.getResult();
                 for (int i = 0; i < 64; i++) {
                     if (outArr[i] == 1) {
                         bOut.write(true);
@@ -78,7 +96,6 @@ public class TriDes {
                     }
                 }
             }
-            
 
             bOut.flush();
             bOut.close();
@@ -114,9 +131,9 @@ public class TriDes {
                     }
                 } else {
                     if (reader) {
-                        outArr[teller-1] = 1;
+                        outArr[teller - 1] = 1;
                     } else {
-                        outArr[teller-1] = 0;
+                        outArr[teller - 1] = 0;
                     }
                 }
             } else {
@@ -129,14 +146,23 @@ public class TriDes {
                     added = Integer.parseInt(temp, 2);
                     System.out.println("added: " + added);
                     first = false;
-                    stap ++;
+                    stap++;
                 } else {
                     if (reader) {
-                        outArr[teller-1] = 1;
+                        outArr[teller - 1] = 1;
                     } else {
-                        outArr[teller-1] = 0;
+                        outArr[teller - 1] = 0;
                     }
-                    outArr = en.Decrypteer(outArr);
+                    enResult.setResult(outArr);
+                    enResult.setStap(0);
+                    Thread newT = new Thread(new Encryptie(enResult, false), "TridesEncryptie");
+                    newT.start();
+                    try {
+                        newT.join();
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(FileDes.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    outArr = enResult.getResult();
                     if (stap == Flength) {
                         for (int i = 0; i < 64 - added; i++) {
                             if (outArr[i] == 1) {
