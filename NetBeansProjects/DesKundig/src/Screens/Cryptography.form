@@ -32,7 +32,11 @@
                   <Component id="lblFileChooser" max="32767" attributes="0"/>
                   <Component id="lblFileChooser1" max="32767" attributes="0"/>
                   <Component id="lblPasswordTitle" max="32767" attributes="0"/>
-                  <Component id="jLabel1" max="32767" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="jLabel1" max="32767" attributes="0"/>
+                      <EmptySpace min="-2" pref="81" max="-2" attributes="0"/>
+                      <Component id="chkDecrypt" min="-2" max="-2" attributes="0"/>
+                  </Group>
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
@@ -45,7 +49,7 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="btnBrowse1" min="-2" pref="85" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="jButton1" min="-2" pref="311" max="-2" attributes="0"/>
+                          <Component id="BtnDoFileDes" min="-2" pref="311" max="-2" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="lblPassword1" min="-2" pref="74" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -79,7 +83,10 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                   <Group type="102" attributes="0">
-                      <Component id="jLabel1" min="-2" pref="36" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jLabel1" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
+                          <Component id="chkDecrypt" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="lblPasswordTitle" min="-2" pref="28" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
@@ -112,7 +119,7 @@
                           <Component id="btnBrowse2" alignment="3" min="-2" pref="28" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="jButton1" min="-2" pref="53" max="-2" attributes="0"/>
+                      <Component id="BtnDoFileDes" min="-2" pref="53" max="-2" attributes="0"/>
                   </Group>
                   <Component id="jScrollPane1" max="32767" attributes="0"/>
               </Group>
@@ -148,12 +155,12 @@
     </Component>
     <Component class="javax.swing.JLabel" name="lblPasswordTitle">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Give 3 password to start the encrypting"/>
+        <Property name="text" type="java.lang.String" value="Give 3 passwords "/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="lblFileChooser">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Select file to hide the encrypted data in"/>
+        <Property name="text" type="java.lang.String" value="Select input file"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txtFile2">
@@ -191,13 +198,16 @@
     </Component>
     <Component class="javax.swing.JLabel" name="lblFileChooser1">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Select file to encrypt and hide"/>
+        <Property name="text" type="java.lang.String" value="Select output file"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton1">
+    <Component class="javax.swing.JButton" name="BtnDoFileDes">
       <Properties>
-        <Property name="text" type="java.lang.String" value="jButton1"/>
+        <Property name="text" type="java.lang.String" value="START"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnDoFileDesActionPerformed"/>
+      </Events>
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane1">
       <AuxValues>
@@ -220,6 +230,11 @@
           <Font name="Microsoft JhengHei" size="24" style="0"/>
         </Property>
         <Property name="text" type="java.lang.String" value="3DES"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JCheckBox" name="chkDecrypt">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Decrypt"/>
       </Properties>
     </Component>
   </SubComponents>

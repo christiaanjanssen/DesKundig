@@ -32,10 +32,9 @@ public class FileDes {
         enResult = new ThreadResult(Sleutels);
     }
 
-    public void encrypt(String in, String out) {
-        bOut = new BinaryOut(out);
+    public void encrypt(File file, File out) {
+        bOut = new BinaryOut(out.getAbsolutePath());
         try {
-            File file = new File(in);
             long Flength = file.length() * 8;
             FileInputStream is = new FileInputStream(file);
             byte[] chunk = new byte[8];
@@ -108,10 +107,9 @@ public class FileDes {
 
     }
 
-    public void decrypt(String in, String out) {
-        bIn = new BinaryIn(in);
-        bOut = new BinaryOut(out);
-        File file = new File(in);
+    public void decrypt(File file, File out) {
+        bIn = new BinaryIn(file.getAbsolutePath());
+        bOut = new BinaryOut(out.getAbsolutePath());
         long Flength = file.length() * 8 / 64;
         Boolean reader;
         Boolean first = true;
