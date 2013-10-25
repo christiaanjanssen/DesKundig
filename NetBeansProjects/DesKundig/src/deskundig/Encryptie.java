@@ -1,37 +1,52 @@
 package deskundig;
 
-import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-public class Encryptie {
+public class Encryptie implements Runnable {
 
-    private Keys[] Sleutels;
-    private byte[][] blok = new byte[8][8]; // 64-bit array
-    private static int[] invoerRij = new int[64];
-    private static int[] gepermuteerdeRij = new int[64];
-    private static int[] linkerDeel = new int[32]; // Het linker deel van de opgesplitste, gepermuteerde rij
-    private static int[] rechterDeel = new int[32]; // Het rechter deel van de opgesplitste, gepermuteerde rij
-    private static int[] rechterDeelNaExpansie = new int[48];
-    private static int[] blok64Array = new int[64];
-    private static int[] nieuwBlok64Array = new int[64];
-    private static int[] resultaatXOR = new int[48];
-    private static int[] resultaatSBox = new int[32];
-    private static int[] naXOR = new int[32];
-    private int stap = 0;
+    private int[] gepermuteerdeRij;
+    private int[] linkerDeel; // Het linker deel van de opgesplitste, gepermuteerde rij
+    private int[] rechterDeel; // Het rechter deel van de opgesplitste, gepermuteerde rij
+    private int[] rechterDeelNaExpansie;
+    private int[] blok64Array;
+    private int[] nieuwBlok64Array;
+    private int[] resultaatXOR;
+    private int[] resultaatSBox;
+    private int[] naXOR;
+    private ThreadResult tResult;
+    private ExpansieTabel e;
+    private SBox sBox;
+    private Permutatie p;
+    private boolean enc;
+        
 
     /**
      * Default constructor van de encryptie klasse.
      *
      */
-    public Encryptie() {
-    }
+    public Encryptie(ThreadResult intResult, boolean enc) {
+        this.naXOR = new int[32];
+        this.resultaatSBox = new int[32];
+        this.resultaatXOR = new int[48];
+        this.nieuwBlok64Array = new int[64];
+        this.blok64Array = new int[64];
+        this.rechterDeelNaExpansie = new int[48];
+        this.rechterDeel = new int[32];
+        this.linkerDeel = new int[32];
+        this.gepermuteerdeRij = new int[64];
+        
+        this.tResult = intResult;
+        
+        this.e = new ExpansieTabel();
+        this.p = new Permutatie();
+        this.sBox = new SBox();
+        
+        this.enc = enc;
 
-    public Encryptie(String[] slke) {
-        Sleutels = new Keys[3];
-        Sleutels[0] = new Keys(slke[0]);
-        Sleutels[1] = new Keys(slke[1]);
-        Sleutels[2] = new Keys(slke[2]);
     }
-
+    
+    
 
     /**
      * Deze functie splits de gepermuteerde rij op in een linker en een rechter
@@ -116,24 +131,21 @@ public class Encryptie {
         return ch;
     }
 
-    public int[] Decrypteer(int[] newBlock64_) {
-        int invStap = 2 - stap;
-        int[][] keys = Sleutels[invStap].getKey();
+    public void Decrypteer() {
+        int invStap = 2 - tResult.getStap();
+        int[][] keys =  tResult.getSleutels(invStap).getKey();
 
-        Permutatie p = new Permutatie();
-        p.VulPermutatie();
-        p.Permuteer(newBlock64_, gepermuteerdeRij);
+        
+        p.Permuteer(tResult.getResult(), gepermuteerdeRij);
 
         DeelOp(gepermuteerdeRij);
 
         for (int j = 15; j >= 0; j--) {
-            ExpansieTabel e = new ExpansieTabel();
-            e.ZetOmNaarRij();
             e.Exponeren(rechterDeel, rechterDeelNaExpansie);
 
             XOR(rechterDeelNaExpansie, keys[j], resultaatXOR);
-
-            SBox sBox = new SBox();
+            
+            sBox.reset();
             sBox.runSBox(resultaatXOR, resultaatSBox);
 
             // XOR-operatie uitvoeren op het linkerdeel
@@ -158,34 +170,36 @@ public class Encryptie {
 
         int[] ch = BitToByte(nieuwBlok64Array);
 
-        if (stap == 2) {
-            stap = 0;
-            return nieuwBlok64Array;
+        if (tResult.getStap() == 2) {
+            tResult.setStap(0);
+            tResult.setResult(nieuwBlok64Array);
         } else {
-            stap++;
-            return Decrypteer(nieuwBlok64Array);
+            try {
+                tResult.StapUp();
+                tResult.setResult(nieuwBlok64Array);
+                Thread newThread = new Thread(new Encryptie(tResult, false), "encryptie");
+                newThread.start();
+                newThread.join();
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Encryptie.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-
 
     }
 
-    public int[] Encrypteer(int[] invoerRij) {
-        int[][] keys = Sleutels[stap].getKey();
+    public void encrypteer() {
+        int[][] keys = tResult.getSleutels(tResult.getStap()).getKey();
 
-        Permutatie p = new Permutatie();
-        p.VulPermutatie();
-        p.Permuteer(invoerRij, gepermuteerdeRij);
+        p.Permuteer(tResult.getResult(), gepermuteerdeRij);
 
         DeelOp(gepermuteerdeRij);
 
         for (int j = 0; j < 16; j++) {
-            ExpansieTabel e = new ExpansieTabel();
-            e.ZetOmNaarRij();
             e.Exponeren(rechterDeel, rechterDeelNaExpansie);
 
             XOR(rechterDeelNaExpansie, keys[j], resultaatXOR);
 
-            SBox sBox = new SBox();
+            sBox.reset();
             sBox.runSBox(resultaatXOR, resultaatSBox);
 
             // XOR-operatie uitvoeren op het linkerdeel
@@ -196,7 +210,6 @@ public class Encryptie {
                 linkerDeel[g] = rechterDeel[g];
                 rechterDeel[g] = naXOR[g];
             }
-
         }
 
         WisselOm();
@@ -208,15 +221,29 @@ public class Encryptie {
         // Inversie permutatie uitvoeren op het samengevoegd resultaat
         p.PermuteerInvers(blok64Array, nieuwBlok64Array);
 
-
-        if (stap == 2) {
-            stap = 0;
-            return nieuwBlok64Array;
+        if (tResult.getStap() == 2) {
+            tResult.setStap(0);
+            tResult.setResult(nieuwBlok64Array);
         } else {
-            stap++;
-            return Encrypteer(nieuwBlok64Array);
+            try {
+                tResult.StapUp();
+                tResult.setResult(nieuwBlok64Array);
+                Thread newThread = new Thread(new Encryptie(tResult, true), "encryptie");
+                newThread.start();
+                newThread.join();
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Encryptie.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
 
 
+    }
+
+    @Override
+    public void run() {
+        if(enc)
+            encrypteer();
+        else
+            Decrypteer();
     }
 }

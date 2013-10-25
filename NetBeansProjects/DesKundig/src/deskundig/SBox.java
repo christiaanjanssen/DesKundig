@@ -1,25 +1,43 @@
 package deskundig;
 
 public class SBox {
-    private int[] func_out=new int[32];
-    private int[] opslag = new int[32];
-    private int[] naSBox = new int[32];
-    private int index = 0;
-    private int eersteIndex = 0;
-    private int tweedeIndex = 0;
-    private int rij = 0;
-    private int kolom = 0;
-    private int[] resultaatSBox = new int[8];
-    private int[] rijSbox = new int[8];
-    private int[] kolomSBox = new int[8];
-    private int[] eersteDec = new int[2];
-    private int[] tweedeDec = new int[4];
-    private int[] temp = new int[6];
+    private int[] func_out;
+    private int[] opslag;
+    private int[] naSBox;
+    private int index;
+    private int eersteIndex;
+    private int tweedeIndex;
+    private int rij;
+    private int kolom;
+    private int[] resultaatSBox;
+    private int[] rijSbox;
+    private int[] kolomSBox;
+    private int[] eersteDec;
+    private int[] tweedeDec;
+    private int[] temp;
     
     /**
      * Default construct van de SBox Klasse
      */
     public SBox() {
+        //reset();
+    }
+    
+    public final void reset(){
+        this.temp = new int[6];
+        this.tweedeDec = new int[4];
+        this.eersteDec = new int[2];
+        this.kolomSBox = new int[8];
+        this.rijSbox = new int[8];
+        this.resultaatSBox = new int[8];
+        this.kolom = 0;
+        this.rij = 0;
+        this.tweedeIndex = 0;
+        this.eersteIndex = 0;
+        this.index = 0;
+        this.naSBox = new int[32];
+        this.opslag = new int[32];
+        this.func_out = new int[32];
     }
     
     /**

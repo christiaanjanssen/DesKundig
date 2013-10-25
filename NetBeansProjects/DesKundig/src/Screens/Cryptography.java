@@ -4,8 +4,7 @@ package Screens;
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
-
+import deskundig.FileDes;
 import java.io.File;
 import javax.swing.JFileChooser;
 import javax.swing.UIManager;
@@ -17,12 +16,14 @@ import javax.swing.UIManager.LookAndFeelInfo;
  */
 public class Cryptography extends javax.swing.JFrame {
 
+    private File inFile, outFile;
+
     /**
      * Creates new form Cryptography
      */
     public Cryptography() {
         initComponents();
-        
+
     }
 
     /**
@@ -47,10 +48,11 @@ public class Cryptography extends javax.swing.JFrame {
         btnBrowse1 = new javax.swing.JButton();
         txtFile1 = new javax.swing.JTextField();
         lblFileChooser1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        BtnDoFileDes = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
         jLabel1 = new javax.swing.JLabel();
+        chkDecrypt = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -67,9 +69,9 @@ public class Cryptography extends javax.swing.JFrame {
 
         lblPassword2.setText("Password 2");
 
-        lblPasswordTitle.setText("Give 3 password to start the encrypting");
+        lblPasswordTitle.setText("Give 3 passwords ");
 
-        lblFileChooser.setText("Select file to hide the encrypted data in");
+        lblFileChooser.setText("Select input file");
 
         txtFile2.setForeground(new java.awt.Color(0, 102, 204));
 
@@ -94,9 +96,14 @@ public class Cryptography extends javax.swing.JFrame {
             }
         });
 
-        lblFileChooser1.setText("Select file to encrypt and hide");
+        lblFileChooser1.setText("Select output file");
 
-        jButton1.setText("jButton1");
+        BtnDoFileDes.setText("START");
+        BtnDoFileDes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnDoFileDesActionPerformed(evt);
+            }
+        });
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
@@ -104,6 +111,8 @@ public class Cryptography extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Microsoft JhengHei", 0, 24)); // NOI18N
         jLabel1.setText("3DES");
+
+        chkDecrypt.setText("Decrypt");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -115,7 +124,10 @@ public class Cryptography extends javax.swing.JFrame {
                     .addComponent(lblFileChooser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(lblFileChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(lblPasswordTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(81, 81, 81)
+                        .addComponent(chkDecrypt))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -126,7 +138,7 @@ public class Cryptography extends javax.swing.JFrame {
                                 .addComponent(txtFile1, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnBrowse1, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 311, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(BtnDoFileDes, javax.swing.GroupLayout.PREFERRED_SIZE, 311, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(lblPassword1, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
@@ -151,7 +163,9 @@ public class Cryptography extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(chkDecrypt))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblPasswordTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -179,7 +193,7 @@ public class Cryptography extends javax.swing.JFrame {
                             .addComponent(txtFile2, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnBrowse2, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(BtnDoFileDes, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -195,23 +209,39 @@ public class Cryptography extends javax.swing.JFrame {
         JFileChooser Kiezer = new JFileChooser("./");                       //zet standaard pad voor het bestand te kiezen dat ontcijfert moet worden
         Kiezer.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);    //men gaat hier de manier van kiezen koppelen aan de kiezer, dus zowel bestanden als mappen
         int Terugkeerwaarde = Kiezer.showOpenDialog(this);
-        File directory = Kiezer.getSelectedFile();
-        String directoryString = Kiezer.getSelectedFile().toString();
-        txtFile1.setText(directoryString);
+        if (Terugkeerwaarde == JFileChooser.APPROVE_OPTION) {
+            inFile = Kiezer.getSelectedFile();
+            String inFilePath = Kiezer.getSelectedFile().toString();
+            txtFile1.setText(inFilePath);
+        }
     }//GEN-LAST:event_btnBrowse1ActionPerformed
 
     private void btnBrowse2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBrowse2ActionPerformed
         JFileChooser Kiezer = new JFileChooser("./");                       //zet standaard pad voor het bestand te kiezen dat ontcijfert moet worden
         Kiezer.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);    //men gaat hier de manier van kiezen koppelen aan de kiezer, dus zowel bestanden als mappen
         int Terugkeerwaarde = Kiezer.showOpenDialog(this);
-        File directory = Kiezer.getSelectedFile();
-        String directoryString = Kiezer.getSelectedFile().toString();
-        txtFile2.setText(directoryString);
+        if (Terugkeerwaarde == JFileChooser.APPROVE_OPTION) {
+            outFile = Kiezer.getSelectedFile();
+            String outFilePath = Kiezer.getSelectedFile().toString();
+            txtFile2.setText(outFilePath);
+        }
     }//GEN-LAST:event_btnBrowse2ActionPerformed
 
     private void txtPassword3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPassword3ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtPassword3ActionPerformed
+
+    private void BtnDoFileDesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnDoFileDesActionPerformed
+        String[] sleutels = {txtPassword1.getText(), txtPassword2.getText(), txtPassword3.getText()};
+
+        FileDes doDes = new FileDes(sleutels);
+
+        if (chkDecrypt.isSelected()) {
+            doDes.decrypt(inFile, outFile);
+        } else {
+            doDes.encrypt(inFile, outFile);
+        }
+    }//GEN-LAST:event_BtnDoFileDesActionPerformed
 
     /**
      * @param args the command line arguments
@@ -223,15 +253,15 @@ public class Cryptography extends javax.swing.JFrame {
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
         try {
-    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-        if ("Nimbus".equals(info.getName())) {
-            UIManager.setLookAndFeel(info.getClassName());
-            break;
+            for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            // If Nimbus is not available, you can set the GUI to another look and feel.
         }
-    }
-} catch (Exception e) {
-    // If Nimbus is not available, you can set the GUI to another look and feel.
-}
         //</editor-fold>
 
         /* Create and display the form */
@@ -242,9 +272,10 @@ public class Cryptography extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton BtnDoFileDes;
     private javax.swing.JButton btnBrowse1;
     private javax.swing.JButton btnBrowse2;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JCheckBox chkDecrypt;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTextArea1;
