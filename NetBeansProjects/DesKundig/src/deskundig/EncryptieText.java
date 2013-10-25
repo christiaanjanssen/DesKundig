@@ -235,9 +235,6 @@ public class EncryptieText {
             WisselOm();
             VoegSamen();
 
-            // Inverse permutatiematrix in een rij omzetten
-            p.VulInversePermutatie();
-
             // Inversie permutatie uitvoeren op het samengevoegd resultaat
             p.PermuteerInvers(blok64Array, nieuwBlok64Array);
 
@@ -325,9 +322,6 @@ public class EncryptieText {
 
             WisselOm();
             VoegSamen();
-
-            // Inverse permutatiematrix in een rij omzetten
-            p.VulInversePermutatie();
 
             // Inversie permutatie uitvoeren op het samengevoegd resultaat
             p.PermuteerInvers(blok64Array, nieuwBlok64Array);
