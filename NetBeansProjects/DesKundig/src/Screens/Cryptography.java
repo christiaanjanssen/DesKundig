@@ -4,11 +4,15 @@ package Screens;
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+import be.belgium.eid.eidlib.BeID;
+import be.belgium.eid.exceptions.EIDException;
+import be.belgium.eid.objects.IDData;
 import deskundig.FileDes;
 import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
@@ -19,6 +23,8 @@ import javax.swing.UIManager.LookAndFeelInfo;
 public class Cryptography extends javax.swing.JFrame {
 
     private File inFile, outFile;
+    private String key1Key;
+    private String key2Key;
 
     /**
      * Creates new form Cryptography
@@ -37,10 +43,7 @@ public class Cryptography extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        txtPassword3 = new javax.swing.JTextField();
-        txtPassword1 = new javax.swing.JTextField();
-        txtPassword2 = new javax.swing.JTextField();
-        lblPassword1 = new javax.swing.JLabel();
+        lblData = new javax.swing.JLabel();
         lblPassword3 = new javax.swing.JLabel();
         lblPassword2 = new javax.swing.JLabel();
         lblPasswordTitle = new javax.swing.JLabel();
@@ -56,21 +59,18 @@ public class Cryptography extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         chkDecrypt = new javax.swing.JCheckBox();
         fileProgress = new javax.swing.JProgressBar();
+        btGetData = new javax.swing.JButton();
+        txtPassword2 = new javax.swing.JPasswordField();
+        txtPassword3 = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
 
-        txtPassword3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtPassword3ActionPerformed(evt);
-            }
-        });
+        lblData.setText("No data found");
 
-        lblPassword1.setText("Password1");
+        lblPassword3.setText("Confirm password");
 
-        lblPassword3.setText("Password 3");
-
-        lblPassword2.setText("Password 2");
+        lblPassword2.setText("Password");
 
         lblPasswordTitle.setText("Give 3 passwords ");
 
@@ -117,48 +117,52 @@ public class Cryptography extends javax.swing.JFrame {
 
         chkDecrypt.setText("Decrypt");
 
+        btGetData.setText("Get data");
+        btGetData.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btGetDataActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblFileChooser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblFileChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblPasswordTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(lblFileChooser, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblFileChooser1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblPasswordTitle, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(81, 81, 81)
-                        .addComponent(chkDecrypt))
+                        .addComponent(chkDecrypt)
+                        .addGap(30, 30, 30))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(lblPassword3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(BtnDoFileDes, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 342, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtFile1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtFile2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(btnBrowse2, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnBrowse1, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(txtFile2, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnBrowse2, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(txtFile1, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnBrowse1, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(BtnDoFileDes, javax.swing.GroupLayout.PREFERRED_SIZE, 311, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(lblPassword1, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(lblPassword2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lblData, javax.swing.GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE))
                                 .addGap(18, 18, 18)
-                                .addComponent(txtPassword1, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(lblPassword3, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(txtPassword3, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                    .addComponent(lblPassword2, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(txtPassword2, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(btGetData, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(txtPassword2)
+                                    .addComponent(txtPassword3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE))))))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 722, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 906, Short.MAX_VALUE)
                     .addComponent(fileProgress, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(11, 11, 11))
         );
@@ -180,16 +184,16 @@ public class Cryptography extends javax.swing.JFrame {
                         .addComponent(lblPasswordTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtPassword1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblPassword1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtPassword2, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblPassword2, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(lblData, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btGetData, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(lblPassword2, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtPassword2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblPassword3, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtPassword3, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtPassword3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addComponent(lblFileChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -237,23 +241,22 @@ public class Cryptography extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnBrowse2ActionPerformed
 
-    private void txtPassword3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPassword3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtPassword3ActionPerformed
-
     private void BtnDoFileDesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnDoFileDesActionPerformed
-        String[] sleutels = {txtPassword1.getText(), txtPassword2.getText(), txtPassword3.getText()};
-
-        Thread nThread;
-        
-        if (chkDecrypt.isSelected()) {
-            nThread = new Thread(new FileDes(sleutels, inFile, outFile, false));
-        } else {
-            nThread = new Thread(new FileDes(sleutels, inFile, outFile, true));
+        if (txtPassword2.getText().equals(txtPassword3.getText())) {
+            String[] sleutels = {key1Key, key2Key, txtPassword3.getText()};
+            Thread nThread;
+            if (chkDecrypt.isSelected()) {
+                nThread = new Thread(new FileDes(sleutels, inFile, outFile, false));
+            } else {
+                nThread = new Thread(new FileDes(sleutels, inFile, outFile, true));
+            }
+            nThread.start();
         }
-        
-        nThread.start();
-        
+        else {
+            JOptionPane.showMessageDialog(null, "wachtwoorden komen niet overeen, probeer opnieuw!", "Fout", JOptionPane.ERROR_MESSAGE);
+            txtPassword2.setText("");
+            txtPassword3.setText("");
+        }
 //        fileProgress.setStringPainted(true);
 //        fileProgress.setMinimum(0);
 //        
@@ -264,9 +267,20 @@ public class Cryptography extends javax.swing.JFrame {
 //             fileProgress.setValue(fMax);
 //            
 //        }
-        
-        
+
+
     }//GEN-LAST:event_BtnDoFileDesActionPerformed
+
+    private void btGetDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btGetDataActionPerformed
+        try {
+            BeID id = new BeID(true);
+            key1Key = id.getIDData().getCardNumber();
+            key2Key = id.getIDData().getCardNumber();
+            lblData.setText("Is gelukt!");
+        } catch (EIDException ex) {
+            Logger.getLogger(Cryptography.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btGetDataActionPerformed
 
     /**
      * @param args the command line arguments
@@ -298,6 +312,7 @@ public class Cryptography extends javax.swing.JFrame {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnDoFileDes;
+    private javax.swing.JButton btGetData;
     private javax.swing.JButton btnBrowse1;
     private javax.swing.JButton btnBrowse2;
     private javax.swing.JCheckBox chkDecrypt;
@@ -305,16 +320,15 @@ public class Cryptography extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JLabel lblData;
     private javax.swing.JLabel lblFileChooser;
     private javax.swing.JLabel lblFileChooser1;
-    private javax.swing.JLabel lblPassword1;
     private javax.swing.JLabel lblPassword2;
     private javax.swing.JLabel lblPassword3;
     private javax.swing.JLabel lblPasswordTitle;
     private javax.swing.JTextField txtFile1;
     private javax.swing.JTextField txtFile2;
-    private javax.swing.JTextField txtPassword1;
-    private javax.swing.JTextField txtPassword2;
-    private javax.swing.JTextField txtPassword3;
+    private javax.swing.JPasswordField txtPassword2;
+    private javax.swing.JPasswordField txtPassword3;
     // End of variables declaration//GEN-END:variables
 }

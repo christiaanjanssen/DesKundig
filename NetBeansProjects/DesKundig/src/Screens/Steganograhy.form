@@ -28,50 +28,47 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="1" attributes="0">
-                  <Component id="lblFileChooser" alignment="0" max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="lblFileChooser1" alignment="0" max="32767" attributes="0"/>
                   <Component id="lblPasswordTitle" alignment="0" max="32767" attributes="0"/>
-                  <Group type="102" attributes="0">
+                  <Group type="102" alignment="1" attributes="0">
                       <Component id="jLabel1" max="32767" attributes="0"/>
                       <EmptySpace min="-2" pref="81" max="-2" attributes="0"/>
                       <Component id="chkDecrypt" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="30" pref="30" max="-2" attributes="0"/>
                   </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="lblPassword3" alignment="0" min="-2" pref="104" max="-2" attributes="0"/>
-                          <Component id="BtnDoFileDes" alignment="0" min="-2" pref="342" max="-2" attributes="0"/>
-                          <Component id="txtFile1" alignment="0" min="-2" pref="244" max="-2" attributes="0"/>
-                          <Component id="txtFile2" alignment="0" min="-2" pref="243" max="-2" attributes="0"/>
+                  <Group type="102" alignment="1" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="lblPassword2" min="-2" pref="104" max="-2" attributes="0"/>
+                          <Component id="lblPassword1" alignment="0" min="-2" pref="104" max="-2" attributes="0"/>
                       </Group>
+                      <EmptySpace max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                              <Component id="txtPassword2" min="-2" pref="220" max="-2" attributes="0"/>
+                          </Group>
+                          <Component id="jButton1" alignment="1" min="-2" pref="220" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                  <Group type="102" alignment="1" attributes="0">
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      <Component id="lblPassword3" min="-2" pref="104" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
+                      <Component id="txtPassword3" min="-2" pref="220" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" attributes="0">
+                      <Component id="BtnDoFileDes" min="-2" pref="162" max="-2" attributes="0"/>
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" attributes="0">
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="btnBrowse2" min="-2" pref="85" max="-2" attributes="0"/>
-                          <Component id="btnBrowse1" min="-2" pref="85" max="-2" attributes="0"/>
-                          <Group type="102" attributes="0">
-                              <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                  <Component id="lblPassword2" max="32767" attributes="0"/>
-                                  <Component id="lblData" pref="104" max="32767" attributes="0"/>
-                              </Group>
-                              <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="btGetData" max="32767" attributes="0"/>
-                                  <Component id="txtPassword2" max="32767" attributes="0"/>
-                                  <Component id="txtPassword3" alignment="1" pref="220" max="32767" attributes="0"/>
-                              </Group>
-                          </Group>
-                      </Group>
+                      <Component id="txtFile2" min="-2" pref="243" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
+                      <Component id="btnBrowse2" min="-2" pref="85" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="jScrollPane1" pref="906" max="32767" attributes="0"/>
-                  <Component id="fileProgress" max="32767" attributes="0"/>
-              </Group>
+              <Component id="jScrollPane1" min="-2" pref="906" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -80,53 +77,39 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jLabel1" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
-                          <Component id="chkDecrypt" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="1" attributes="0">
-                      <Component id="fileProgress" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
-                  </Group>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jLabel1" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
+                  <Component id="chkDecrypt" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
+              <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                   <Group type="102" attributes="0">
                       <Component id="lblPasswordTitle" min="-2" pref="28" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="lblData" alignment="3" min="-2" pref="28" max="-2" attributes="0"/>
-                          <Component id="btGetData" alignment="3" pref="33" max="32767" attributes="0"/>
+                          <Component id="lblPassword1" alignment="3" min="-2" pref="28" max="-2" attributes="0"/>
+                          <Component id="jButton1" alignment="3" pref="33" max="32767" attributes="0"/>
                       </Group>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="lblPassword2" min="-2" pref="28" max="-2" attributes="0"/>
-                          <Component id="txtPassword2" min="-2" pref="30" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="txtPassword2" alignment="3" min="-2" pref="28" max="-2" attributes="0"/>
+                          <Component id="lblPassword2" alignment="3" min="-2" pref="28" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="lblPassword3" alignment="3" min="-2" pref="28" max="-2" attributes="0"/>
-                          <Component id="txtPassword3" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                          <Component id="txtPassword3" alignment="3" min="-2" pref="28" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="lblFileChooser" min="-2" pref="28" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="txtFile1" alignment="3" min="-2" pref="28" max="-2" attributes="0"/>
-                          <Component id="btnBrowse1" alignment="3" min="-2" pref="28" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="lblFileChooser1" min="-2" pref="28" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="txtFile2" alignment="3" min="-2" pref="28" max="-2" attributes="0"/>
                           <Component id="btnBrowse2" alignment="3" min="-2" pref="28" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="BtnDoFileDes" min="-2" pref="53" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="92" max="-2" attributes="0"/>
                   </Group>
                   <Component id="jScrollPane1" max="32767" attributes="0"/>
               </Group>
@@ -136,9 +119,16 @@
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JLabel" name="lblData">
+    <Component class="javax.swing.JTextField" name="txtPassword3">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtPassword3ActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JTextField" name="txtPassword2">
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblPassword1">
       <Properties>
-        <Property name="text" type="java.lang.String" value="No data found"/>
+        <Property name="text" type="java.lang.String" value="Password1"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="lblPassword3">
@@ -148,17 +138,12 @@
     </Component>
     <Component class="javax.swing.JLabel" name="lblPassword2">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Password"/>
+        <Property name="text" type="java.lang.String" value="Password 2"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="lblPasswordTitle">
       <Properties>
         <Property name="text" type="java.lang.String" value="Give 3 passwords "/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JLabel" name="lblFileChooser">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Select input file"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txtFile2">
@@ -176,27 +161,9 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnBrowse2ActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="btnBrowse1">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Browse.."/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnBrowse1ActionPerformed"/>
-      </Events>
-    </Component>
-    <Component class="javax.swing.JTextField" name="txtFile1">
-      <Properties>
-        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="cc" green="66" red="0" type="rgb"/>
-        </Property>
-      </Properties>
-      <Events>
-        <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="txtFile1MouseEntered"/>
-      </Events>
-    </Component>
     <Component class="javax.swing.JLabel" name="lblFileChooser1">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Select output file"/>
+        <Property name="text" type="java.lang.String" value="Select image file"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="BtnDoFileDes">
@@ -227,7 +194,7 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Microsoft JhengHei" size="24" style="0"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="3DES"/>
+        <Property name="text" type="java.lang.String" value="Steganography"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JCheckBox" name="chkDecrypt">
@@ -235,19 +202,10 @@
         <Property name="text" type="java.lang.String" value="Decrypt"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JProgressBar" name="fileProgress">
-    </Component>
-    <Component class="javax.swing.JButton" name="btGetData">
+    <Component class="javax.swing.JButton" name="jButton1">
       <Properties>
         <Property name="text" type="java.lang.String" value="Get data"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btGetDataActionPerformed"/>
-      </Events>
-    </Component>
-    <Component class="javax.swing.JPasswordField" name="txtPassword2">
-    </Component>
-    <Component class="javax.swing.JPasswordField" name="txtPassword3">
     </Component>
   </SubComponents>
 </Form>
