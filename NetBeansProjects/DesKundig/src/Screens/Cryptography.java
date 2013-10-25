@@ -6,6 +6,8 @@ package Screens;
  */
 import deskundig.FileDes;
 import java.io.File;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
@@ -53,6 +55,7 @@ public class Cryptography extends javax.swing.JFrame {
         jTextArea1 = new javax.swing.JTextArea();
         jLabel1 = new javax.swing.JLabel();
         chkDecrypt = new javax.swing.JCheckBox();
+        fileProgress = new javax.swing.JProgressBar();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -154,19 +157,26 @@ public class Cryptography extends javax.swing.JFrame {
                                     .addComponent(txtPassword2, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 722, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 722, Short.MAX_VALUE)
+                    .addComponent(fileProgress, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(11, 11, 11))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(chkDecrypt))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(fileProgress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(14, 14, 14)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(lblPasswordTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -234,13 +244,28 @@ public class Cryptography extends javax.swing.JFrame {
     private void BtnDoFileDesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnDoFileDesActionPerformed
         String[] sleutels = {txtPassword1.getText(), txtPassword2.getText(), txtPassword3.getText()};
 
-        FileDes doDes = new FileDes(sleutels);
-
+        Thread nThread;
+        
         if (chkDecrypt.isSelected()) {
-            doDes.decrypt(inFile, outFile);
+            nThread = new Thread(new FileDes(sleutels, inFile, outFile, false));
         } else {
-            doDes.encrypt(inFile, outFile);
+            nThread = new Thread(new FileDes(sleutels, inFile, outFile, true));
         }
+        
+        nThread.start();
+        
+//        fileProgress.setStringPainted(true);
+//        fileProgress.setMinimum(0);
+//        
+//        fileProgress.setMaximum(100);
+//        int fMax = 0;
+//        while(nThread.isAlive()){
+//             fMax = (int)(outFile.length() / inFile.length()) * 100;
+//             fileProgress.setValue(fMax);
+//            
+//        }
+        
+        
     }//GEN-LAST:event_BtnDoFileDesActionPerformed
 
     /**
@@ -276,6 +301,7 @@ public class Cryptography extends javax.swing.JFrame {
     private javax.swing.JButton btnBrowse1;
     private javax.swing.JButton btnBrowse2;
     private javax.swing.JCheckBox chkDecrypt;
+    private javax.swing.JProgressBar fileProgress;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTextArea1;

@@ -3,16 +3,10 @@ package deskundig;
 public class Keys {
 
     private String pass;
-    private int[] temp1 = new int[56];
-    private int[] temp2 = new int[48];
     //private String keys[][] = new String[7][8];
     private byte[][] blok = new byte[8][8];
-    private static int[] bitKey=new int[64];
+    private static int[] bitKey = new int[64];
     private int[][] keys = new int[16][48];
-    
-    private static int[][] PC1 = Matrices.PC1;
-    private static int[][] PC2 = Matrices.PC2;
-    
     private static int[] shift = Matrices.shift;
 
     public Keys(String p) {
@@ -20,25 +14,20 @@ public class Keys {
     }
 
     public int[][] getKey() {
-        straightenPC1();
-        straightenPC2();
-        
+
         VercijferTekst(pass);
-//        for (int i = 0; i < bitKey.length; i++) {
-//            System.out.print(bitKey[i]);
-//        }
-        
+
         int[] CD1 = new int[56];
         permWC1(bitKey, CD1);
-        
+
         int[] Cn = new int[28];
         int[] Dn = new int[28];
         split(CD1, Cn, Dn);
 
-        for(int i=0;i<16;i++){
-            if(shift[i] == 1){
+        for (int i = 0; i < 16; i++) {
+            if (shift[i] == 1) {
                 shiftOne(Cn, Dn);
-            }else{
+            } else {
                 shiftOne(Cn, Dn);
                 shiftOne(Cn, Dn);
             }
@@ -48,34 +37,8 @@ public class Keys {
             permWC2(cdStraight, Kn);
             keys[i] = Kn;
         }
-        
+
         return keys;
-    }
-
-    /**
-     * Maakt van de PC1 permutatie matrix een single row matrix (voor gemak)
-     */
-    private void straightenPC1() {
-        int teller = 0;
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 7; j++) {
-                temp1[teller] = PC1[i][j];
-                teller++;
-            }
-        }
-    }
-
-    /**
-     * Maakt van de PC2 permutatie matrix een single row matrix (voor gemak)
-     */
-    private void straightenPC2() {
-        int teller = 0;
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 6; j++) {
-                temp2[teller] = PC2[i][j];
-                teller++;
-            }
-        }
     }
 
     /**
@@ -87,7 +50,7 @@ public class Keys {
     private void permWC1(int[] in, int[] out) {
         int temp = 0, i = 0, teller = 0, kijk = 0;
         while (kijk != 56) {
-            temp = temp1[i];
+            temp = Matrices.RijPC1[i];
             if (temp == teller) {
                 out[kijk] = in[teller - 1];
                 teller = 0;
@@ -97,13 +60,6 @@ public class Keys {
             teller++;
         }
 
-//        int index = 0;
-//        for (int j = 0; j < 7; j++) {
-//            for (int k = 0; k < 8; k++) {
-//                uit[j][k] = Integer.toString(out[index]);
-//            }
-//        }
-//        index = 0;
     }
 
     /**
@@ -115,7 +71,7 @@ public class Keys {
     private void permWC2(int[] in, int[] out) {
         int temp = 0, i = 0, teller = 0, kijk = 0;
         while (kijk != 48) {
-            temp = temp2[i];
+            temp = Matrices.RijPC2[i];
             if (temp == teller) {
                 out[kijk] = in[teller - 1];
                 teller = 0;
@@ -125,12 +81,6 @@ public class Keys {
             teller++;
         }
 
-//        int index = 0;
-//        for (int j = 0; j < 6; j++) {
-//            for (int k = 0; k < 8; k++) {
-//                keys[j][k] = Integer.toString(out[index]);
-//            }
-//        }
     }
 
     /**
@@ -149,12 +99,12 @@ public class Keys {
             D[i - 28] = in[i];
         }
     }
-    
-    private void combine(int[] C, int[] D, int[] CD){
+
+    private void combine(int[] C, int[] D, int[] CD) {
         for (int i = 0; i < 28; i++) {
             CD[i] = C[i];
         }
-        
+
         int index = 28;
         for (int i = 0; i < 28; i++) {
             CD[index] = D[i];

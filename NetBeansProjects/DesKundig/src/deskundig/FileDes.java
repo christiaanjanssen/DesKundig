@@ -15,7 +15,7 @@ import java.util.logging.Logger;
  *
  * @author jeffr_000
  */
-public class FileDes {
+public class FileDes implements Runnable {
 
     private Encryptie en;
     private BinaryOut bOut;
@@ -23,63 +23,65 @@ public class FileDes {
     private String sleutel;
     private ThreadResult enResult;
     private Keys[] Sleutels;
+    private File file, out;
+    private boolean bEncrypt;
 
-    public FileDes(String[] slke) {
+    public FileDes(String[] slke, File fin, File fout, boolean ecrypt) {
         Sleutels = new Keys[3];
         Sleutels[0] = new Keys(slke[0]);
         Sleutels[1] = new Keys(slke[1]);
         Sleutels[2] = new Keys(slke[2]);
         enResult = new ThreadResult(Sleutels);
+        this.file = fin;
+        this.out = fout;
+        this.bEncrypt = ecrypt;
     }
 
-    public void encrypt(File file, File out) {
+    public void encrypt() {
         bOut = new BinaryOut(out.getAbsolutePath());
-        try {
-            long Flength = file.length() * 8;
-            FileInputStream is = new FileInputStream(file);
-            byte[] chunk = new byte[8];
-            String temp;
-            int chunkLen = 0;
+        bIn = new BinaryIn(file.getAbsolutePath());
+        long Flength = file.length() * 8;
+        String temp;
 
-            long rest = Flength % 64;
-            long addedLong = 64 - rest;
-            int added = (int) addedLong;
-            if (added == 64) {
-                added = 0;
+        long rest = Flength % 64;
+        long addedLong = 64 - rest;
+        int added = (int) addedLong;
+        if (added == 64) {
+            added = 0;
+        }
+        String toAdd = Integer.toBinaryString(added);
+        temp = "";
+
+        for (int i = 0; i < 64 - toAdd.length(); i++) {
+            temp += "0";
+        }
+
+        temp += toAdd;
+        for (int i = 0; i < temp.length(); i++) {
+            if (temp.substring(i, i + 1).equals("1")) {
+                bOut.write(true);
+            } else {
+                bOut.write(false);
             }
-            String toAdd = Integer.toBinaryString(added);
-            temp = "";
+        }
 
-            for (int i = 0; i < 64 - toAdd.length(); i++) {
-                temp += "0";
+        Thread newT;
+        int[] outArr = new int[64];
+        int teller = 0;
+        boolean read;
+        while (!bIn.isEmpty()) {
+            read = bIn.readBoolean();
+            if (read) {
+                outArr[teller] = 1;
+            } else {
+                outArr[teller] = 0;
             }
-
-            temp += toAdd;
-            for (int i = 0; i < temp.length(); i++) {
-                if (temp.substring(i, i + 1).equals("1")) {
-                    bOut.write(true);
-                } else {
-                    bOut.write(false);
-                }
-            }
-
-            while ((chunkLen = is.read(chunk)) != -1) {
-                temp = "";
-                int[] outArr = new int[64];
-                for (int i = 0; i < chunk.length; i++) {
-                    int b = chunk[i] & 0xFF; //unsigned byte !!
-                    String bits = Integer.toBinaryString(b);
-                    for (int j = 8; j > bits.length(); j--) {
-                        temp += "0";
-                    }
-                    temp += Integer.toBinaryString(b);
-                }
-                for (int i = 0; i < temp.length(); i++) {
-                    outArr[i] = Integer.parseInt(temp.substring(i, i + 1));
-                }
+            teller++;
+            
+            if(teller == 64){
                 enResult.setResult(outArr);
                 enResult.setStap(0);
-                Thread newT = new Thread(new Encryptie(enResult, true), "TridesEncryptie");
+                newT = new Thread(new Encryptie(enResult, true));
                 newT.start();
                 try {
                     newT.join();
@@ -94,20 +96,16 @@ public class FileDes {
                         bOut.write(false);
                     }
                 }
+                teller = 0;
             }
-
-            bOut.flush();
-            bOut.close();
-
-        } catch (FileNotFoundException fnfE) {
-            System.err.println("error : file not found");
-        } catch (IOException ioE) {
-            System.err.println("io error");
         }
+
+        bOut.flush();
+        bOut.close();
 
     }
 
-    public void decrypt(File file, File out) {
+    public void decrypt() {
         bIn = new BinaryIn(file.getAbsolutePath());
         bOut = new BinaryOut(out.getAbsolutePath());
         long Flength = file.length() * 8 / 64;
@@ -190,5 +188,14 @@ public class FileDes {
 
         }
         bOut.close();
+    }
+
+    @Override
+    public void run() {
+        if (bEncrypt) {
+            encrypt();
+        } else {
+            decrypt();
+        }
     }
 }
