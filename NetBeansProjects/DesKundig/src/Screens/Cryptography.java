@@ -30,6 +30,10 @@ public class Cryptography extends javax.swing.JFrame {
      * Creates new form Cryptography
      */
     public Cryptography() {
+        inFile = null;
+        outFile = null;
+        key1Key = null;
+        key2Key = null;
         initComponents();
 
     }
@@ -55,10 +59,9 @@ public class Cryptography extends javax.swing.JFrame {
         lblFileChooser1 = new javax.swing.JLabel();
         BtnDoFileDes = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        txtOutput = new javax.swing.JTextArea();
         jLabel1 = new javax.swing.JLabel();
         chkDecrypt = new javax.swing.JCheckBox();
-        fileProgress = new javax.swing.JProgressBar();
         btGetData = new javax.swing.JButton();
         txtPassword2 = new javax.swing.JPasswordField();
         txtPassword3 = new javax.swing.JPasswordField();
@@ -108,9 +111,10 @@ public class Cryptography extends javax.swing.JFrame {
             }
         });
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        txtOutput.setColumns(20);
+        txtOutput.setRows(5);
+        txtOutput.setEnabled(false);
+        jScrollPane1.setViewportView(txtOutput);
 
         jLabel1.setFont(new java.awt.Font("Microsoft JhengHei", 0, 24)); // NOI18N
         jLabel1.setText("3DES");
@@ -161,31 +165,24 @@ public class Cryptography extends javax.swing.JFrame {
                                     .addComponent(txtPassword2)
                                     .addComponent(txtPassword3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE))))))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 906, Short.MAX_VALUE)
-                    .addComponent(fileProgress, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(11, 11, 11))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 676, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(chkDecrypt))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(fileProgress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(14, 14, 14)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblPasswordTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblData, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btGetData, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE))
+                            .addComponent(btGetData, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(lblPassword2, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -221,7 +218,7 @@ public class Cryptography extends javax.swing.JFrame {
 
     private void btnBrowse1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBrowse1ActionPerformed
         JFileChooser Kiezer = new JFileChooser("./");                       //zet standaard pad voor het bestand te kiezen dat ontcijfert moet worden
-        Kiezer.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);    //men gaat hier de manier van kiezen koppelen aan de kiezer, dus zowel bestanden als mappen
+        Kiezer.setFileSelectionMode(JFileChooser.FILES_ONLY);    //men gaat hier de manier van kiezen koppelen aan de kiezer, dus zowel bestanden als mappen
         int Terugkeerwaarde = Kiezer.showOpenDialog(this);
         if (Terugkeerwaarde == JFileChooser.APPROVE_OPTION) {
             inFile = Kiezer.getSelectedFile();
@@ -231,9 +228,10 @@ public class Cryptography extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBrowse1ActionPerformed
 
     private void btnBrowse2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBrowse2ActionPerformed
-        JFileChooser Kiezer = new JFileChooser("./");                       //zet standaard pad voor het bestand te kiezen dat ontcijfert moet worden
-        Kiezer.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);    //men gaat hier de manier van kiezen koppelen aan de kiezer, dus zowel bestanden als mappen
-        int Terugkeerwaarde = Kiezer.showOpenDialog(this);
+        JFileChooser Kiezer = new JFileChooser("./"); 
+        //zet standaard pad voor het bestand te kiezen dat ontcijfert moet worden
+        Kiezer.setFileSelectionMode(JFileChooser.FILES_ONLY);    //men gaat hier de manier van kiezen koppelen aan de kiezer, dus zowel bestanden als mappen
+        int Terugkeerwaarde = Kiezer.showSaveDialog(this);
         if (Terugkeerwaarde == JFileChooser.APPROVE_OPTION) {
             outFile = Kiezer.getSelectedFile();
             String outFilePath = Kiezer.getSelectedFile().toString();
@@ -242,7 +240,19 @@ public class Cryptography extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBrowse2ActionPerformed
 
     private void BtnDoFileDesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnDoFileDesActionPerformed
-        if (txtPassword2.getText().equals(txtPassword3.getText())) {
+        if (!txtPassword2.getText().equals(txtPassword3.getText())) {
+            JOptionPane.showMessageDialog(null, "wachtwoorden komen niet overeen, probeer opnieuw!", "Fout", JOptionPane.ERROR_MESSAGE);
+            txtPassword2.setText("");
+            txtPassword3.setText("");
+        } else if (txtPassword2.getText().length() < 10) {
+            JOptionPane.showMessageDialog(null, "wachtwoord moet minstens 10 tekens lang zijn", "Fout", JOptionPane.ERROR_MESSAGE);
+            txtPassword2.setText("");
+            txtPassword3.setText("");
+        }else if (inFile == null || outFile == null){
+            JOptionPane.showMessageDialog(null, "er zijn geen 2 bestanden geselecteerd", "Fout", JOptionPane.ERROR_MESSAGE);
+        }else if(key1Key == null || key2Key == null){
+            JOptionPane.showMessageDialog(null, "E-id gegevens niet gevonden (klik Get data)", "Fout", JOptionPane.ERROR_MESSAGE);
+        } else {
             String[] sleutels = {key1Key, key2Key, txtPassword3.getText()};
             Thread nThread;
             if (chkDecrypt.isSelected()) {
@@ -252,33 +262,20 @@ public class Cryptography extends javax.swing.JFrame {
             }
             nThread.start();
         }
-        else {
-            JOptionPane.showMessageDialog(null, "wachtwoorden komen niet overeen, probeer opnieuw!", "Fout", JOptionPane.ERROR_MESSAGE);
-            txtPassword2.setText("");
-            txtPassword3.setText("");
-        }
-//        fileProgress.setStringPainted(true);
-//        fileProgress.setMinimum(0);
-//        
-//        fileProgress.setMaximum(100);
-//        int fMax = 0;
-//        while(nThread.isAlive()){
-//             fMax = (int)(outFile.length() / inFile.length()) * 100;
-//             fileProgress.setValue(fMax);
-//            
-//        }
 
 
     }//GEN-LAST:event_BtnDoFileDesActionPerformed
 
     private void btGetDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btGetDataActionPerformed
+        txtOutput.append("\nReading E-id data");
         try {
             BeID id = new BeID(true);
             key1Key = id.getIDData().getCardNumber();
-            key2Key = id.getIDData().getCardNumber();
-            lblData.setText("Is gelukt!");
+            key2Key = id.getIDData().getChipNumber();
+            String name = id.getIDData().get1stFirstname() + " " + id.getIDData().getName();
+            txtOutput.append("\nReading succesfull: " + name);
         } catch (EIDException ex) {
-            Logger.getLogger(Cryptography.class.getName()).log(Level.SEVERE, null, ex);
+            txtOutput.append("\nReading failed: " + ex.getMessage());
         }
     }//GEN-LAST:event_btGetDataActionPerformed
 
@@ -316,10 +313,8 @@ public class Cryptography extends javax.swing.JFrame {
     private javax.swing.JButton btnBrowse1;
     private javax.swing.JButton btnBrowse2;
     private javax.swing.JCheckBox chkDecrypt;
-    private javax.swing.JProgressBar fileProgress;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JLabel lblData;
     private javax.swing.JLabel lblFileChooser;
     private javax.swing.JLabel lblFileChooser1;
@@ -328,6 +323,7 @@ public class Cryptography extends javax.swing.JFrame {
     private javax.swing.JLabel lblPasswordTitle;
     private javax.swing.JTextField txtFile1;
     private javax.swing.JTextField txtFile2;
+    private javax.swing.JTextArea txtOutput;
     private javax.swing.JPasswordField txtPassword2;
     private javax.swing.JPasswordField txtPassword3;
     // End of variables declaration//GEN-END:variables
