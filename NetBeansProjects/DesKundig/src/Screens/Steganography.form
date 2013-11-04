@@ -53,7 +53,7 @@
                       <EmptySpace max="32767" attributes="0"/>
                       <Component id="btnBrowse" min="-2" pref="85" max="-2" attributes="0"/>
                   </Group>
-                  <Component id="jLabel2" max="32767" attributes="0"/>
+                  <Component id="afbeelding_invoer" max="32767" attributes="0"/>
                   <Group type="102" alignment="1" attributes="0">
                       <Component id="lblPassword3" min="-2" pref="104" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
@@ -118,7 +118,7 @@
                           <Component id="btnOntcijfer" alignment="3" min="-2" pref="37" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="jLabel2" min="-2" pref="192" max="-2" attributes="0"/>
+                      <Component id="afbeelding_invoer" min="-2" pref="192" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="btnCompare" max="32767" attributes="0"/>
                   </Group>
@@ -219,7 +219,7 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnVercijferActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JLabel" name="jLabel2">
+    <Component class="javax.swing.JLabel" name="afbeelding_invoer">
       <Properties>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.EtchedBorderInfo">
