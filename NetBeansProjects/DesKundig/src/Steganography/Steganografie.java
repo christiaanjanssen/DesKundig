@@ -115,10 +115,9 @@ public class Steganografie {
      */
     private boolean setAfbeelding(BufferedImage afbeelding, File bestand, String ext) {
         try {
-            
             bestand.delete();                                       //delete resources die het bestand gebruikt
             ImageIO.write(afbeelding, ext, bestand);                //schrijf de afbeelding naar een bestand
-                                              //met als naam(bestand), de afbeelding afbeelding, met als extensie(extensie)
+                                                                    //met als naam(bestand), de afbeelding afbeelding, met als extensie(extensie)
             return true;                                            //als het succesvol verloopt, dan terugkeerwaarde: true
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null,

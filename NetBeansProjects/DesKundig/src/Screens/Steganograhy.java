@@ -4,11 +4,16 @@ package Screens;
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+import Steganography.AfbeelingenFilter;
+import Steganography.Steganografie;
+import be.belgium.eid.eidlib.BeID;
+import be.belgium.eid.exceptions.EIDException;
 import deskundig.FileDes;
 import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
@@ -18,7 +23,15 @@ import javax.swing.UIManager.LookAndFeelInfo;
  */
 public class Steganograhy extends javax.swing.JFrame {
 
-    private File inFile, outFile;
+    private File inFile, outFile; 
+    private String stat_pad = "";
+    private String stat_naam = "";
+    private Steganografie model;
+    File directory;
+    JFileChooser Kiezer;
+    JFileChooser chooser;
+    private String key1Key;
+    private String key2Key;
 
     /**
      * Creates new form Cryptography
@@ -39,19 +52,21 @@ public class Steganograhy extends javax.swing.JFrame {
 
         txtPassword3 = new javax.swing.JTextField();
         txtPassword2 = new javax.swing.JTextField();
-        lblPassword1 = new javax.swing.JLabel();
+        lblData = new javax.swing.JLabel();
         lblPassword3 = new javax.swing.JLabel();
         lblPassword2 = new javax.swing.JLabel();
-        lblPasswordTitle = new javax.swing.JLabel();
         txtFile2 = new javax.swing.JTextField();
         btnBrowse2 = new javax.swing.JButton();
         lblFileChooser1 = new javax.swing.JLabel();
         BtnDoFileDes = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        invoer = new javax.swing.JTextArea();
         jLabel1 = new javax.swing.JLabel();
-        chkDecrypt = new javax.swing.JCheckBox();
         jButton1 = new javax.swing.JButton();
+        BtnDoFileDes1 = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        lblFileChooser2 = new javax.swing.JLabel();
+        txtPassword4 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -62,13 +77,11 @@ public class Steganograhy extends javax.swing.JFrame {
             }
         });
 
-        lblPassword1.setText("Password1");
+        lblData.setText("No data");
 
         lblPassword3.setText("Confirm password");
 
-        lblPassword2.setText("Password 2");
-
-        lblPasswordTitle.setText("Give 3 passwords ");
+        lblPassword2.setText("Password");
 
         txtFile2.setForeground(new java.awt.Color(0, 102, 204));
 
@@ -81,23 +94,43 @@ public class Steganograhy extends javax.swing.JFrame {
 
         lblFileChooser1.setText("Select image file");
 
-        BtnDoFileDes.setText("START");
+        BtnDoFileDes.setText("Ontcijfer");
         BtnDoFileDes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BtnDoFileDesActionPerformed(evt);
             }
         });
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        invoer.setColumns(20);
+        invoer.setRows(5);
+        jScrollPane1.setViewportView(invoer);
 
         jLabel1.setFont(new java.awt.Font("Microsoft JhengHei", 0, 24)); // NOI18N
         jLabel1.setText("Steganography");
 
-        chkDecrypt.setText("Decrypt");
-
         jButton1.setText("Get data");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        BtnDoFileDes1.setText("Vercijfer");
+        BtnDoFileDes1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnDoFileDes1ActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        lblFileChooser2.setText("Output name:");
+
+        txtPassword4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtPassword4ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -107,53 +140,55 @@ public class Steganograhy extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblFileChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblPasswordTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(81, 81, 81)
-                        .addComponent(chkDecrypt)
-                        .addGap(30, 30, 30))
+                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 186, Short.MAX_VALUE)
+                        .addGap(174, 174, 174))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblPassword2, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblPassword1, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(lblData, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(18, 18, 18)
                                 .addComponent(txtPassword2, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(lblPassword3, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(24, 24, 24)
-                        .addComponent(txtPassword3, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(BtnDoFileDes, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(txtFile2, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnBrowse2, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
+                        .addComponent(btnBrowse2, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(lblPassword3, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(txtPassword3, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lblFileChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(txtPassword4, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(BtnDoFileDes1, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(BtnDoFileDes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(4, 4, 4)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 906, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(11, 11, 11))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(chkDecrypt))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblPasswordTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jScrollPane1)
+                        .addGap(45, 45, 45))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblPassword1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE))
+                            .addComponent(lblData, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(8, 8, 8)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtPassword2, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -168,23 +203,30 @@ public class Steganograhy extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtFile2, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnBrowse2, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(BtnDoFileDes, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(92, 92, 92))
-                    .addComponent(jScrollPane1))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblFileChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtPassword4, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(BtnDoFileDes1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(BtnDoFileDes, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 242, Short.MAX_VALUE)
+                        .addGap(38, 38, 38))))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBrowse2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBrowse2ActionPerformed
-        JFileChooser Kiezer = new JFileChooser("./");                       //zet standaard pad voor het bestand te kiezen dat ontcijfert moet worden
+        Kiezer = new JFileChooser("./");                       //zet standaard pad voor het bestand te kiezen dat ontcijfert moet worden
         Kiezer.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);    //men gaat hier de manier van kiezen koppelen aan de kiezer, dus zowel bestanden als mappen
         int Terugkeerwaarde = Kiezer.showOpenDialog(this);
         if (Terugkeerwaarde == JFileChooser.APPROVE_OPTION) {
             outFile = Kiezer.getSelectedFile();
             String outFilePath = Kiezer.getSelectedFile().toString();
+            directory = Kiezer.getSelectedFile();
             txtFile2.setText(outFilePath);
         }
     }//GEN-LAST:event_btnBrowse2ActionPerformed
@@ -194,31 +236,101 @@ public class Steganograhy extends javax.swing.JFrame {
     }//GEN-LAST:event_txtPassword3ActionPerformed
 
     private void BtnDoFileDesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnDoFileDesActionPerformed
-//        String[] sleutels = {txtPassword1.getText(), txtPassword2.getText(), txtPassword3.getText()};
-
-        Thread nThread;
-        
-/*        if (chkDecrypt.isSelected()) {
-            nThread = new Thread(new FileDes(sleutels, inFile, outFile, false));
-        } else {
-            nThread = new Thread(new FileDes(sleutels, inFile, outFile, true));
-        }*/
-        
-        //nThread.start();
-        
-//        fileProgress.setStringPainted(true);
-//        fileProgress.setMinimum(0);
-//        
-//        fileProgress.setMaximum(100);
-//        int fMax = 0;
-//        while(nThread.isAlive()){
-//             fMax = (int)(outFile.length() / inFile.length()) * 100;
-//             fileProgress.setValue(fMax);
-//            
-//        }
-        
-        
+        int Terugkeerwaarde = Kiezer.showOpenDialog(this);
+        if (Terugkeerwaarde == JFileChooser.APPROVE_OPTION) {                //als de terugkeerwaarde goedgekeurd is
+            directory = Kiezer.getSelectedFile();                  //dan gaat men het bestand ophalen
+            try {
+                stat_naam = directory.getName();                    //2. De naam van het gekozen bestand ophalen
+                stat_pad = directory.getPath();                     //3. Het effectieve pad ophalen
+                stat_pad = stat_pad.substring(0, stat_pad.length() - stat_naam.length() - 1);    //het laatste karakter verwijderen van het pad
+                stat_naam = stat_naam.substring(0, stat_naam.length() - 4);                   //de extensie verwijderen van de naam dus .jpg of .png
+                String bericht = model.ontcijferen(stat_pad, stat_naam);                                     //De tekst gaan vercijfer door middel van de vercijfermethode in de staganography klasse
+                System.out.println(stat_pad + ", " + stat_naam);
+                if (bericht != "") //als de tekst niet leeg was
+                {
+                    invoer.setText("");			//textveld leegmaken
+                    stat_pad = "";				//pad leegmaken
+                    stat_naam = "";				//naam leegmaken                                                              //laat de ontcijferde tekst zien
+                    JOptionPane.showMessageDialog(null, "De afbeelding is succesvol ontcijferd",
+                            "Succes!", JOptionPane.INFORMATION_MESSAGE);
+                    invoer.setText(bericht);                                                        //zet de invoer om naar de inhoud van de variabelen bericht
+                } else //anders
+                {
+                    JOptionPane.showMessageDialog(null, "De afbeelding kon niet worden ontcijferd!",
+                            "Fout!", JOptionPane.INFORMATION_MESSAGE);
+                }
+            } catch (Exception except) {
+                //als het bestand niet geopend kan worden
+                JOptionPane.showMessageDialog(null, "Bestand kan geopend worden", //een popup wordt getoond als er een fout voorkomt
+                        "Error!", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
     }//GEN-LAST:event_BtnDoFileDesActionPerformed
+
+    private void BtnDoFileDes1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnDoFileDes1ActionPerformed
+        if (!txtPassword2.getText().equals(txtPassword3.getText())) {
+            JOptionPane.showMessageDialog(null, "wachtwoorden komen niet overeen, probeer opnieuw!", "Fout", JOptionPane.ERROR_MESSAGE);
+            txtPassword2.setText("");
+            txtPassword3.setText("");
+        } else if (txtPassword2.getText().length() < 10) {
+            JOptionPane.showMessageDialog(null, "wachtwoord moet minstens 10 tekens lang zijn", "Fout", JOptionPane.ERROR_MESSAGE);
+            txtPassword2.setText("");
+            txtPassword3.setText("");
+        } else if (key1Key == null || key2Key == null) {
+            JOptionPane.showMessageDialog(null, "E-id gegevens niet gevonden (klik Get data)", "Fout", JOptionPane.ERROR_MESSAGE);
+        } else {
+            String[] sleutels = {key1Key, key2Key, txtPassword3.getText()};
+            int returnVal = chooser.showOpenDialog(this);
+            if (returnVal == JFileChooser.APPROVE_OPTION) {                          //als de terugkeerwaarde goedgekeurd is
+                directory = chooser.getSelectedFile();                     //dan gaat men het bestand ophalen
+                try {
+                    String tekst = invoer.getText();                        //de tekst uit het textveld wordt opgehaald en opgeslagen in de variabele text
+                    String ext = AfbeelingenFilter.getExtensie(directory);     //extensie van de afbeelding wordt opgehaald
+                    String naam = directory.getName();                      //naam van de directory wordt opgehaald en in de variabele naam gestoken
+                    String pad = directory.getPath();                       //het pad naar de directory wordt opgehaald en in de variabele pad gestoken
+                    pad = pad.substring(0, pad.length() - naam.length() - 1);    //de slash achteraan het pas wordt verwijderd
+                    naam = naam.substring(0, naam.length() - 4);              //de extensie van de afbeelding wordt verwijderd
+
+                    String stegan = JOptionPane.showInputDialog(null, //er wordt gevraagt naar een naam voor het uitvoerbestand
+                            "Geef een bestandnaam op:", "bestandsnaam",
+                            JOptionPane.PLAIN_MESSAGE);
+
+                    if (model.vercijferen(pad, naam, ext, stegan, tekst)) //als de vercijfering lukt
+                    {
+                        JOptionPane.showMessageDialog(null, "De afbeelding is succesvol vercijferd", //laat een bericht zien dat het succevol was
+                                "Success!", JOptionPane.INFORMATION_MESSAGE);
+                    } else //anders
+                    {
+                        JOptionPane.showMessageDialog(null, "The Image could not be encoded!", //laat een bericht zien dat de tekst niet vercijfert kan worden
+                                "Error!", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                    //afbeelding_invoer.setIcon(new ImageIcon(ImageIO.read(new File(pad + "/" + stegan + ".png"))));  
+                } catch (Exception except) {                                                           //als er een fout opgegooid wordt
+                    JOptionPane.showMessageDialog(null, "Het bestand kan niet worden gevonden of het kan niet geopend worden",
+                            "Foutmelding!", JOptionPane.INFORMATION_MESSAGE);
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "wachtwoorden komen niet overeen, probeer opnieuw!", "Fout", JOptionPane.ERROR_MESSAGE);
+                txtPassword2.setText("");
+                txtPassword3.setText("");
+            }
+        }
+    }//GEN-LAST:event_BtnDoFileDes1ActionPerformed
+
+    private void txtPassword4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPassword4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPassword4ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        try {
+            BeID id = new BeID(true);
+            key1Key = id.getIDData().getCardNumber();
+            key2Key = id.getIDData().getCardNumber();
+            lblData.setText("Is gelukt!");
+        } catch (EIDException ex) {
+            Logger.getLogger(Cryptography.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -250,19 +362,21 @@ public class Steganograhy extends javax.swing.JFrame {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnDoFileDes;
+    private javax.swing.JButton BtnDoFileDes1;
     private javax.swing.JButton btnBrowse2;
-    private javax.swing.JCheckBox chkDecrypt;
+    private javax.swing.JTextArea invoer;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JLabel lblData;
     private javax.swing.JLabel lblFileChooser1;
-    private javax.swing.JLabel lblPassword1;
+    private javax.swing.JLabel lblFileChooser2;
     private javax.swing.JLabel lblPassword2;
     private javax.swing.JLabel lblPassword3;
-    private javax.swing.JLabel lblPasswordTitle;
     private javax.swing.JTextField txtFile2;
     private javax.swing.JTextField txtPassword2;
     private javax.swing.JTextField txtPassword3;
+    private javax.swing.JTextField txtPassword4;
     // End of variables declaration//GEN-END:variables
 }

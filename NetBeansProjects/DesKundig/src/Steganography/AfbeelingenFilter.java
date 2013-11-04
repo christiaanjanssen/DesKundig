@@ -54,12 +54,12 @@ public class AfbeelingenFilter extends javax.swing.filechooser.FileFilter {
      *@param b het bestand waarvan de extensie bepaalde van moet worden
      *@return geeft als terugkeerwaarde de extensie terug
      */
-    protected static String getExtensie(File b) {
+    public static String getExtensie(File b) {
         String s = b.getName();                     //verkrijg de naam van het bestand
         int i = s.lastIndexOf('.');                 //verkrijg de positie van de '.' in de bestandsnaam
-        if (i > 0 && i < s.length() - 1) //als i groter is als 1 en i is kleiner als de lengte van de bestandsnaam -1 
+        if (i > 0 && i < s.length() - 1)            //als i groter is als 1 en i is kleiner als de lengte van de bestandsnaam -1 
         {
-            return s.substring(i + 1).toLowerCase();    //dan terugkeerwaarde: de extensie van het bestand
+            return s.substring(i + 1).toLowerCase();//dan terugkeerwaarde: de extensie van het bestand
         }
         return "";                                  //anders terugkeerwaarde: een lege string
     }
