@@ -48,10 +48,12 @@ public class Steganografie {
      *@param naam De naam van de afbeelding die ontcijferd moet worden
      *@param type nummer die aangeeft of er een standaardontcijfering moet gebeuren of een ingewikkeld ontcijfering
      */
+    //http://www.dreamincode.net/forums/topic/27950-steganography/
     public String ontcijferen(String pad, String naam) {
         byte[] ontc;                                                                                    //array van bytes maken
         try {
             //GebruikersGrootte moet bepaald worden, hier wel nodig
+            
             BufferedImage afbeelding = gebruikersGrootte(getAfbeelding(pad + "/" + naam + "." + "png"));
             WritableRaster raster = afbeelding.getRaster();
             DataBufferByte buffer = (DataBufferByte) raster.getDataBuffer();
@@ -132,6 +134,7 @@ public class Steganografie {
      *@param    tekst	De tekst die in de afbeelding vercijferd moet worden
      *@terugkeerwaarde:     De afbeelding met een tekst erin vercijferdit
      */
+    //http://www.dreamincode.net/forums/topic/27950-steganography/
     private BufferedImage VoegToeTekst(BufferedImage afbeelding, String tekst) {
         WritableRaster raster = afbeelding.getRaster();
         DataBufferByte buffer = (DataBufferByte) raster.getDataBuffer();
@@ -183,6 +186,7 @@ public class Steganografie {
      *@param j	 de plaats vanaf waar de bytes worden opgeteld
      *@terugkeerwaarde: geeft een array van van de samengevoegde bytes terug waarin de tekst vercijferd in zit
      */
+     //http://www.dreamincode.net/forums/topic/27950-steganography/
     private byte[] vercijferTekst(byte[] afbeeld, byte[] toevoeg, int j) {
         if (toevoeg.length + j > afbeeld.length) {                              //checken of j en de data wel in de afbeelding passen
             throw new IllegalArgumentException("Bestand is niet groot genoeg om deze tekst er in te vercijferen!");

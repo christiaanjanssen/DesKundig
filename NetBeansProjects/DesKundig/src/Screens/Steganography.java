@@ -20,14 +20,13 @@ import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
-
 /**
  *
  * @author Tycha
  */
 public class Steganography extends javax.swing.JFrame {
 
-    private File inFile, outFile; 
+    private File inFile, outFile;
     private String stat_pad = "";
     private String stat_naam = "";
     private Steganografie model;
@@ -59,9 +58,6 @@ public class Steganography extends javax.swing.JFrame {
         lblData = new javax.swing.JLabel();
         lblPassword3 = new javax.swing.JLabel();
         lblPassword2 = new javax.swing.JLabel();
-        txtImageFile = new javax.swing.JTextField();
-        btnBrowse = new javax.swing.JButton();
-        lblFileChooser1 = new javax.swing.JLabel();
         btnOntcijfer = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         invoer = new javax.swing.JTextArea();
@@ -69,35 +65,16 @@ public class Steganography extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         BtnVercijfer = new javax.swing.JButton();
         afbeelding_invoer = new javax.swing.JLabel();
-        lblFileChooser2 = new javax.swing.JLabel();
-        txtOutputName = new javax.swing.JTextField();
         btnCompare = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
-
-        txtPassword3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtPassword3ActionPerformed(evt);
-            }
-        });
 
         lblData.setText("No data");
 
         lblPassword3.setText("Confirm password");
 
         lblPassword2.setText("Password");
-
-        txtImageFile.setForeground(new java.awt.Color(0, 102, 204));
-
-        btnBrowse.setText("Browse..");
-        btnBrowse.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBrowseActionPerformed(evt);
-            }
-        });
-
-        lblFileChooser1.setText("Select image file");
 
         btnOntcijfer.setText("Ontcijfer");
         btnOntcijfer.addActionListener(new java.awt.event.ActionListener() {
@@ -129,14 +106,6 @@ public class Steganography extends javax.swing.JFrame {
 
         afbeelding_invoer.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        lblFileChooser2.setText("Output name:");
-
-        txtOutputName.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtOutputNameActionPerformed(evt);
-            }
-        });
-
         btnCompare.setText("Compare images");
         btnCompare.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -151,9 +120,8 @@ public class Steganography extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblFileChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 186, Short.MAX_VALUE)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(174, 174, 174))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -165,28 +133,19 @@ public class Steganography extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(txtPassword2, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(txtImageFile, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnBrowse, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(afbeelding_invoer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(lblPassword3, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(txtPassword3, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblFileChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(txtOutputName, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnCompare, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(BtnVercijfer, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnOntcijfer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(4, 4, 4))
-                    .addComponent(btnCompare, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(10, 10, 10)
+                        .addComponent(btnOntcijfer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 906, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(11, 11, 11))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 679, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -208,23 +167,13 @@ public class Steganography extends javax.swing.JFrame {
                             .addComponent(lblPassword3, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtPassword3, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(lblFileChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtImageFile, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnBrowse, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblFileChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtOutputName, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(BtnVercijfer, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnOntcijfer, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addComponent(afbeelding_invoer, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnCompare, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(afbeelding_invoer, javax.swing.GroupLayout.PREFERRED_SIZE, 304, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnCompare, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE))
                     .addComponent(jScrollPane1))
                 .addContainerGap())
         );
@@ -232,78 +181,75 @@ public class Steganography extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnBrowseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBrowseActionPerformed
-        Kiezer = new JFileChooser("./");                       //zet standaard pad voor het bestand te kiezen dat ontcijfert moet worden
-        Kiezer.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);    //men gaat hier de manier van kiezen koppelen aan de kiezer, dus zowel bestanden als mappen
-        int Terugkeerwaarde = Kiezer.showOpenDialog(this);
-        if (Terugkeerwaarde == JFileChooser.APPROVE_OPTION) {
-            outFile = Kiezer.getSelectedFile();
-            String outFilePath = Kiezer.getSelectedFile().toString();
-            directory = Kiezer.getSelectedFile();
-            txtImageFile.setText(outFilePath);
-        }
-    }//GEN-LAST:event_btnBrowseActionPerformed
-
-    private void txtPassword3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPassword3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtPassword3ActionPerformed
-
     private void btnOntcijferActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOntcijferActionPerformed
-        try {
-                    stat_naam = directory.getName();                    //2. De naam van het gekozen bestand ophalen
-                    stat_pad = directory.getPath();                     //3. Het effectieve pad ophalen
-                    stat_pad = stat_pad.substring(0, stat_pad.length() - stat_naam.length() - 1);    //het laatste karakter verwijderen van het pad
-                    stat_naam = stat_naam.substring(0, stat_naam.length() - 4);                   //de extensie verwijderen van de naam dus .jpg of .png
-                    String bericht = model.ontcijferen(stat_pad, stat_naam);                                     //De tekst gaan vercijfer door middel van de vercijfermethode in de staganography klasse
-                    System.out.println(stat_pad + ", " + stat_naam);
-                    if (bericht != "") //als de tekst niet leeg was
-                    {
-                        JOptionPane.showMessageDialog(this, "De afbeelding is succesvol ontcijferd",
-                                "Succes!", JOptionPane.INFORMATION_MESSAGE);
-                        invoer.setText(bericht);                                                        //zet de invoer om naar de inhoud van de variabelen bericht
-                    } else //anders
-                    {
-                        JOptionPane.showMessageDialog(this, "De afbeelding kon niet worden ontcijferd!",
-                                "Fout!", JOptionPane.INFORMATION_MESSAGE);
-                    }
-                } catch (Exception except) {
-                    //als het bestand niet geopend kan worden
-                    JOptionPane.showMessageDialog(this, "The File cannot be opened!", //een popup wordt getoond als er een fout voorkomt
+        JFileChooser Kiezer = new JFileChooser("./");                       //zet standaard pad voor het bestand te kiezen dat ontcijfert moet worden
+        Kiezer.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);    //men gaat hier de manier van kiezen koppelen aan de kiezer, dus zowel bestanden als mappen
+        Kiezer.setFileFilter(new AfbeelingenFilter());                         //Er wordt een filter op het soort bestanden gezet zodat alleen images gekozen kunnen worden
+        int Terugkeerwaarde = Kiezer.showOpenDialog(this);
+        if (Terugkeerwaarde == JFileChooser.APPROVE_OPTION) {                //als de terugkeerwaarde goedgekeurd is
+            File directory = Kiezer.getSelectedFile();                  //dan gaat men het bestand ophalen
+            try {
+                stat_naam = directory.getName();                    //2. De naam van het gekozen bestand ophalen
+                stat_pad = directory.getPath();                     //3. Het effectieve pad ophalen
+                stat_pad = stat_pad.substring(0, stat_pad.length() - stat_naam.length() - 1);    //het laatste karakter verwijderen van het pad
+                stat_naam = stat_naam.substring(0, stat_naam.length() - 4);                   //de extensie verwijderen van de naam dus .jpg of .png
+                String bericht = model.ontcijferen(stat_pad, stat_naam);                                     //De tekst gaan vercijfer door middel van de vercijfermethode in de staganography klasse
+                System.out.println(stat_pad + ", " + stat_naam);
+                if (bericht != "") //als de tekst niet leeg was
+                {
+                    JOptionPane.showMessageDialog(this, "De afbeelding is succesvol ontcijferd",
+                            "Succes!", JOptionPane.INFORMATION_MESSAGE);
+                    invoer.setText(bericht);                                                        //zet de invoer om naar de inhoud van de variabelen bericht
+                } else //anders
+                {
+                    JOptionPane.showMessageDialog(this, "De afbeelding kon niet worden ontcijferd!",
+                            "Fout!", JOptionPane.INFORMATION_MESSAGE);
+                }
+            } catch (Exception except) {
+                //als het bestand niet geopend kan worden
+                JOptionPane.showMessageDialog(this, "The File cannot be opened!", //een popup wordt getoond als er een fout voorkomt
+                        "Error!", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_btnOntcijferActionPerformed
+
+    private void BtnVercijferActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnVercijferActionPerformed
+
+        //start path of displayed File Chooser
+        JFileChooser chooser = new JFileChooser("./");                          //zet standaard pad voor het bestand te kiezen dat ontcijfert moet worden
+        chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);       //men gaat hier de manier van kiezen koppelen aan de kiezer, dus zowel bestanden als mappen
+        chooser.setFileFilter(new AfbeelingenFilter());                         //Er wordt een filter op het soort bestanden gezet zodat alleen images gekozen kunnen worden
+        int returnVal = chooser.showOpenDialog(this);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {                         //als de terugkeerwaarde goedgekeurd is
+            File directory = chooser.getSelectedFile();                         //dan gaat men het bestand ophalen
+            try {
+                String tekst = invoer.getText();                                //de tekst uit het textveld wordt opgehaald en opgeslagen in de variabele text
+                String ext = AfbeelingenFilter.getExtensie(directory);          //extensie van de afbeelding wordt opgehaald
+                String naam = directory.getName();                              //naam van de directory wordt opgehaald en in de variabele naam gestoken
+                String pad = directory.getPath();                               //het pad naar de directory wordt opgehaald en in de variabele pad gestoken
+                pad = pad.substring(0, pad.length() - naam.length() - 1);       //de slash achteraan het pas wordt verwijderd
+                naam = naam.substring(0, naam.length() - 4);                    //de extensie van de afbeelding wordt verwijderd
+
+                String stegan = JOptionPane.showInputDialog(this,               //er wordt gevraagt naar een naam voor het uitvoerbestand
+                        "Geef een bestandnaam op:", "bestandsnaam",
+                        JOptionPane.PLAIN_MESSAGE);
+
+                if (model.vercijferen(pad, naam, ext, stegan, tekst))           //als de vercijfering lukt
+                {
+                    JOptionPane.showMessageDialog(this, "De afbeelding is succesvol vercijferd", //laat een bericht zien dat het succevol was
+                            "Success!", JOptionPane.INFORMATION_MESSAGE);
+                } else //anders
+                {
+                    JOptionPane.showMessageDialog(this, "The Image could not be encoded!", //laat een bericht zien dat de tekst niet vercijfert kan worden
                             "Error!", JOptionPane.INFORMATION_MESSAGE);
                 }
-    
-    }//GEN-LAST:event_btnOntcijferActionPerformed
-                    
-    private void BtnVercijferActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnVercijferActionPerformed
-        try {
-                    String tekst = invoer.getText();                        //de tekst uit het textveld wordt opgehaald en opgeslagen in de variabele text
-                    String ext = AfbeelingenFilter.getExtensie(directory);     //extensie van de afbeelding wordt opgehaald
-                    String naam = directory.getName();                      //naam van de directory wordt opgehaald en in de variabele naam gestoken
-                    String pad = directory.getPath();                       //het pad naar de directory wordt opgehaald en in de variabele pad gestoken
-                    pad = pad.substring(0, pad.length() - naam.length() - 1);    //de slash achteraan het pas wordt verwijderd
-                    naam = naam.substring(0, naam.length() - 4);              //de extensie van de afbeelding wordt verwijderd
-
-                    String stegan = txtOutputName.getText().toString();
-
-                    if (model.vercijferen(pad, naam, ext, stegan, tekst)) //als de vercijfering lukt
-                    {
-                        JOptionPane.showMessageDialog(this, "De afbeelding is succesvol vercijferd", //laat een bericht zien dat het succevol was
-                                "Success!", JOptionPane.INFORMATION_MESSAGE);
-                    } else //anders
-                    {
-                        JOptionPane.showMessageDialog(this, "The Image could not be encoded!", //laat een bericht zien dat de tekst niet vercijfert kan worden
-                                "Error!", JOptionPane.INFORMATION_MESSAGE);
-                    }
-                    afbeelding_invoer.setIcon(new ImageIcon(ImageIO.read(new File(pad + "/" + stegan + ".png"))));  
-                } catch (Exception except) {                                                           //als er een fout opgegooid wordt
-                    JOptionPane.showMessageDialog(this, "Het bestand kan niet worden gevonden of het kan niet geopend worden",
-                            "Foutmelding!", JOptionPane.INFORMATION_MESSAGE);
-                }               
-            
+                afbeelding_invoer.setIcon(new ImageIcon(ImageIO.read(new File(pad + "/" + stegan + ".png"))));  
+            } catch (Exception except) {                                                           //als er een fout opgegooid wordt
+                JOptionPane.showMessageDialog(this, "Het bestand kan niet worden gevonden of het kan niet geopend worden",
+                        "Foutmelding!", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
     }//GEN-LAST:event_BtnVercijferActionPerformed
-    private void txtOutputNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtOutputNameActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtOutputNameActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
@@ -351,7 +297,6 @@ public class Steganography extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnVercijfer;
     private javax.swing.JLabel afbeelding_invoer;
-    private javax.swing.JButton btnBrowse;
     private javax.swing.JButton btnCompare;
     private javax.swing.JButton btnOntcijfer;
     private javax.swing.JTextArea invoer;
@@ -359,12 +304,8 @@ public class Steganography extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblData;
-    private javax.swing.JLabel lblFileChooser1;
-    private javax.swing.JLabel lblFileChooser2;
     private javax.swing.JLabel lblPassword2;
     private javax.swing.JLabel lblPassword3;
-    private javax.swing.JTextField txtImageFile;
-    private javax.swing.JTextField txtOutputName;
     private javax.swing.JTextField txtPassword2;
     private javax.swing.JTextField txtPassword3;
     // End of variables declaration//GEN-END:variables
