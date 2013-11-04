@@ -21,7 +21,7 @@ import javax.swing.UIManager.LookAndFeelInfo;
  *
  * @author Tycha
  */
-public class Steganograhy extends javax.swing.JFrame {
+public class Steganography extends javax.swing.JFrame {
 
     private File inFile, outFile; 
     private String stat_pad = "";
@@ -36,7 +36,7 @@ public class Steganograhy extends javax.swing.JFrame {
     /**
      * Creates new form Cryptography
      */
-    public Steganograhy() {
+    public Steganography() {
         initComponents();
 
     }
@@ -55,18 +55,19 @@ public class Steganograhy extends javax.swing.JFrame {
         lblData = new javax.swing.JLabel();
         lblPassword3 = new javax.swing.JLabel();
         lblPassword2 = new javax.swing.JLabel();
-        txtFile2 = new javax.swing.JTextField();
-        btnBrowse2 = new javax.swing.JButton();
+        txtImageFile = new javax.swing.JTextField();
+        btnBrowse = new javax.swing.JButton();
         lblFileChooser1 = new javax.swing.JLabel();
-        BtnDoFileDes = new javax.swing.JButton();
+        btnOntcijfer = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         invoer = new javax.swing.JTextArea();
         jLabel1 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        BtnDoFileDes1 = new javax.swing.JButton();
+        BtnVercijfer = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         lblFileChooser2 = new javax.swing.JLabel();
-        txtPassword4 = new javax.swing.JTextField();
+        txtOutputName = new javax.swing.JTextField();
+        btnCompare = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -83,21 +84,21 @@ public class Steganograhy extends javax.swing.JFrame {
 
         lblPassword2.setText("Password");
 
-        txtFile2.setForeground(new java.awt.Color(0, 102, 204));
+        txtImageFile.setForeground(new java.awt.Color(0, 102, 204));
 
-        btnBrowse2.setText("Browse..");
-        btnBrowse2.addActionListener(new java.awt.event.ActionListener() {
+        btnBrowse.setText("Browse..");
+        btnBrowse.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBrowse2ActionPerformed(evt);
+                btnBrowseActionPerformed(evt);
             }
         });
 
         lblFileChooser1.setText("Select image file");
 
-        BtnDoFileDes.setText("Ontcijfer");
-        BtnDoFileDes.addActionListener(new java.awt.event.ActionListener() {
+        btnOntcijfer.setText("Ontcijfer");
+        btnOntcijfer.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BtnDoFileDesActionPerformed(evt);
+                btnOntcijferActionPerformed(evt);
             }
         });
 
@@ -115,10 +116,10 @@ public class Steganograhy extends javax.swing.JFrame {
             }
         });
 
-        BtnDoFileDes1.setText("Vercijfer");
-        BtnDoFileDes1.addActionListener(new java.awt.event.ActionListener() {
+        BtnVercijfer.setText("Vercijfer");
+        BtnVercijfer.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BtnDoFileDes1ActionPerformed(evt);
+                BtnVercijferActionPerformed(evt);
             }
         });
 
@@ -126,9 +127,16 @@ public class Steganograhy extends javax.swing.JFrame {
 
         lblFileChooser2.setText("Output name:");
 
-        txtPassword4.addActionListener(new java.awt.event.ActionListener() {
+        txtOutputName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtPassword4ActionPerformed(evt);
+                txtOutputNameActionPerformed(evt);
+            }
+        });
+
+        btnCompare.setText("Compare images");
+        btnCompare.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCompareActionPerformed(evt);
             }
         });
 
@@ -154,9 +162,9 @@ public class Steganograhy extends javax.swing.JFrame {
                                 .addComponent(txtPassword2, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(txtFile2, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtImageFile, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnBrowse2, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnBrowse, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(lblPassword3, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -165,12 +173,13 @@ public class Steganograhy extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lblFileChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(txtPassword4, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtOutputName, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(BtnDoFileDes1, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(BtnVercijfer, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(BtnDoFileDes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(4, 4, 4)))
+                        .addComponent(btnOntcijfer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(4, 4, 4))
+                    .addComponent(btnCompare, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 906, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(11, 11, 11))
@@ -180,9 +189,6 @@ public class Steganograhy extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1)
-                        .addGap(45, 45, 45))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -201,25 +207,28 @@ public class Steganograhy extends javax.swing.JFrame {
                         .addComponent(lblFileChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtFile2, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnBrowse2, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtImageFile, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnBrowse, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblFileChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtPassword4, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtOutputName, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(BtnDoFileDes1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(BtnDoFileDes, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(BtnVercijfer, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnOntcijfer, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 242, Short.MAX_VALUE)
-                        .addGap(38, 38, 38))))
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnCompare, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1))
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnBrowse2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBrowse2ActionPerformed
+    private void btnBrowseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBrowseActionPerformed
         Kiezer = new JFileChooser("./");                       //zet standaard pad voor het bestand te kiezen dat ontcijfert moet worden
         Kiezer.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);    //men gaat hier de manier van kiezen koppelen aan de kiezer, dus zowel bestanden als mappen
         int Terugkeerwaarde = Kiezer.showOpenDialog(this);
@@ -227,15 +236,15 @@ public class Steganograhy extends javax.swing.JFrame {
             outFile = Kiezer.getSelectedFile();
             String outFilePath = Kiezer.getSelectedFile().toString();
             directory = Kiezer.getSelectedFile();
-            txtFile2.setText(outFilePath);
+            txtImageFile.setText(outFilePath);
         }
-    }//GEN-LAST:event_btnBrowse2ActionPerformed
+    }//GEN-LAST:event_btnBrowseActionPerformed
 
     private void txtPassword3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPassword3ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtPassword3ActionPerformed
 
-    private void BtnDoFileDesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnDoFileDesActionPerformed
+    private void btnOntcijferActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOntcijferActionPerformed
         int Terugkeerwaarde = Kiezer.showOpenDialog(this);
         if (Terugkeerwaarde == JFileChooser.APPROVE_OPTION) {                //als de terugkeerwaarde goedgekeurd is
             directory = Kiezer.getSelectedFile();                  //dan gaat men het bestand ophalen
@@ -265,9 +274,9 @@ public class Steganograhy extends javax.swing.JFrame {
                         "Error!", JOptionPane.INFORMATION_MESSAGE);
             }
         }
-    }//GEN-LAST:event_BtnDoFileDesActionPerformed
+    }//GEN-LAST:event_btnOntcijferActionPerformed
 
-    private void BtnDoFileDes1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnDoFileDes1ActionPerformed
+    private void BtnVercijferActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnVercijferActionPerformed
         if (!txtPassword2.getText().equals(txtPassword3.getText())) {
             JOptionPane.showMessageDialog(null, "wachtwoorden komen niet overeen, probeer opnieuw!", "Fout", JOptionPane.ERROR_MESSAGE);
             txtPassword2.setText("");
@@ -291,9 +300,7 @@ public class Steganograhy extends javax.swing.JFrame {
                     pad = pad.substring(0, pad.length() - naam.length() - 1);    //de slash achteraan het pas wordt verwijderd
                     naam = naam.substring(0, naam.length() - 4);              //de extensie van de afbeelding wordt verwijderd
 
-                    String stegan = JOptionPane.showInputDialog(null, //er wordt gevraagt naar een naam voor het uitvoerbestand
-                            "Geef een bestandnaam op:", "bestandsnaam",
-                            JOptionPane.PLAIN_MESSAGE);
+                    String stegan = txtOutputName.getText().toString();
 
                     if (model.vercijferen(pad, naam, ext, stegan, tekst)) //als de vercijfering lukt
                     {
@@ -315,11 +322,11 @@ public class Steganograhy extends javax.swing.JFrame {
                 txtPassword3.setText("");
             }
         }
-    }//GEN-LAST:event_BtnDoFileDes1ActionPerformed
+    }//GEN-LAST:event_BtnVercijferActionPerformed
 
-    private void txtPassword4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPassword4ActionPerformed
+    private void txtOutputNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtOutputNameActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtPassword4ActionPerformed
+    }//GEN-LAST:event_txtOutputNameActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
@@ -331,6 +338,10 @@ public class Steganograhy extends javax.swing.JFrame {
             Logger.getLogger(Cryptography.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void btnCompareActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCompareActionPerformed
+        new SteganographyCompare().setVisible(true);
+    }//GEN-LAST:event_btnCompareActionPerformed
 
     /**
      * @param args the command line arguments
@@ -356,14 +367,15 @@ public class Steganograhy extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Steganograhy().setVisible(true);
+                new Steganography().setVisible(true);
             }
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton BtnDoFileDes;
-    private javax.swing.JButton BtnDoFileDes1;
-    private javax.swing.JButton btnBrowse2;
+    private javax.swing.JButton BtnVercijfer;
+    private javax.swing.JButton btnBrowse;
+    private javax.swing.JButton btnCompare;
+    private javax.swing.JButton btnOntcijfer;
     private javax.swing.JTextArea invoer;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
@@ -374,9 +386,9 @@ public class Steganograhy extends javax.swing.JFrame {
     private javax.swing.JLabel lblFileChooser2;
     private javax.swing.JLabel lblPassword2;
     private javax.swing.JLabel lblPassword3;
-    private javax.swing.JTextField txtFile2;
+    private javax.swing.JTextField txtImageFile;
+    private javax.swing.JTextField txtOutputName;
     private javax.swing.JTextField txtPassword2;
     private javax.swing.JTextField txtPassword3;
-    private javax.swing.JTextField txtPassword4;
     // End of variables declaration//GEN-END:variables
 }
