@@ -14,7 +14,7 @@ public class Matrices {
         {63, 55, 47, 39, 31, 23, 15, 7}
     };
     // Initialisatie van de permutatie matrix IP in een rij
-    public static int[] RijIP = {
+    private static int[] RijIP = {
         58, 50, 42, 34, 26, 18, 10, 2,
         60, 52, 44, 36, 28, 20, 12, 4,
         62, 54, 46, 38, 30, 22, 14, 6,
@@ -36,7 +36,7 @@ public class Matrices {
         {33, 1, 41, 9, 49, 17, 57, 25}
     };
     // Initialisatie van de inverse permutatie matrix invIP in een rij
-    public static int[] RijinvIP = {
+    private static int[] RijinvIP = {
         40, 8, 48, 16, 56, 24, 64, 32,
         39, 7, 47, 15, 55, 23, 63, 31,
         38, 6, 46, 14, 54, 22, 62, 30,
@@ -58,7 +58,7 @@ public class Matrices {
         {28, 29, 30, 31, 32, 1}
     };
     // Initialisatie van de expansie matrix E in een rij
-    public static int[] RijE = {
+    private static int[] RijE = {
         32, 1, 2, 3, 4, 5,
         4, 5, 6, 7, 8, 9,
         8, 9, 10, 11, 12, 13,
@@ -80,7 +80,7 @@ public class Matrices {
         {22, 11, 4, 25}
     };
     // Initialisatie van de permutatie matrix P in een rij
-    public static int[] RijP = {
+    private static int[] RijP = {
         16, 7, 20, 21,
         29, 12, 28, 17,
         1, 15, 23, 26,
@@ -179,4 +179,32 @@ public class Matrices {
     public static int[] shift = {
         1, 1, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 1
     };
+
+    public synchronized static int[] getRijIP() {
+        return RijIP;
+    }
+
+    public synchronized static int[][] getInvIP() {
+        return invIP;
+    }
+
+    public synchronized static int[] getRijinvIP() {
+        return RijinvIP;
+    }
+
+    public synchronized static int[] getRijE() {
+        return RijE;
+    }
+
+    public synchronized static int[] getRijP() {
+        return RijP;
+    }
+
+    public synchronized static int[] getRijPC1() {
+        return RijPC1;
+    }
+
+    public synchronized static int[] getRijPC2() {
+        return RijPC2;
+    }
 }

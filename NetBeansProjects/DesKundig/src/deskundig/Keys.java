@@ -5,9 +5,9 @@ public class Keys {
     private String pass;
     //private String keys[][] = new String[7][8];
     private byte[][] blok = new byte[8][8];
-    private static int[] bitKey = new int[64];
+    private int[] bitKey = new int[64];
     private int[][] keys = new int[16][48];
-    private static int[] shift = Matrices.shift;
+    private int[] shift = Matrices.shift;
 
     public Keys(String p) {
         pass = p;

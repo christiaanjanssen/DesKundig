@@ -5,9 +5,11 @@
 package deskundig;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.concurrent.ExecutorService;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -25,6 +27,8 @@ public class FileDes implements Runnable {
     private Keys[] Sleutels;
     private File file, out;
     private boolean bEncrypt;
+    private ArrayList<Thread> threadList;
+    private ArrayList<ThreadResult> resultList;
 
     public FileDes(String[] slke, File fin, File fout, boolean ecrypt) {
         Sleutels = new Keys[3];
@@ -35,13 +39,20 @@ public class FileDes implements Runnable {
         this.file = fin;
         this.out = fout;
         this.bEncrypt = ecrypt;
+        this.threadList = new ArrayList<>();
+        resultList = new ArrayList<>();
     }
 
     public void encrypt() {
         bOut = new BinaryOut(out.getAbsolutePath());
         bIn = new BinaryIn(file.getAbsolutePath());
         long Flength = file.length() * 8;
+        long totalSteps = (long) Math.ceil(Flength / 64.0);
+        long step = 0;
         String temp;
+        int threadTeller = 0;
+        int totalThreads = (int) Math.ceil(Flength / 64.0);
+        int totalThreadsTeller = 0;
 
         long rest = Flength % 64;
         long addedLong = 64 - rest;
@@ -69,34 +80,65 @@ public class FileDes implements Runnable {
         int[] outArr = new int[64];
         int teller = 0;
         boolean read;
-        while (!bIn.isEmpty()) {
-            read = bIn.readBoolean();
-            if (read) {
-                outArr[teller] = 1;
+        
+        while (step != totalSteps) {
+
+            if (!bIn.isEmpty()) {
+                read = bIn.readBoolean();
+                if (read) {
+                    outArr[teller] = 1;
+                } else {
+                    outArr[teller] = 0;
+                }
             } else {
                 outArr[teller] = 0;
             }
             teller++;
-            
-            if(teller == 64){
-                enResult.setResult(outArr);
-                enResult.setStap(0);
-                newT = new Thread(new Encryptie(enResult, true));
+
+            if (teller == 64) {
+                resultList.add(new ThreadResult(Sleutels));
+                resultList.get(threadTeller).setResult(outArr);
+                newT = new Thread(new Encryptie(resultList.get(threadTeller), true));
+                threadList.add(newT);
                 newT.start();
-                try {
-                    newT.join();
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(FileDes.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                outArr = enResult.getResult();
-                for (int i = 0; i < 64; i++) {
-                    if (outArr[i] == 1) {
-                        bOut.write(true);
-                    } else {
-                        bOut.write(false);
+//                try {
+//                    newT.join();
+//                } catch (InterruptedException ex) {
+//                    Logger.getLogger(FileDes.class.getName()).log(Level.SEVERE, null, ex);
+//                }
+                
+                totalThreadsTeller++;
+                
+                if (threadTeller == 9 || totalThreadsTeller == totalThreads) {
+                    for (Iterator<Thread> it = threadList.iterator(); it.hasNext();) {
+                        try {
+                            it.next().join();
+                        } catch (InterruptedException ex) {
+                            Logger.getLogger(FileDes.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                     }
+                    
+                    for (int i = 0; i < resultList.size(); i++) {
+                        outArr = resultList.get(i).getResult();
+                        for (int j = 0; j < 64; j++) {
+                            //System.err.println(j + " step: " + step + "/" + totalSteps + " thread: " + totalThreadsTeller + "/" + totalThreads);
+                            if (outArr[j] == 1) {
+                                bOut.write(true);
+                            } else {
+                                bOut.write(false);
+                            }
+                        }
+                    }
+                    resultList.clear();
+                    threadList.clear();
+
+                    threadTeller = 0;
+                } else {
+                    threadTeller++;
                 }
                 teller = 0;
+                outArr = new int[64];
+                step++;
             }
         }
 

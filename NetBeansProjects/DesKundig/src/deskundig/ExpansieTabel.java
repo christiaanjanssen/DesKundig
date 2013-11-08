@@ -18,7 +18,7 @@ public class ExpansieTabel {
         int loop = 0;
         
         while(i < 48){
-            tmp = Matrices.RijE[i];
+            tmp = Matrices.getRijE()[i];
             if(tmp == loop){
                 uitvoerR[i] = invoerR[loop - 1];
                 loop = 0;

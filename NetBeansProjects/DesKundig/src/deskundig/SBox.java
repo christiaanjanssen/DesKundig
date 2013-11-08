@@ -141,7 +141,7 @@ public class SBox {
         int loop = 0;
         int check = 0;
         while (check < 32) {
-            tmp = Matrices.RijP[i];
+            tmp = Matrices.getRijP()[i];
             if (tmp == loop) {
                 func_out[check] = naSBox[loop - 1];
                 loop = 0;

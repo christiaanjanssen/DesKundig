@@ -19,7 +19,7 @@ class Permutatie {
         int loop = 0;
         
         while(perm_in.length != index) {
-            tmp = Matrices.RijIP[index];                          
+            tmp = Matrices.getRijIP()[index];                          
             if(tmp == loop){                             
                 perm_uit[index] = perm_in[loop - 1];        
                 loop = 0;
@@ -44,7 +44,7 @@ class Permutatie {
         int loop = 0;
         
         while(perm_in.length != index) {
-            temp = Matrices.RijinvIP[index];
+            temp = Matrices.getRijinvIP()[index];
             if(temp == loop){
                 perm_out[index] = perm_in[loop - 1];
                 loop = 0;
