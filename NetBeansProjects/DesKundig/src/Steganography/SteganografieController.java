@@ -6,9 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JPanel;
 import javax.swing.JButton;
-import javax.swing.ImageIcon;
 import javax.swing.JTextArea;
-import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 import javax.swing.JFileChooser;
 
@@ -103,7 +101,6 @@ public class SteganografieController {
                             "Error!", JOptionPane.INFORMATION_MESSAGE);
                 }
             }
-
         }
     }
 
@@ -126,24 +123,24 @@ public class SteganografieController {
             if (returnVal == JFileChooser.APPROVE_OPTION) {                          //als de terugkeerwaarde goedgekeurd is
                 File directory = chooser.getSelectedFile();                     //dan gaat men het bestand ophalen
                 try {
-                    String tekst = invoer.getText();                        //de tekst uit het textveld wordt opgehaald en opgeslagen in de variabele text
+                    String tekst = invoer.getText().toString();                        //de tekst uit het textveld wordt opgehaald en opgeslagen in de variabele text
                     String ext = AfbeelingenFilter.getExtensie(directory);     //extensie van de afbeelding wordt opgehaald
                     String naam = directory.getName();                      //naam van de directory wordt opgehaald en in de variabele naam gestoken
                     String pad = directory.getPath();                       //het pad naar de directory wordt opgehaald en in de variabele pad gestoken
                     pad = pad.substring(0, pad.length() - naam.length() - 1);    //de slash achteraan het pas wordt verwijderd
                     naam = naam.substring(0, naam.length() - 4);              //de extensie van de afbeelding wordt verwijderd
 
-                    String stegan = JOptionPane.showInputDialog(view, //er wordt gevraagt naar een naam voor het uitvoerbestand
+                    String stegan = JOptionPane.showInputDialog(null, //er wordt gevraagt naar een naam voor het uitvoerbestand
                             "Geef een bestandnaam op:", "bestandsnaam",
                             JOptionPane.PLAIN_MESSAGE);
 
                     if (model.vercijferen(pad, naam, ext, stegan, tekst)) //als de vercijfering lukt
                     {
-                        JOptionPane.showMessageDialog(view, "De afbeelding is succesvol vercijferd", //laat een bericht zien dat het succevol was
+                        JOptionPane.showMessageDialog(null, "De afbeelding is succesvol vercijferd", //laat een bericht zien dat het succevol was
                                 "Success!", JOptionPane.INFORMATION_MESSAGE);
                     } else //anders
                     {
-                        JOptionPane.showMessageDialog(view, "The Image could not be encoded!", //laat een bericht zien dat de tekst niet vercijfert kan worden
+                        JOptionPane.showMessageDialog(null, "The Image could not be encoded!", //laat een bericht zien dat de tekst niet vercijfert kan worden
                                 "Error!", JOptionPane.INFORMATION_MESSAGE);
                     }
                     //afbeelding_invoer.setIcon(new ImageIcon(ImageIO.read(new File(pad + "/" + stegan + ".png"))));  
