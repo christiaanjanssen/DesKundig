@@ -6,10 +6,7 @@ package deskundig;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.concurrent.ExecutorService;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -80,7 +77,7 @@ public class FileDes implements Runnable {
         int[] outArr = new int[64];
         int teller = 0;
         boolean read;
-        
+
         while (step != totalSteps) {
 
             if (!bIn.isEmpty()) {
@@ -101,27 +98,27 @@ public class FileDes implements Runnable {
                 newT = new Thread(new Encryptie(resultList.get(threadTeller), true));
                 threadList.add(newT);
                 newT.start();
-//                try {
-//                    newT.join();
-//                } catch (InterruptedException ex) {
-//                    Logger.getLogger(FileDes.class.getName()).log(Level.SEVERE, null, ex);
-//                }
-                
+
                 totalThreadsTeller++;
-                
-                if (threadTeller == 9 || totalThreadsTeller == totalThreads) {
-                    for (Iterator<Thread> it = threadList.iterator(); it.hasNext();) {
+
+                if (threadTeller == 50 || totalThreadsTeller == totalThreads) {
+                    try {
+                        newT.join();
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(FileDes.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                    for (int j = threadList.size() - 1; j >= 0; j--) {
                         try {
-                            it.next().join();
+                            threadList.get(j).join();
                         } catch (InterruptedException ex) {
                             Logger.getLogger(FileDes.class.getName()).log(Level.SEVERE, null, ex);
                         }
                     }
-                    
+
                     for (int i = 0; i < resultList.size(); i++) {
                         outArr = resultList.get(i).getResult();
                         for (int j = 0; j < 64; j++) {
-                            //System.err.println(j + " step: " + step + "/" + totalSteps + " thread: " + totalThreadsTeller + "/" + totalThreads);
                             if (outArr[j] == 1) {
                                 bOut.write(true);
                             } else {
@@ -148,88 +145,106 @@ public class FileDes implements Runnable {
     }
 
     public void decrypt() {
-        bIn = new BinaryIn(file.getAbsolutePath());
         bOut = new BinaryOut(out.getAbsolutePath());
-        long Flength = file.length() * 8 / 64;
-        Boolean reader;
-        Boolean first = true;
-        int teller = 1;
-        int stap = 0;
+        bIn = new BinaryIn(file.getAbsolutePath());
+        long Flength = file.length() * 8;
+        long totalSteps = (long) Math.ceil(Flength / 64.0);
+        long step = 0;
         String temp = "";
         int added = 0;
+        int threadTeller = 0;
+        int totalThreads = (int) Math.ceil(Flength / 64.0) - 1;
+        int totalThreadsTeller = 0;
+
+        Thread newT;
         int[] outArr = new int[64];
-        while (!bIn.isEmpty()) {
-            reader = bIn.readBoolean();
-            if (teller != 64) {
-                if (first) {
-                    if (reader) {
-                        temp += "1";
-                    } else {
-                        temp += 0;
-                    }
+        int teller = 0;
+        boolean read;
+        boolean first = true;
+
+        while (step != totalSteps) {
+
+            if (!bIn.isEmpty()) {
+                read = bIn.readBoolean();
+                if (read) {
+                    outArr[teller] = 1;
                 } else {
-                    if (reader) {
-                        outArr[teller - 1] = 1;
-                    } else {
-                        outArr[teller - 1] = 0;
-                    }
+                    outArr[teller] = 0;
                 }
             } else {
-                if (first) {
-                    if (reader) {
-                        temp += "1";
-                    } else {
-                        temp += 0;
-                    }
-                    added = Integer.parseInt(temp, 2);
-                    System.out.println("added: " + added);
-                    first = false;
-                    stap++;
-                } else {
-                    if (reader) {
-                        outArr[teller - 1] = 1;
-                    } else {
-                        outArr[teller - 1] = 0;
-                    }
-                    enResult.setResult(outArr);
-                    enResult.setStap(0);
-                    Thread newT = new Thread(new Encryptie(enResult, false), "TridesEncryptie");
-                    newT.start();
-                    try {
-                        newT.join();
-                    } catch (InterruptedException ex) {
-                        Logger.getLogger(FileDes.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    outArr = enResult.getResult();
-                    if (stap == Flength) {
-                        for (int i = 0; i < 64 - added; i++) {
-                            if (outArr[i] == 1) {
-                                bOut.write(true);
-                            } else {
-                                bOut.write(false);
-                            }
-                        }
-                    } else {
-                        for (int i = 0; i < 64; i++) {
-                            if (outArr[i] == 1) {
-                                bOut.write(true);
-                            } else {
-                                bOut.write(false);
-                            }
-                        }
-                    }
-                }
-                teller = 0;
-                outArr = new int[64];
-                stap++;
+                outArr[teller] = 0;
             }
-
             teller++;
 
+            if (teller == 64) {
+                if (!first) {
+                    resultList.add(new ThreadResult(Sleutels));
+                    resultList.get(threadTeller).setResult(outArr);
+                    newT = new Thread(new Encryptie(resultList.get(threadTeller), false));
+                    threadList.add(newT);
+                    newT.start();
 
+                    totalThreadsTeller++;
+                    threadTeller ++;
 
+                    if (threadTeller == 50 || totalThreadsTeller == totalThreads) {
+                        try {
+                            newT.join();
+                        } catch (InterruptedException ex) {
+                            Logger.getLogger(FileDes.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+
+                        for (int j = threadList.size() - 1; j >= 0; j--) {
+                            try {
+                                threadList.get(j).join();
+                            } catch (InterruptedException ex) {
+                                Logger.getLogger(FileDes.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+
+                        for (int i = 0; i < resultList.size(); i++) {
+                            outArr = resultList.get(i).getResult();
+                            if(totalThreadsTeller != totalThreads || i != (resultList.size() - 1)){
+                                for (int j = 0; j < 64; j++) {
+                                    if (outArr[j] == 1) {
+                                        bOut.write(true);
+                                    } else {
+                                        bOut.write(false);
+                                    }
+                                }
+                            }else{
+                                 for (int j = 0; j < 64 - added; j++) {
+                                    if (outArr[j] == 1) {
+                                        bOut.write(true);
+                                    } else {
+                                        bOut.write(false);
+                                    }
+                                }
+                            }
+                        }
+                        resultList.clear();
+                        threadList.clear();
+
+                        threadTeller = 0;
+                    }
+
+                } else {
+                    for (int i = 0; i < outArr.length; i++) {
+                        temp += outArr[i];
+                    }
+                    added = Integer.parseInt(temp, 2);
+                    first = false;
+                }
+                step++;
+                teller = 0;
+                outArr = new int[64];
+                
+            }
         }
+
+        bOut.flush();
         bOut.close();
+
     }
 
     @Override
