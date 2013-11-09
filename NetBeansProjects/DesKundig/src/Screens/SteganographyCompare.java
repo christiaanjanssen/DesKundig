@@ -212,3 +212,26 @@ public class SteganographyCompare extends javax.swing.JFrame {
     private javax.swing.JTextField tekstOrigineel;
     // End of variables declaration//GEN-END:variables
 }
+/*private boolean checkDifferenceImage(BufferedImage original, BufferedImage newImg, File f) {
+        Color red = new Color(255, 0, 0); //Rode kleur om de verschillen aan te duiden op de afbeelding
+        int rgbRed = red.getRGB(); //RGB-waarde opvragen van Color red
+        
+        try {
+            //Nieuwe BufferedImage om de verschillen aan te duiden
+            //Hier wordt de originele afbeeldinge gewijzig bij elk verschil
+            BufferedImage biDiffImg = original;
+            
+            for (int x = 0; x < original.getWidth(); x++) { //Breedte
+                for (int y = 0; y < original.getHeight(); y++) { //Hoogte
+                    if (original.getRGB(x, y) != newImg.getRGB(x, y)) {
+                        biDiffImg.setRGB(x, y, rgbRed);
+                    }
+                }
+            }
+            ImageIO.write(biDiffImg, "png", f);
+            return true;
+        }catch (Exception e) {
+            System.err.println("Fout in checkDifferenceImage: [" + e.getMessage() + "]");
+            return false;
+        }
+    }*/
