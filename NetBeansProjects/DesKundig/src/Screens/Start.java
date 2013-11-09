@@ -34,6 +34,7 @@ public class Start extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
+        setResizable(false);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI Semilight", 0, 24)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -83,10 +84,12 @@ public class Start extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn3DESActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn3DESActionPerformed
+        this.setVisible(false);
         new Cryptography().setVisible(true);
     }//GEN-LAST:event_btn3DESActionPerformed
 
     private void btnStegAnd3DESActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStegAnd3DESActionPerformed
+        this.setVisible(false);
         new Steganography().setVisible(true);
     }//GEN-LAST:event_btnStegAnd3DESActionPerformed
 

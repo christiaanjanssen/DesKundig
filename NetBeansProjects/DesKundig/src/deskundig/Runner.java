@@ -7,17 +7,17 @@ import java.util.logging.Logger;
 public class Runner {
 
     public static void main(String[] args) {
-        try {
-            String[] sleutels = {"eerstesleutel", "tweedesleutel", "derdesleutel"};
+        //try {
+            //String[] sleutels = {"eerstesleutel", "tweedesleutel", "derdesleutel"};
 
             /**
              * Voor files
              */
-            File fin = new File("C:\\Users\\jeffr_000\\Desktop\\10mb.txt");
-            File fout = new File("C:\\Users\\jeffr_000\\Desktop\\out.bin");
-            Thread nThread = new Thread(new FileDes(sleutels, fin, fout, true));
-            nThread.start();
-            nThread.join();
+            //File fin = new File("C:\\Users\\jeffr_000\\Desktop\\10mb.txt");
+            //File fout = new File("C:\\Users\\jeffr_000\\Desktop\\out.bin");
+            //Thread nThread = new Thread(new FileDes(sleutels, fin, fout, true));
+            //nThread.start();
+            //nThread.join();
 
             //fin = new File("C:\\Users\\jeffr_000\\Desktop\\out.bin");
             //fout = new File("C:\\Users\\jeffr_000\\Desktop\\out.txt");
@@ -34,9 +34,9 @@ public class Runner {
             //        
             //        System.out.println(decryptResult);
             //        System.out.println(decryptResult);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(Runner.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        //} catch (InterruptedException ex) {
+          //  Logger.getLogger(Runner.class.getName()).log(Level.SEVERE, null, ex);
+        //}
 
     }
 }

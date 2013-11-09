@@ -33,6 +33,7 @@ public class SteganographyCompare extends javax.swing.JFrame {
         buttonCompare = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         imageComparison.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 

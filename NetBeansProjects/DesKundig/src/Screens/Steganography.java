@@ -8,6 +8,7 @@ import Steganography.AfbeelingenFilter;
 import Steganography.Steganografie;
 import be.belgium.eid.eidlib.BeID;
 import be.belgium.eid.exceptions.EIDException;
+import deskundig.EncryptieText;
 import deskundig.FileDes;
 import java.awt.event.ActionEvent;
 import java.io.File;
@@ -36,6 +37,7 @@ public class Steganography extends javax.swing.JFrame {
     JFileChooser chooser;
     private String key1Key;
     private String key2Key;
+    private EncryptieText enc;
 
     /**
      * Creates new form Cryptography
@@ -70,6 +72,7 @@ public class Steganography extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
+        setResizable(false);
 
         lblData.setText("No data");
 
@@ -215,14 +218,31 @@ public class Steganography extends javax.swing.JFrame {
     }//GEN-LAST:event_btnOntcijferActionPerformed
 
     private void BtnVercijferActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnVercijferActionPerformed
-        startVercijferen();
+        if (!txtPassword2.getText().equals(txtPassword3.getText())) {
+            JOptionPane.showMessageDialog(null, "Passwords don't match!", "Error", JOptionPane.ERROR_MESSAGE);
+            txtPassword2.setText("");
+            txtPassword3.setText("");
+        } else if (txtPassword2.getText().length() < 10) {
+            JOptionPane.showMessageDialog(null, "Password needs to be at least 10 characters long", "Error", JOptionPane.ERROR_MESSAGE);
+            txtPassword2.setText("");
+            txtPassword3.setText("");
+        } else if (invoer.getText() == "") {
+            JOptionPane.showMessageDialog(null, "No text entered", "Error", JOptionPane.ERROR_MESSAGE);
+        } else if (key1Key == null || key2Key == null) {
+            JOptionPane.showMessageDialog(null, "No e-id data found (click Get data)", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            String[] sleutels = {key1Key, key2Key, txtPassword3.getText()};
+            enc = new EncryptieText(sleutels);
+            String uitvoer = enc.Encrypteer(invoer.getText());
+            startVercijferen(uitvoer);
+        }
     }//GEN-LAST:event_BtnVercijferActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
             BeID id = new BeID(true);
             key1Key = id.getIDData().getCardNumber();
-            key2Key = id.getIDData().getCardNumber();
+            key2Key = id.getIDData().getChipNumber();
             lblData.setText("Is gelukt!");
         } catch (EIDException ex) {
             Logger.getLogger(Cryptography.class.getName()).log(Level.SEVERE, null, ex);
@@ -233,44 +253,58 @@ public class Steganography extends javax.swing.JFrame {
         new SteganographyCompare().setVisible(true);
     }//GEN-LAST:event_btnCompareActionPerformed
 
-    public void startVercijferen(){
+    public void startVercijferen(String uitvoer) {
         //start path of displayed File Chooser
-            JFileChooser chooser = new JFileChooser("./");                          //zet standaard pad voor het bestand te kiezen dat ontcijfert moet worden
-            chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);       //men gaat hier de manier van kiezen koppelen aan de kiezer, dus zowel bestanden als mappen
-            chooser.setFileFilter(new AfbeelingenFilter());                              //Er wordt een filter op het soort bestanden gezet zodat alleen images gekozen kunnen worden
-            int returnVal = chooser.showOpenDialog(this);
-            if (returnVal == JFileChooser.APPROVE_OPTION) {                          //als de terugkeerwaarde goedgekeurd is
-                File directory = chooser.getSelectedFile();                     //dan gaat men het bestand ophalen
-                try {
-                    String tekst = invoer.getText().toString();                        //de tekst uit het textveld wordt opgehaald en opgeslagen in de variabele text
-                    String ext = AfbeelingenFilter.getExtensie(directory);     //extensie van de afbeelding wordt opgehaald
-                    String naam = directory.getName();                      //naam van de directory wordt opgehaald en in de variabele naam gestoken
-                    String pad = directory.getPath();                       //het pad naar de directory wordt opgehaald en in de variabele pad gestoken
-                    pad = pad.substring(0, pad.length() - naam.length() - 1);    //de slash achteraan het pas wordt verwijderd
-                    naam = naam.substring(0, naam.length() - 4);              //de extensie van de afbeelding wordt verwijderd
+        JFileChooser chooser = new JFileChooser("./");                          //zet standaard pad voor het bestand te kiezen dat ontcijfert moet worden
+        chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);       //men gaat hier de manier van kiezen koppelen aan de kiezer, dus zowel bestanden als mappen
+        chooser.setFileFilter(new AfbeelingenFilter());                              //Er wordt een filter op het soort bestanden gezet zodat alleen images gekozen kunnen worden
+        int returnVal = chooser.showOpenDialog(this);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {                          //als de terugkeerwaarde goedgekeurd is
+            File directory = chooser.getSelectedFile();                     //dan gaat men het bestand ophalen
+            try {
+                String tekst = uitvoer;                        //de tekst uit het textveld wordt opgehaald en opgeslagen in de variabele text
+                String ext = AfbeelingenFilter.getExtensie(directory);     //extensie van de afbeelding wordt opgehaald
+                String naam = directory.getName();                      //naam van de directory wordt opgehaald en in de variabele naam gestoken
+                String pad = directory.getPath();                       //het pad naar de directory wordt opgehaald en in de variabele pad gestoken
+                pad = pad.substring(0, pad.length() - naam.length() - 1);    //de slash achteraan het pas wordt verwijderd
+                naam = naam.substring(0, naam.length() - 4);              //de extensie van de afbeelding wordt verwijderd
 
-                    String stegan = JOptionPane.showInputDialog(null, //er wordt gevraagt naar een naam voor het uitvoerbestand
-                            "Geef een bestandnaam op:", "bestandsnaam",
-                            JOptionPane.PLAIN_MESSAGE);
+                String stegan = JOptionPane.showInputDialog(null, //er wordt gevraagt naar een naam voor het uitvoerbestand
+                        "Geef een bestandnaam op:", "bestandsnaam",
+                        JOptionPane.PLAIN_MESSAGE);
 
-                    if (model.vercijferen(pad, naam, ext, stegan, tekst)) //als de vercijfering lukt
-                    {
-                        JOptionPane.showMessageDialog(null, "De afbeelding is succesvol vercijferd", //laat een bericht zien dat het succevol was
-                                "Success!", JOptionPane.INFORMATION_MESSAGE);
-                    } else //anders
-                    {
-                        JOptionPane.showMessageDialog(null, "The Image could not be encoded!", //laat een bericht zien dat de tekst niet vercijfert kan worden
-                                "Error!", JOptionPane.INFORMATION_MESSAGE);
-                    }
-                    //afbeelding_invoer.setIcon(new ImageIcon(ImageIO.read(new File(pad + "/" + stegan + ".png"))));  
-                } catch (Exception except) {                                                           //als er een fout opgegooid wordt
-                    JOptionPane.showMessageDialog(null, "Het bestand kan niet worden gevonden of het kan niet geopend worden",
-                            "Foutmelding!", JOptionPane.INFORMATION_MESSAGE);
+                if (model.vercijferen(pad, naam, ext, stegan, tekst)) //als de vercijfering lukt
+                {
+                    JOptionPane.showMessageDialog(null, "De afbeelding is succesvol vercijferd", //laat een bericht zien dat het succevol was
+                            "Success!", JOptionPane.INFORMATION_MESSAGE);
+                } else //anders
+                {
+                    JOptionPane.showMessageDialog(null, "The Image could not be encoded!", //laat een bericht zien dat de tekst niet vercijfert kan worden
+                            "Error!", JOptionPane.INFORMATION_MESSAGE);
                 }
+                //afbeelding_invoer.setIcon(new ImageIcon(ImageIO.read(new File(pad + "/" + stegan + ".png"))));  
+            } catch (Exception except) {                                                           //als er een fout opgegooid wordt
+                JOptionPane.showMessageDialog(null, "Het bestand kan niet worden gevonden of het kan niet geopend worden",
+                        "Foutmelding!", JOptionPane.INFORMATION_MESSAGE);
             }
+        }
     }
-    
-    public void startOntcijferen(){
+
+    public void startOntcijferen() {
+        if (!txtPassword2.getText().equals(txtPassword3.getText())) {
+            JOptionPane.showMessageDialog(null, "Passwords don't match!", "Error", JOptionPane.ERROR_MESSAGE);
+            txtPassword2.setText("");
+            txtPassword3.setText("");
+        } else if (txtPassword2.getText().length() < 10) {
+            JOptionPane.showMessageDialog(null, "Password needs to be at least 10 characters long", "Error", JOptionPane.ERROR_MESSAGE);
+            txtPassword2.setText("");
+            txtPassword3.setText("");
+        } else if (key1Key == null || key2Key == null) {
+            JOptionPane.showMessageDialog(null, "No e-id data found (click Get data)", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            String[] sleutels = {key1Key, key2Key, txtPassword3.getText()};
+            enc = new EncryptieText(sleutels);
+
             JFileChooser Kiezer = new JFileChooser("./");                       //zet standaard pad voor het bestand te kiezen dat ontcijfert moet worden
             Kiezer.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);    //men gaat hier de manier van kiezen koppelen aan de kiezer, dus zowel bestanden als mappen
             Kiezer.setFileFilter(new AfbeelingenFilter());                         //Er wordt een filter op het soort bestanden gezet zodat alleen images gekozen kunnen worden
@@ -286,6 +320,7 @@ public class Steganography extends javax.swing.JFrame {
                     System.out.println(stat_pad + ", " + stat_naam);
                     if (bericht != "") //als de tekst niet leeg was
                     {
+                        bericht = enc.Decrypteer(bericht);
                         JOptionPane.showMessageDialog(null, "De afbeelding is succesvol ontcijferd",
                                 "Succes!", JOptionPane.INFORMATION_MESSAGE);
                         invoer.setText(bericht);                                                        //zet de invoer om naar de inhoud van de variabelen bericht
@@ -300,7 +335,9 @@ public class Steganography extends javax.swing.JFrame {
                             "Error!", JOptionPane.INFORMATION_MESSAGE);
                 }
             }
+        }
     }
+
     /**
      * @param args the command line arguments
      */

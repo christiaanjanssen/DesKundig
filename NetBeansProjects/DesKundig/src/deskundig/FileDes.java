@@ -4,6 +4,7 @@
  */
 package deskundig;
 
+import Screens.Cryptography;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -26,8 +27,9 @@ public class FileDes implements Runnable {
     private boolean bEncrypt;
     private ArrayList<Thread> threadList;
     private ArrayList<ThreadResult> resultList;
+    private Cryptography superTask;
 
-    public FileDes(String[] slke, File fin, File fout, boolean ecrypt) {
+    public FileDes(String[] slke, File fin, File fout, boolean ecrypt, Cryptography superTask) {
         Sleutels = new Keys[3];
         Sleutels[0] = new Keys(slke[0]);
         Sleutels[1] = new Keys(slke[1]);
@@ -38,11 +40,16 @@ public class FileDes implements Runnable {
         this.bEncrypt = ecrypt;
         this.threadList = new ArrayList<>();
         resultList = new ArrayList<>();
+        this.superTask = superTask;
     }
 
     public void encrypt() {
         bOut = new BinaryOut(out.getAbsolutePath());
         bIn = new BinaryIn(file.getAbsolutePath());
+        
+        long totalProg = file.length();
+        double curProg = 0;
+        
         long Flength = file.length() * 8;
         long totalSteps = (long) Math.ceil(Flength / 64.0);
         long step = 0;
@@ -126,6 +133,12 @@ public class FileDes implements Runnable {
                             }
                         }
                     }
+                    if (out.length() == 0) {
+                        superTask.setProgress(0);
+                    } else {
+                        curProg = (double) out.length() / (double) totalProg * 100.0;
+                        superTask.setProgress((int) curProg);
+                    }
                     resultList.clear();
                     threadList.clear();
 
@@ -141,6 +154,7 @@ public class FileDes implements Runnable {
 
         bOut.flush();
         bOut.close();
+        superTask.desDone();
 
     }
 
@@ -148,6 +162,10 @@ public class FileDes implements Runnable {
         bOut = new BinaryOut(out.getAbsolutePath());
         bIn = new BinaryIn(file.getAbsolutePath());
         long Flength = file.length() * 8;
+        
+        long totalProg = file.length();
+        double curProg = 0;
+        
         long totalSteps = (long) Math.ceil(Flength / 64.0);
         long step = 0;
         String temp = "";
@@ -185,7 +203,7 @@ public class FileDes implements Runnable {
                     newT.start();
 
                     totalThreadsTeller++;
-                    threadTeller ++;
+                    threadTeller++;
 
                     if (threadTeller == 50 || totalThreadsTeller == totalThreads) {
                         try {
@@ -204,7 +222,7 @@ public class FileDes implements Runnable {
 
                         for (int i = 0; i < resultList.size(); i++) {
                             outArr = resultList.get(i).getResult();
-                            if(totalThreadsTeller != totalThreads || i != (resultList.size() - 1)){
+                            if (totalThreadsTeller != totalThreads || i != (resultList.size() - 1)) {
                                 for (int j = 0; j < 64; j++) {
                                     if (outArr[j] == 1) {
                                         bOut.write(true);
@@ -212,8 +230,8 @@ public class FileDes implements Runnable {
                                         bOut.write(false);
                                     }
                                 }
-                            }else{
-                                 for (int j = 0; j < 64 - added; j++) {
+                            } else {
+                                for (int j = 0; j < 64 - added; j++) {
                                     if (outArr[j] == 1) {
                                         bOut.write(true);
                                     } else {
@@ -221,6 +239,12 @@ public class FileDes implements Runnable {
                                     }
                                 }
                             }
+                        }
+                        if (out.length() == 0) {
+                            superTask.setProgress(0);
+                        } else {
+                            curProg = (double) out.length() / (double) totalProg * 100.0;
+                            superTask.setProgress((int) curProg);
                         }
                         resultList.clear();
                         threadList.clear();
@@ -238,12 +262,13 @@ public class FileDes implements Runnable {
                 step++;
                 teller = 0;
                 outArr = new int[64];
-                
+
             }
         }
 
         bOut.flush();
         bOut.close();
+        superTask.desDone();
 
     }
 
