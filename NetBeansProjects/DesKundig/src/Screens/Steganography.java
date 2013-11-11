@@ -173,14 +173,16 @@ public class Steganography extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        try {
+        //try {
             BeID id = new BeID(true);
-            key1Key = id.getIDData().getCardNumber();
-            key2Key = id.getIDData().getChipNumber();
+            key1Key="154regdsferg64d2f4erv1s24vr5zg";
+            key2Key="54qf4ds5v4f574vx4vs864v53wd7v5wv46sdv135cwx34d54vfv54";
+            //key1Key = id.getIDData().getCardNumber();
+            //key2Key = id.getIDData().getChipNumber();
             lblData.setText("Is gelukt!");
-        } catch (EIDException ex) {
-            Logger.getLogger(Cryptography.class.getName()).log(Level.SEVERE, null, ex);
-        }
+       // } catch (EIDException ex) {
+            //Logger.getLogger(Cryptography.class.getName()).log(Level.SEVERE, null, ex);
+       // }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void btnCompareActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCompareActionPerformed
@@ -195,7 +197,7 @@ public class Steganography extends javax.swing.JFrame {
         this.ontcijferen();
     }//GEN-LAST:event_btnOntcijferActionPerformed
 
-     public String encrypteren(String tekst) {                                         
+     public String encrypteren(String tekst) {    
         EncryptieText e = new EncryptieText(sleutels);
         String encryptResult = e.Encrypteer(tekst);
         return encryptResult;
@@ -207,7 +209,10 @@ public class Steganography extends javax.swing.JFrame {
         return decryptResult;
     }
     
-    public void vercijferen() {                                         
+    public void vercijferen() {           
+        sleutels[0] ="154regdsferg64d2f4erv1s24vr5zg";
+        sleutels[1] ="54qf4ds5v4f574vx4vs864v53wd7v5wv46sdv135cwx34d54vfv54";
+        sleutels[2] ="testtesttesttetstetsttets";
         JFileChooser chooser = new JFileChooser("./");                          //zet standaard pad voor het bestand te kiezen dat ontcijfert moet worden
         chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);       //men gaat hier de manier van kiezen koppelen aan de kiezer, dus zowel bestanden als mappen
         chooser.setFileFilter(new AfbeelingenFilter());                         //Er wordt een filter op het soort bestanden gezet zodat alleen images gekozen kunnen worden
@@ -215,7 +220,7 @@ public class Steganography extends javax.swing.JFrame {
         if (returnVal == JFileChooser.APPROVE_OPTION) {                         //als de terugkeerwaarde goedgekeurd is
             File directory2 = chooser.getSelectedFile();                        //dan gaat men het bestand ophalen
             try {
-                String tekst = this.encrypteren(invoer.getText());
+                String teksten = this.encrypteren(invoer.getText());
                 String ext = AfbeelingenFilter.getExtensie(directory2);         //extensie van de afbeelding wordt opgehaald
                 String naam = directory2.getName();                             //naam van de directory wordt opgehaald en in de variabele naam gestoken
                 String pad = directory2.getPath();                              //het pad naar de directory wordt opgehaald en in de variabele pad gestoken
@@ -224,8 +229,7 @@ public class Steganography extends javax.swing.JFrame {
                 String stegan = JOptionPane.showInputDialog(this,               //er wordt gevraagt naar een naam voor het uitvoerbestand
                         "Geef een bestandnaam op:", "bestandsnaam",
                         JOptionPane.PLAIN_MESSAGE).toString();
-                String tekstgeencrypteerd = this.encrypteren(tekst);
-                if (model.vercijferen(pad, naam, ext, stegan, tekstgeencrypteerd)) //als de vercijfering lukt
+                if (model.vercijferen(pad, naam, ext, stegan, teksten)) //als de vercijfering lukt
                     {
                         JOptionPane.showMessageDialog(this, "De afbeelding is succesvol vercijferd", //laat een bericht zien dat het succevol was
                                 "Success!", JOptionPane.INFORMATION_MESSAGE);
@@ -257,11 +261,12 @@ public class Steganography extends javax.swing.JFrame {
                 bericht = model.ontcijferen(stat_pad, stat_naam).toString();        //De tekst gaan vercijfer door middel van de vercijfermethode in de staganography klasse
                 System.out.println(stat_pad + ", " + stat_naam);
                 String einde = this.decrypteren(bericht);
-
-                if (!bericht.equals("")) //als de tekst niet leeg was
+                if (!einde.equals("")) //als de tekst niet leeg was
                 {
                     JOptionPane.showMessageDialog(this, "De afbeelding is succesvol ontcijferd",
                             "Succes!", JOptionPane.INFORMATION_MESSAGE);
+                    invoer.setText("");
+                    lblData.setIcon(null);
                     invoer.setText(einde);                                    //zet de invoer om naar de inhoud van de variabelen bericht
                 } else                                                          //anders
                 {
