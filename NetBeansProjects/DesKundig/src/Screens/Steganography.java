@@ -82,14 +82,14 @@ public class Steganography extends javax.swing.JFrame {
 
         lblPassword3.setText("Confirm password");
 
-        BtnVercijfer.setText("Vercijfer");
+        BtnVercijfer.setText("Encrypt image");
         BtnVercijfer.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BtnVercijferActionPerformed(evt);
             }
         });
 
-        btnOntcijfer.setText("Ontcijfer");
+        btnOntcijfer.setText("Decrypt image");
         btnOntcijfer.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnOntcijferActionPerformed(evt);
@@ -98,7 +98,7 @@ public class Steganography extends javax.swing.JFrame {
 
         afbeelding_invoer.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        btnCompare.setText("Compare images");
+        btnCompare.setText("Compare two images (original and encrypted)");
         btnCompare.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCompareActionPerformed(evt);

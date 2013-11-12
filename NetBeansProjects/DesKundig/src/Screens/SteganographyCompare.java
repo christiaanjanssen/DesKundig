@@ -1,7 +1,16 @@
 package Screens;
 
+import java.awt.Color;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.InputStream;
+import javax.imageio.ImageIO;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -11,7 +20,8 @@ public class SteganographyCompare extends javax.swing.JFrame {
 
     JFileChooser kies;
     File directory;
-    private File afbeelding;
+    File afbeelding1, afbeelding2;
+    ImageIcon test;
 
     public SteganographyCompare() {
         initComponents();
@@ -21,23 +31,18 @@ public class SteganographyCompare extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        imageComparison = new javax.swing.JLabel();
-        imageOrigineel = new javax.swing.JLabel();
         tekstOrigineel = new javax.swing.JTextField();
         btnBrowse2 = new javax.swing.JButton();
         lblFileChooser1 = new javax.swing.JLabel();
         lblFileChooser3 = new javax.swing.JLabel();
-        imageEncrypted = new javax.swing.JLabel();
         tekstEncrypted = new javax.swing.JTextField();
         btnBrowse4 = new javax.swing.JButton();
         buttonCompare = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(500, 280));
         setResizable(false);
-
-        imageComparison.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
-        imageOrigineel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         tekstOrigineel.setForeground(new java.awt.Color(0, 102, 204));
         tekstOrigineel.setName("tekstOrigineel"); // NOI18N
@@ -51,9 +56,7 @@ public class SteganographyCompare extends javax.swing.JFrame {
 
         lblFileChooser1.setText("Select original image");
 
-        lblFileChooser3.setText("Select original image");
-
-        imageEncrypted.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        lblFileChooser3.setText("Select encrypted image");
 
         tekstEncrypted.setForeground(new java.awt.Color(0, 102, 204));
         tekstEncrypted.setName("tekstEncrypted"); // NOI18N
@@ -72,69 +75,50 @@ public class SteganographyCompare extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setText("The comparison image will launch in a new window.");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(19, 19, 19)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(19, 19, 19)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(tekstOrigineel, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(97, 97, 97))
-                            .addComponent(imageOrigineel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lblFileChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnBrowse2, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblFileChooser3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(4, 4, 4)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(imageEncrypted, javax.swing.GroupLayout.PREFERRED_SIZE, 373, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(lblFileChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(buttonCompare, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addComponent(tekstEncrypted)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnBrowse4, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 23, Short.MAX_VALUE)))
-                .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(199, 199, 199)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(imageComparison, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(buttonCompare, javax.swing.GroupLayout.DEFAULT_SIZE, 418, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(lblFileChooser3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(tekstOrigineel, javax.swing.GroupLayout.PREFERRED_SIZE, 348, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(btnBrowse4, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btnBrowse2, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addComponent(jLabel1))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(27, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(lblFileChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(tekstOrigineel, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnBrowse2, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(imageOrigineel, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(lblFileChooser3, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(tekstEncrypted, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnBrowse4, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(imageEncrypted, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblFileChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(imageComparison, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnBrowse4, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tekstEncrypted, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lblFileChooser3, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnBrowse2, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tekstOrigineel, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(buttonCompare, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel1)
+                .addContainerGap(60, Short.MAX_VALUE))
         );
 
         pack();
@@ -145,7 +129,7 @@ public class SteganographyCompare extends javax.swing.JFrame {
         kies.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);    //men gaat hier de manier van kiezen koppelen aan de kiezer, dus zowel bestanden als mappen
         int Terugkeerwaarde = kies.showOpenDialog(this);
         if (Terugkeerwaarde == JFileChooser.APPROVE_OPTION) {
-            afbeelding = kies.getSelectedFile();
+            afbeelding1 = kies.getSelectedFile();
             String outFilePath = kies.getSelectedFile().toString();
             directory = kies.getSelectedFile();
             tekstOrigineel.setText(outFilePath);
@@ -157,16 +141,15 @@ public class SteganographyCompare extends javax.swing.JFrame {
         kies.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);    //men gaat hier de manier van kiezen koppelen aan de kiezer, dus zowel bestanden als mappen
         int Terugkeerwaarde = kies.showOpenDialog(this);
         if (Terugkeerwaarde == JFileChooser.APPROVE_OPTION) {
-            afbeelding = kies.getSelectedFile();
+            afbeelding2 = kies.getSelectedFile();
             String outFilePath = kies.getSelectedFile().toString();
             directory = kies.getSelectedFile();
             tekstEncrypted.setText(outFilePath);
     }//GEN-LAST:event_selectEncrypted
     }
     private void buttonCompareActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCompareActionPerformed
-        // ZIE FB LINK VAN STEVEN!!!!!!!
+        checkDifferenceImage(afbeelding1, afbeelding2);
     }//GEN-LAST:event_buttonCompareActionPerformed
-    
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -204,35 +187,47 @@ public class SteganographyCompare extends javax.swing.JFrame {
     private javax.swing.JButton btnBrowse2;
     private javax.swing.JButton btnBrowse4;
     private javax.swing.JButton buttonCompare;
-    private javax.swing.JLabel imageComparison;
-    private javax.swing.JLabel imageEncrypted;
-    private javax.swing.JLabel imageOrigineel;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel lblFileChooser1;
     private javax.swing.JLabel lblFileChooser3;
     private javax.swing.JTextField tekstEncrypted;
     private javax.swing.JTextField tekstOrigineel;
     // End of variables declaration//GEN-END:variables
-}
-/*private boolean checkDifferenceImage(BufferedImage original, BufferedImage newImg, File f) {
+
+    private boolean checkDifferenceImage(File origineel, File vercijferd) {
         Color red = new Color(255, 0, 0); //Rode kleur om de verschillen aan te duiden op de afbeelding
         int rgbRed = red.getRGB(); //RGB-waarde opvragen van Color red
-        
+
         try {
             //Nieuwe BufferedImage om de verschillen aan te duiden
             //Hier wordt de originele afbeeldinge gewijzig bij elk verschil
-            BufferedImage biDiffImg = original;
-            
-            for (int x = 0; x < original.getWidth(); x++) { //Breedte
-                for (int y = 0; y < original.getHeight(); y++) { //Hoogte
-                    if (original.getRGB(x, y) != newImg.getRGB(x, y)) {
-                        biDiffImg.setRGB(x, y, rgbRed);
+            BufferedImage origineelBuffer = ImageIO.read(origineel);
+            BufferedImage vercijferdBuffer = ImageIO.read(vercijferd);
+            System.out.println("dit zijn de waarden");
+            System.out.println(origineelBuffer.toString());
+            BufferedImage vergelijkBuffer = new BufferedImage(origineelBuffer.getWidth(), origineelBuffer.getHeight(), BufferedImage.TYPE_INT_ARGB);
+
+            for (int x = 0; x < origineelBuffer.getWidth(); x++) { //Breedte
+                for (int y = 0; y < origineelBuffer.getHeight(); y++) { //Hoogte
+                    if (origineelBuffer.getRGB(x, y) != vercijferdBuffer.getRGB(x, y)) {
+                        vergelijkBuffer.setRGB(x, y, rgbRed);
                     }
                 }
             }
-            ImageIO.write(biDiffImg, "png", f);
+
+            //BufferedImage vergelijkResized = (BufferedImage) vergelijkBuffer.getScaledInstance(80, 80, Image.SCALE_SMOOTH);
+            test = new ImageIcon(vergelijkBuffer);
+
+//            imageComparison.setIcon(test);
+            JLabel picLabel = new JLabel(test);
+            JOptionPane.showMessageDialog(null, picLabel, "About", JOptionPane.PLAIN_MESSAGE, null);
+
             return true;
-        }catch (Exception e) {
+
+        } catch (Exception e) {
             System.err.println("Fout in checkDifferenceImage: [" + e.getMessage() + "]");
             return false;
         }
-    }*/
+    }
+}
+/**/
