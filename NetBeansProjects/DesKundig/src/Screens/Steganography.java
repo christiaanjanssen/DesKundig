@@ -110,10 +110,6 @@ public class Steganography extends javax.swing.JFrame {
         invoer.setRows(5);
         jScrollPane1.setViewportView(invoer);
 
-        txtPassword2.setText("jPasswordField1");
-
-        txtPassword4.setText("jPasswordField1");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -196,7 +192,6 @@ public class Steganography extends javax.swing.JFrame {
 
     private void BtnVercijferActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnVercijferActionPerformed
         String soort = "";
-        
         if (!txtPassword2.getText().equals(txtPassword4.getText())) {
             JOptionPane.showMessageDialog(null, "Passwords don't match!", "Error", JOptionPane.ERROR_MESSAGE);
             txtPassword2.setText("");
