@@ -179,10 +179,7 @@ public class SBox {
         index = 0;
 
         runP(naSBox, func_out);
-
-        for (int j = 0; j < 32; j++) {
-            S_Out[j] = func_out[j];
-        }
+        System.arraycopy(func_out, 0, S_Out, 0, 32);
     }
     
     // Initialisatie van de permutatie matrix P in een rij
