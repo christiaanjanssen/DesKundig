@@ -9,6 +9,7 @@ import Steganography.Steganografie;
 import be.belgium.eid.eidlib.BeID;
 import be.belgium.eid.exceptions.EIDException;
 import deskundig.EncryptieText;
+import deskundig.FileDes;
 import java.awt.HeadlessException;
 import java.io.File;
 import java.io.IOException;
@@ -173,16 +174,14 @@ public class Steganography extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        //try {
+        try {
             BeID id = new BeID(true);
-            key1Key="154regdsferg64d2f4erv1s24vr5zg";
-            key2Key="54qf4ds5v4f574vx4vs864v53wd7v5wv46sdv135cwx34d54vfv54";
-            //key1Key = id.getIDData().getCardNumber();
-            //key2Key = id.getIDData().getChipNumber();
+            key1Key = id.getIDData().getCardNumber();
+            key2Key = id.getIDData().getChipNumber();
             lblData.setText("Is gelukt!");
-       // } catch (EIDException ex) {
-            //Logger.getLogger(Cryptography.class.getName()).log(Level.SEVERE, null, ex);
-       // }
+        } catch (EIDException ex) {
+            Logger.getLogger(Cryptography.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void btnCompareActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCompareActionPerformed
@@ -190,10 +189,24 @@ public class Steganography extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCompareActionPerformed
 
     private void BtnVercijferActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnVercijferActionPerformed
+        String soort = "";
+        if (!txtPassword2.getText().equals(txtPassword4.getText())) {
+            JOptionPane.showMessageDialog(null, "Passwords don't match!", "Error", JOptionPane.ERROR_MESSAGE);
+            txtPassword2.setText("");
+            txtPassword4.setText("");
+        } else if (txtPassword2.getText().length() < 10) {
+            JOptionPane.showMessageDialog(null, "Password needs to be at least 10 characters long", "Error", JOptionPane.ERROR_MESSAGE);
+            txtPassword2.setText("");
+            txtPassword4.setText("");
+        } else if (key1Key == null || key2Key == null) {
+            JOptionPane.showMessageDialog(null, "No e-id data found (click Get data)", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
         this.vercijferen();
+        }
     }//GEN-LAST:event_BtnVercijferActionPerformed
 
     private void btnOntcijferActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOntcijferActionPerformed
+        
         this.ontcijferen();
     }//GEN-LAST:event_btnOntcijferActionPerformed
 
@@ -210,9 +223,9 @@ public class Steganography extends javax.swing.JFrame {
     }
     
     public void vercijferen() {           
-        sleutels[0] ="154regdsferg64d2f4erv1s24vr5zg";
-        sleutels[1] ="54qf4ds5v4f574vx4vs864v53wd7v5wv46sdv135cwx34d54vfv54";
-        sleutels[2] ="testtesttesttetstetsttets";
+        sleutels[0] = key1Key;
+        sleutels[1] = key2Key;
+        sleutels[2] = txtPassword4.getText().toString();
         JFileChooser chooser = new JFileChooser("./");                          //zet standaard pad voor het bestand te kiezen dat ontcijfert moet worden
         chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);       //men gaat hier de manier van kiezen koppelen aan de kiezer, dus zowel bestanden als mappen
         chooser.setFileFilter(new AfbeelingenFilter());                         //Er wordt een filter op het soort bestanden gezet zodat alleen images gekozen kunnen worden
@@ -220,7 +233,7 @@ public class Steganography extends javax.swing.JFrame {
         if (returnVal == JFileChooser.APPROVE_OPTION) {                         //als de terugkeerwaarde goedgekeurd is
             File directory2 = chooser.getSelectedFile();                        //dan gaat men het bestand ophalen
             try {
-                String teksten = this.encrypteren(invoer.getText());
+                String teksten = this.encrypteren(invoer.getText().toString());
                 String ext = AfbeelingenFilter.getExtensie(directory2);         //extensie van de afbeelding wordt opgehaald
                 String naam = directory2.getName();                             //naam van de directory wordt opgehaald en in de variabele naam gestoken
                 String pad = directory2.getPath();                              //het pad naar de directory wordt opgehaald en in de variabele pad gestoken
@@ -246,7 +259,8 @@ public class Steganography extends javax.swing.JFrame {
         }
     }    
     
-    public void ontcijferen() {                                         
+    public void ontcijferen() {            
+        invoer.setText("");
         JFileChooser Kiezer = new JFileChooser("./");                           //zet standaard pad voor het bestand te kiezen dat ontcijfert moet worden
         Kiezer.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);        //men gaat hier de manier van kiezen koppelen aan de kiezer, dus zowel bestanden als mappen
         Kiezer.setFileFilter(new AfbeelingenFilter());                          //Er wordt een filter op het soort bestanden gezet zodat alleen images gekozen kunnen worden
