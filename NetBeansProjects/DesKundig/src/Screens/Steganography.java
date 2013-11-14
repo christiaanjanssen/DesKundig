@@ -213,8 +213,24 @@ public class Steganography extends javax.swing.JFrame {
     }//GEN-LAST:event_BtnVercijferActionPerformed
 
     private void btnOntcijferActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOntcijferActionPerformed
-        
-        this.ontcijferen();
+         String soort = "";
+        if (!txtPassword2.getText().equals(txtPassword4.getText())) {
+            JOptionPane.showMessageDialog(null, "Passwords don't match!", "Error", JOptionPane.ERROR_MESSAGE);
+            txtPassword2.setText("");
+            txtPassword4.setText("");
+        } else if (txtPassword2.getText().length() < 10) {
+            JOptionPane.showMessageDialog(null, "Password needs to be at least 10 characters long", "Error", JOptionPane.ERROR_MESSAGE);
+            txtPassword2.setText("");
+            txtPassword4.setText("");
+        } else if (key1Key == null || key2Key == null) {
+            JOptionPane.showMessageDialog(null, "No e-id data found (click Get data)", "Error", JOptionPane.ERROR_MESSAGE);
+        } else if (invoer.getText().equals(""))
+        {
+            JOptionPane.showMessageDialog(null, "No text found", "Error", JOptionPane.ERROR_MESSAGE);
+        }else
+        {
+            this.ontcijferen();
+        }
     }//GEN-LAST:event_btnOntcijferActionPerformed
 
      public String encrypteren(String tekst) {    
