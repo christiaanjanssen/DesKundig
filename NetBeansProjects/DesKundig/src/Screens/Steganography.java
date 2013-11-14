@@ -196,6 +196,7 @@ public class Steganography extends javax.swing.JFrame {
 
     private void BtnVercijferActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnVercijferActionPerformed
         String soort = "";
+        
         if (!txtPassword2.getText().equals(txtPassword4.getText())) {
             JOptionPane.showMessageDialog(null, "Passwords don't match!", "Error", JOptionPane.ERROR_MESSAGE);
             txtPassword2.setText("");
