@@ -32,6 +32,7 @@ public class Steganography extends javax.swing.JFrame {
     private String key1Key;
     private String key2Key;
     private String bericht;
+    private String einde;
     String[] sleutels = new String[3];
     private EncryptieText enc;
     
@@ -264,7 +265,10 @@ public class Steganography extends javax.swing.JFrame {
         }
     }    
     
-    public void ontcijferen() {            
+    public void ontcijferen() {        
+        sleutels[0] = key1Key;
+        sleutels[1] = key2Key;
+        sleutels[2] = txtPassword4.getText().toString();
         invoer.setText("");
         JFileChooser Kiezer = new JFileChooser("./");                           //zet standaard pad voor het bestand te kiezen dat ontcijfert moet worden
         Kiezer.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);        //men gaat hier de manier van kiezen koppelen aan de kiezer, dus zowel bestanden als mappen
@@ -277,9 +281,9 @@ public class Steganography extends javax.swing.JFrame {
                 stat_pad = directory.getPath();                                 //3. Het effectieve pad ophalen
                 stat_pad = stat_pad.substring(0, stat_pad.length() - stat_naam.length() - 1);    //het laatste karakter verwijderen van het pad
                 stat_naam = stat_naam.substring(0, stat_naam.length() - 4);     //de extensie verwijderen van de naam dus .jpg of .png
-                bericht = model.ontcijferen(stat_pad, stat_naam).toString();        //De tekst gaan vercijfer door middel van de vercijfermethode in de staganography klasse
+                bericht = model.ontcijferen(stat_pad, stat_naam);        //De tekst gaan vercijfer door middel van de vercijfermethode in de staganography klasse
                 System.out.println(stat_pad + ", " + stat_naam);
-                String einde = this.decrypteren(bericht);
+                einde = this.decrypteren(bericht.toString());
                 if (!einde.equals("")) //als de tekst niet leeg was
                 {
                     JOptionPane.showMessageDialog(this, "De afbeelding is succesvol ontcijferd",
@@ -291,11 +295,13 @@ public class Steganography extends javax.swing.JFrame {
                 {
                     JOptionPane.showMessageDialog(this, "De afbeelding kon niet worden ontcijferd!",
                             "Fout!", JOptionPane.INFORMATION_MESSAGE);
-                    
                 }
             }
             catch(Exception e){
+                JOptionPane.showMessageDialog(this, "De afbeelding kon niet worden ontcijferd!",
+                            "Fout!", JOptionPane.INFORMATION_MESSAGE);
             }
+                
             }
         }
     
