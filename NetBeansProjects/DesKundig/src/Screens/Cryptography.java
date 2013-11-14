@@ -274,10 +274,7 @@ public class Cryptography extends javax.swing.JFrame {
             btnBrowse2.setEnabled(false);
             txtPassword2.setEditable(false);
             txtPassword3.setEditable(false);
-
         }
-
-
     }//GEN-LAST:event_BtnDoFileDesActionPerformed
 
     private void btGetDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btGetDataActionPerformed

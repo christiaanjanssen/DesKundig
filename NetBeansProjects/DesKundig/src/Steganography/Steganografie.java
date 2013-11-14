@@ -53,7 +53,6 @@ public class Steganografie {
         byte[] ontc;                                                                                    //array van bytes maken
         try {
             //GebruikersGrootte moet bepaald worden, hier wel nodig
-            
             BufferedImage afbeelding = gebruikersGrootte(getAfbeelding(pad + "/" + naam + "." + "png"));
             WritableRaster raster = afbeelding.getRaster();
             DataBufferByte buffer = (DataBufferByte) raster.getDataBuffer();
