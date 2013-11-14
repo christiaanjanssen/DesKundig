@@ -89,9 +89,7 @@ public class Keys {
      * @param D 2de deel
      */
     private void split(int[] in, int[] C, int[] D) {
-        for (int i = 0; i < 28; i++) {
-            C[i] = in[i];
-        }
+        System.arraycopy(in, 0, C, 0, 28);
 
         for (int i = 28; i < 56; i++) {
             D[i - 28] = in[i];
@@ -99,9 +97,7 @@ public class Keys {
     }
 
     private void combine(int[] C, int[] D, int[] CD) {
-        for (int i = 0; i < 28; i++) {
-            CD[i] = C[i];
-        }
+        System.arraycopy(C, 0, CD, 0, 28);
 
         int index = 28;
         for (int i = 0; i < 28; i++) {
