@@ -91,6 +91,8 @@ public class SBox {
 
     /**
      * De methode zorgt voor ene omzetting naar 32 bits
+     * 
+     * de uitkomst van de keuze uit je sbox omzetten naar 4 bits en toevoegen aan de 32bits array
      *
      * @param num
      */
@@ -106,6 +108,12 @@ public class SBox {
         }
     }
 
+    /**
+     * 
+     * keer iedere 4 elementen om
+     * 
+     * @param num naSbox
+     */
     public void KeerOm(int[] num) {
         int count = 0;
         int fix = 3;
@@ -125,16 +133,6 @@ public class SBox {
         }
     }
 
-//    public void VulP() {
-//        int i = 0;
-//        
-//        for(int row = 0; row < 8; row++) {
-//            for(int col = 0; col < 4; col++){
-//                opslag[i] = Matrices.P[row][col];
-//                i++;
-//            }
-//        }
-//    }
     public void runP(int[] naSBox, int[] func_out) {
         int tmp = 0;
         int i = 0;
@@ -174,7 +172,7 @@ public class SBox {
             keuze++;
             count += 6;
         }
-        KeerOm(naSBox);
+        //KeerOm(naSBox);
 
         index = 0;
 
