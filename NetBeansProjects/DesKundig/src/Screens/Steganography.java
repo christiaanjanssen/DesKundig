@@ -183,7 +183,7 @@ public class Steganography extends javax.swing.JFrame {
             key2Key = id.getIDData().getChipNumber();
             lblData.setText("Is gelukt!");
         } catch (EIDException ex) {
-            Logger.getLogger(Cryptography.class.getName()).log(Level.SEVERE, null, ex);
+            lblData.setText("No data");
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -206,7 +206,8 @@ public class Steganography extends javax.swing.JFrame {
         } else if (invoer.getText().equals(""))
         {
             JOptionPane.showMessageDialog(null, "No text found", "Error", JOptionPane.ERROR_MESSAGE);
-        }else{
+        }else
+        {
         this.vercijferen();
         }
     }//GEN-LAST:event_BtnVercijferActionPerformed
