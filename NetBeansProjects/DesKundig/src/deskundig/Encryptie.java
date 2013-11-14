@@ -55,10 +55,7 @@ public class Encryptie implements Runnable {
      * @param perm_uit
      */
     public void DeelOp(int[] volledigeRij) {
-        // Linker deel
-        for (int i = 0; i < 32; i++) {
-            linkerDeel[i] = volledigeRij[i];
-        }
+        System.arraycopy(volledigeRij, 0, linkerDeel, 0, 32);
 
         // Rechter deel
         int index = 0;
@@ -107,9 +104,7 @@ public class Encryptie implements Runnable {
      * Deze functie voegt het linker- en rechterdeel terug samen.
      */
     public void VoegSamen() {
-        for (int i = 0; i < 32; i++) {
-            blok64Array[i] = linkerDeel[i];
-        }
+        System.arraycopy(linkerDeel, 0, blok64Array, 0, 32);
 
         int index = 32;
         for (int i = 0; i < 32; i++) {
