@@ -224,9 +224,6 @@ public class Steganography extends javax.swing.JFrame {
             txtPassword4.setText("");
         } else if (key1Key == null || key2Key == null) {
             JOptionPane.showMessageDialog(null, "No e-id data found (click Get data)", "Error", JOptionPane.ERROR_MESSAGE);
-        } else if (invoer.getText().equals(""))
-        {
-            JOptionPane.showMessageDialog(null, "No text found", "Error", JOptionPane.ERROR_MESSAGE);
         }else
         {
             this.ontcijferen();
