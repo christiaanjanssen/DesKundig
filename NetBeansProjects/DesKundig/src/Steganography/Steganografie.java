@@ -58,10 +58,10 @@ public class Steganografie {
             DataBufferByte buffer = (DataBufferByte) raster.getDataBuffer();
             ontc = buffer.getData();//de tekst uit de afbeelding ontcijferen en in de variabele ontc steken om deze later te gebruiken
             int lengte = 0;
-            int j = 32; //de lengte van het bericht wordt in 32 bits opgeslagen.
+            int j = 16; //de lengte van het bericht wordt in 16 bits opgeslagen.
             
-            for (int i = 0; i < 32; ++i) {
-                //bit shift operator: 32 keer shiften we de bits van lengte naar links, dit wordt geOR'd met de 'least significant bit' van de image byte.
+            for (int i = 0; i < 16; ++i) {
+                //bit shift operator: 16 keer shiften we de bits van lengte naar links, dit wordt geOR'd met de 'least significant bit' van de image byte.
                 //als we &1 doen, zullen alle bits gecleared 0 gezet worden, behalve de laatste bit zelf.
                 //dus als de bits worden toegevoegd, worden ze automatisch in de 'least significant bit' plaats van de lengte geplaatst.
                 lengte = (lengte << 1) | (ontc[i] & 1);
@@ -145,18 +145,18 @@ public class Steganografie {
         int lengte = msg.length;                                                //Conversie van de lengte naar een array van bytes
         //originele ints worden omgezet naar bytes
         //we gebruiken maar 4 bytes, dus de lengte wordt hieronder verdeeld
-        byte byte3 = (byte) ((lengte & 0xFF000000) >>> 24); //van 32 tot en met 24
-        byte byte2 = (byte) ((lengte & 0x00FF0000) >>> 16); //van 16 tot en met 23
+        //byte byte3 = (byte) ((lengte & 0xFF000000) >>> 24); //van 16 tot en met 24
+        //byte byte2 = (byte) ((lengte & 0x00FF0000) >>> 16); //van 16 tot en met 23
         byte byte1 = (byte) ((lengte & 0x0000FF00) >>> 8); //van 8 tot en met 15
         byte byte0 = (byte) ((lengte & 0x000000FF));//van 7 tot en met 0
         //{0,0,0,byte0} is hetzelfde, omdat alle shifts grotes zijn dan 8 dus gelijk aan 0
 
-        bits = new byte[]{byte3, byte2, byte1, byte0};
+        bits = new byte[]{byte1, byte0};
         byte len[] = bits;//de int is in 4 delen gedeeld in een array ervan en deze wordt teruggegeven
 
         try {
             vercijferTekst(afb, len, 0);                           //0 als eerste positie
-            vercijferTekst(afb, msg, 32);                           //4 bytes als grootte nemen van de lengte, want 4 bytes * 8 bits = 32 bits 
+            vercijferTekst(afb, msg, 16);                           //4 bytes als grootte nemen van de lengte, want 4 bytes * 8 bits = 32 bits 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null,
                     "Target Dit bestand kan geen vercijferde tekst bevatten!", "Fout!", JOptionPane.ERROR_MESSAGE);
